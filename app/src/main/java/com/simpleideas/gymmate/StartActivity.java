@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -53,6 +54,8 @@ public class StartActivity extends AppCompatActivity
         return super.onCreateOptionsMenu(menu);
     }
 
+
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -84,6 +87,14 @@ public class StartActivity extends AppCompatActivity
 //
 //    }
 
+    private String[] getMuscleGroups(){
+
+        String[] muscleGroups = {Constants.ARMS, Constants.BACK, Constants.CHEST, Constants.LEGS, Constants.SHOULDERS};
+
+        return muscleGroups;
+
+    }
+
     private void createSharedPreferences(Context context){
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -95,13 +106,41 @@ public class StartActivity extends AppCompatActivity
         else{
             SharedPreferences.Editor editor = preferences.edit();
 
-            String[] muscleGroups = {"BACK", "CHEST", "LEGS", "ARMS", "SHOULDERS"};
+            String[] muscleGroups = {Constants.BACK, Constants.CHEST, Constants.LEGS, Constants.ARMS, Constants.SHOULDERS};
 
             Set<String> muscleSet = new HashSet<>(Arrays.asList(muscleGroups));
 
             editor.putStringSet(Constants.GROUPS, muscleSet);
 
-            editor.commit();
+            editor.apply();
+        }
+
+        String[] groups = getMuscleGroups();
+        HashMap<String, String[]> muscleMap = new HashMap<>();
+
+        String[] chest = {"Bench Press", "Incline Bench Press", "Flyes", "Pushups"};
+        String[] back = {"Pullups", "Deadlift", "Bentover row", "Cable Row"};
+        String[] legs = {"Squats", "Leg Press", "Leg Curls"};
+        String[] arms = {"Barbell Curl", "Cable Curl", "Hammer Curl"};
+        String[] shoulders = {"Military Press", "Arnold Press="};
+
+        muscleMap.put(Constants.ARMS, arms);
+        muscleMap.put(Constants.BACK, back);
+        muscleMap.put(Constants.CHEST, chest);
+        muscleMap.put(Constants.LEGS, legs);
+        muscleMap.put(Constants.SHOULDERS, shoulders);
+
+        for (String element:groups) {
+            SharedPreferences preferencesMuscle = getSharedPreferences(element, MODE_PRIVATE);
+
+            SharedPreferences.Editor editor = preferencesMuscle.edit();
+
+            Set<String> muscle = new HashSet<>(Arrays.asList(muscleMap.get(element)));
+
+            editor.putStringSet(element, muscle);
+
+            editor.apply();
+
         }
     }
 

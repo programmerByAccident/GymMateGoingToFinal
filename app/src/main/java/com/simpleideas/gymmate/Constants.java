@@ -30,4 +30,14 @@ public class Constants {
     public static final String GROUPS = "Groups";
     public static final String MUSCLE_NAME = "musclename";
 
+
+    // SharedPreferences names
+
+    public static String CHEST = "chest";
+    public static String BACK = "back";
+    public static String LEGS = "legs";
+    public static String SHOULDERS = "shoulders";
+    public static String ARMS = "arms";
+
+
 }
