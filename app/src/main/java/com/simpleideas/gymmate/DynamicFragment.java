@@ -2,6 +2,8 @@ package com.simpleideas.gymmate;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -11,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +31,7 @@ import org.joda.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.zip.Inflater;
 
 /**
  * Created by programmerByAccident on 8/28/2016.
@@ -65,39 +69,48 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = null;
 
-
-
         if(triggerOfExistance == true){
-
-
-            view = inflater.inflate(R.layout.dynamic_fragment_with_listview, container, false);
-            ListView listView = (ListView) view.findViewById(R.id.listViewWithItems);
-            //initializeFloatingButton(view);
-            //listenerInsertFragmentClick(view);
-
-            ArrayList<ExerciseTemplate> adapterValues = new ArrayList<>();
-
-            LetsMakeAnAdapter adapter = new LetsMakeAnAdapter(getActivity(), adapterValues);
-
-            listView.setAdapter(adapter);
-
-
-
             //insertFragments(view);
             //setCentralText(view);
-
+            noExerciseRecordForThatDay(view,inflater, container, savedInstanceState);
         }
         else{
+
+            DatabaseManager databaseManager = new DatabaseManager(getActivity().getApplicationContext());
 
             view = inflater.inflate(R.layout.layout_empty, container, false);
             createBehaviourForTriggerOfExistanceFalse(view);
             return view;
-
         }
 
 
         return view;
         }
+
+    private void noExerciseRecordForThatDay(View view, LayoutInflater inflater, ViewGroup container, Bundle savedState){
+
+        view = inflater.inflate(R.layout.dynamic_fragment_with_listview, container, false);
+        ListView listView = (ListView) view.findViewById(R.id.listViewWithItems);
+        //initializeFloatingButton(view);
+        //listenerInsertFragmentClick(view);
+
+        ArrayList<ExerciseTemplate> adapterValues = new ArrayList<>();
+
+        LetsMakeAnAdapter adapter = new LetsMakeAnAdapter(getActivity(), adapterValues);
+
+        listView.setAdapter(adapter);
+
+    }
+
+    private void exerciseRecordFoundForThatDay(View view, LayoutInflater layoutInflater, ViewGroup container, Bundle savedState){
+
+        DatabaseManager databaseManager = new DatabaseManager(getActivity().getApplicationContext());
+
+        SQLiteDatabase sqLiteDatabase = databaseManager.getReadableDatabase();
+
+
+
+    }
 
     public interface DataSenderBetweenFragments {
 
