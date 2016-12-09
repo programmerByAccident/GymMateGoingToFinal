@@ -2,17 +2,24 @@ package com.simpleideas.gymmate;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -24,7 +31,7 @@ import java.util.List;
  * Created by Geprge on 12/4/2016.
  */
 
-public class ListViewWithMuscleGroups extends Activity {
+public class ListViewWithMuscleGroups extends AppCompatActivity {
 
     private ArrayList<String> muscleGroups;
 
@@ -32,7 +39,7 @@ public class ListViewWithMuscleGroups extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.muscle_groups);
         super.onCreate(savedInstanceState);
-
+        setupActionBar();
         ListView muscles = (ListView) findViewById(R.id.muscle_groups);
 
         ArrayList<String> muscleGroups = getMuscleGroups();
@@ -91,6 +98,23 @@ public class ListViewWithMuscleGroups extends Activity {
     // Get muscle groups from sharedPreferences
     //================================================================================
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_muscle_category, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == R.id.action_addition){
+            Toast.makeText(getApplicationContext(),"message", Toast.LENGTH_LONG);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private ArrayList<String> getMuscleGroups(){
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -110,6 +134,10 @@ public class ListViewWithMuscleGroups extends Activity {
     }
 
 
-
+    private void setupActionBar(){
+        Toolbar toolbar;
+        toolbar = (Toolbar) findViewById(R.id.muscle_groups_toolbar);
+        setSupportActionBar(toolbar);
+    }
 
 }

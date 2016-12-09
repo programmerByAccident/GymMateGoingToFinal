@@ -102,6 +102,18 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
 
     }
 
+    private void createBehaviourForFABWhenEmptyScreen(FloatingActionButton floatingActionButton){
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CertainMuscleListView.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
     private void exerciseRecordFoundForThatDay(View view, LayoutInflater layoutInflater, ViewGroup container, Bundle savedState){
 
         DatabaseManager databaseManager = new DatabaseManager(getActivity().getApplicationContext());

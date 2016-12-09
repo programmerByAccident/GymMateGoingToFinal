@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 /**
  * Created by Geprge on 10/25/2016.
  */
@@ -51,6 +54,25 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     }
 
+    public ArrayList<ExerciseTemplate> getExerciseFromDatabaseBasedOnDifference(int difference){
+
+        ArrayList<ExerciseTemplate> arrayListToReturn = new ArrayList<>();
+
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+
+        String searchItem = String.valueOf(difference);
+
+        String[] columns = {"DIFFERENCE"};
+        String selection = "DIFFERENCE" + " =?";
+        String[] selectionArgs = { searchItem };
+
+        Cursor cursor = sqLiteDatabase.query(Constants.EXERCISE_TABLE, columns, selection, selectionArgs, null,null,null);
+        cursor.moveToFirst();
+
+        return arrayListToReturn;
+
+    }
+
     public boolean checkIfExerciseExists(int difference){
 
 
@@ -61,9 +83,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
         String[] columns = {"DIFFERENCE"};
         String selection = "DIFFERENCE" + " =?";
         String[] selectionArgs = { searchItem };
-        String limit = "1";
 
-        Cursor cursor = sqLiteDatabase.query(Constants.EXERCISE_TABLE, columns, selection, selectionArgs, null,null,null, limit);
+        Cursor cursor = sqLiteDatabase.query(Constants.EXERCISE_TABLE, columns, selection, selectionArgs, null,null,null);
 
         boolean exists = (cursor.getCount() > 0);
 
