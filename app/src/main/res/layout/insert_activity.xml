@@ -38,7 +38,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:text="0"
             android:textColor="@color/black"
             android:inputType="number"
             android:ems="10"
@@ -89,7 +88,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textAlignment="center"
-            android:inputType="number"
+            android:inputType="number|numberDecimal"
             android:ems="10"
             android:id="@+id/editTextWeights"
             android:layout_weight="1" />

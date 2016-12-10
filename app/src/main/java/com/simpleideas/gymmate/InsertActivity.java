@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 /**
  * Created by George Ciopei on 12/10/2016.
@@ -45,23 +46,87 @@ public class InsertActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.addition_repetitions:
 
                 EditText editTextRepetitions = (EditText) findViewById(R.id.editTextRepetitions);
+                String valueRepsS = editTextRepetitions.getText().toString();
+                if(valueRepsS.matches("")){
 
-                int valueReps = Integer.valueOf(editTextRepetitions.getText().toString());
 
-                valueReps++;
+                    editTextRepetitions.setText("0");
 
-                editTextRepetitions.setText(String.valueOf(valueReps));
+
+
+                }
+                else{
+
+                    int valueReps = Integer.valueOf(valueRepsS);
+
+                    valueReps++;
+
+                    editTextRepetitions.setText(String.valueOf(valueReps));
+
+                }
+                break;
+
 
             case R.id.substraction_repetitions:
 
                 EditText editTextRepetitionsSubstract = (EditText) findViewById(R.id.editTextRepetitions);
-                int valueRepsSubstract = Integer.valueOf(editTextRepetitionsSubstract.getText().toString());
+                String valueS = editTextRepetitionsSubstract.getText().toString();
+                if(valueS.matches("")){
 
-                valueRepsSubstract--;
+                    editTextRepetitionsSubstract.setText("0");
 
-                editTextRepetitionsSubstract.setText(String.valueOf(valueRepsSubstract));
+                }
 
+                else{
 
+                    int valueRepsSubstract = Integer.valueOf(editTextRepetitionsSubstract.getText().toString());
+
+                    valueRepsSubstract--;
+
+                    editTextRepetitionsSubstract.setText(String.valueOf(valueRepsSubstract));
+
+                }
+                break;
+
+            case R.id.addition_weight:
+
+                EditText editTextWeightAddition = (EditText) findViewById(R.id.editTextWeights);
+                String valueWeightS = editTextWeightAddition.getText().toString();
+
+                if(valueWeightS.matches("")){
+
+                    editTextWeightAddition.setText("0.0");
+
+                }
+
+                else{
+
+                    double value = Double.valueOf(valueWeightS);
+
+                    value++;
+
+                    editTextWeightAddition.setText(String.valueOf(value));
+                }
+                break;
+            case R.id.substraction_weight:
+                EditText editTextWeightSubstract = (EditText) findViewById(R.id.editTextWeights);
+                String valueSS = editTextWeightSubstract.getText().toString();
+                if(valueSS.matches("")){
+
+                    editTextWeightSubstract.setText("0");
+
+                }
+
+                else{
+
+                    double valueRepsSubstract = Double.valueOf(valueSS);
+
+                    valueRepsSubstract--;
+
+                    editTextWeightSubstract.setText(String.valueOf(valueRepsSubstract));
+
+                }
+                break;
 
         }
 
