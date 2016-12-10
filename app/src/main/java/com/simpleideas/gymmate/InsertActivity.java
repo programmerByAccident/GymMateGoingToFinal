@@ -1,6 +1,7 @@
 package com.simpleideas.gymmate;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
@@ -22,7 +23,21 @@ public class InsertActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.insert_activity);
+
+
         declareSubstractionAdditionButtons();
+    }
+
+    private void getInformationFromIntent(){
+
+        Intent intent = getIntent();
+
+        String exerciseName = intent.getExtras().getString(Constants.EXERCISE_NAME);
+
+        String muscleName = intent.getExtras().getString(Constants.MUSCLE_NAME);
+
+
+
     }
 
     private void declareSubstractionAdditionButtons(){
