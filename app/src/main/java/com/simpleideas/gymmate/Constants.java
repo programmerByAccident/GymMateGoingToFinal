@@ -13,7 +13,7 @@ public class Constants {
 
     public static final String PHP_SCRIPT_LOCAL_HOST = "http://echo.jsontest.com/key/value/one/two";
     public static final String DATE = "DATE";
-    public static final String EXERCISE_NAME = "NAME";
+    public static final String EXERCISE_COLUMN = "NAME";
     public static final String EXERCISE_TABLE = "EXERCICES";
 
     public static final String INSERT_OPERATION = "";
@@ -29,6 +29,7 @@ public class Constants {
 
     public static final String GROUPS = "Groups";
     public static final String MUSCLE_NAME = "musclename";
+    public static final String EXERCISE_NAME = "evercisename";
 
 
     // SharedPreferences names
