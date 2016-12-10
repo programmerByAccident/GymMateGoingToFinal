@@ -41,6 +41,16 @@ public class DatabaseManager extends SQLiteOpenHelper {
         sqLiteDatabase.insert(Constants.EXERCISE_TABLE, null, values);
     }
 
+    public void insertExerciseIntoDatabase(){
+
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+
+
+    }
+
     public ExerciseTemplate mapExerciseObjectWithDate(int difference, ExerciseTemplate exerciseTemplate){
 
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
