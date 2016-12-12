@@ -6,18 +6,17 @@ package com.simpleideas.gymmate;
 
 public class ExerciseTemplate {
 
-
     private String exerciseName;
-    private String[] weights;
-    private String[] repetitions;
+    private int difference;
+    private int repetition;
+    private float weight;
 
+    public ExerciseTemplate(String exerciseName, int difference, int repetition, float weight){
 
-
-    public ExerciseTemplate(String Name, String[] weights, String[] reps){
-
-        this.exerciseName = Name;
-        this.weights = weights;
-        this.repetitions = reps;
+        this.exerciseName = exerciseName;
+        this.difference = difference;
+        this.repetition = repetition;
+        this.weight = weight;
 
     }
 
@@ -29,20 +28,30 @@ public class ExerciseTemplate {
         this.exerciseName = exerciseName;
     }
 
-    public String[] getRepetitions() {
-        return repetitions;
+    public int getDifference() {
+        return difference;
     }
 
-    public void setRepetitions(String[] repetitions) {
-        this.repetitions = repetitions;
+    public void setDifference(int difference) {
+        this.difference = difference;
     }
 
-    public String[] getWeights() {
-        return weights;
+    public int getRepetition() {
+        return repetition;
     }
 
-    public void setWeights(String[] weights) {
-        this.weights = weights;
+    public void setRepetition(int repetition) {
+        this.repetition = repetition;
     }
+
+    public float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
+
 
 }

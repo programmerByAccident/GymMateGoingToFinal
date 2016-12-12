@@ -48,6 +48,8 @@ public class LetsMakeAnAdapter extends ArrayAdapter<ExerciseTemplate> {
         TextView textViewReps = (TextView) customViewToInflate.findViewById(R.id.exerciseNameViewWTFReps);
 
         textViewExample.setText(exercises.get(position).getExerciseName());
+        textViewWeights.setText((int) exercises.get(position).getWeight());
+        textViewReps.setText(exercises.get(position).getRepetition());
 
 
         return customViewToInflate;

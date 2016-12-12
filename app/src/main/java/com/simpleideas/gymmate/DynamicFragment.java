@@ -23,6 +23,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
@@ -70,37 +72,62 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = null;
+        databaseManager = new DatabaseManager(getActivity().getApplicationContext());
+        ArrayList<ExerciseTemplate> arrayList = databaseManager.getAllExercises(difference);
+        if(arrayList.isEmpty()){
 
-        if(triggerOfExistance == true){
-            //insertFragments(view);
-            //setCentralText(view);
-            noExerciseRecordForThatDay(view,inflater, container, savedInstanceState);
-        }
-        else{
-
+            Toast toast1 = Toast.makeText(getActivity().getApplicationContext(),"ELSE", Toast.LENGTH_SHORT);
+            toast1.show();
             DatabaseManager databaseManager = new DatabaseManager(getActivity().getApplicationContext());
 
             view = inflater.inflate(R.layout.layout_empty, container, false);
             createBehaviourForTriggerOfExistanceFalse(view, difference);
             return view;
+
         }
+        else{Toast toast = Toast.makeText(getActivity().getApplicationContext(),"BEFORE no exercise", Toast.LENGTH_SHORT);
+            toast.show();
+            noExerciseRecordForThatDay(view,inflater, container, savedInstanceState, difference);
+
+        }
+//        if(triggerOfExistance == true){
+//            //insertFragments(view);
+//            //setCentralText(view);
+//            Toast toast = Toast.makeText(getActivity().getApplicationContext(),"BEFORE no exercise", Toast.LENGTH_SHORT);
+//            toast.show();
+//            noExerciseRecordForThatDay(view,inflater, container, savedInstanceState, difference);
+//        }
+//        else{
+//            Toast toast1 = Toast.makeText(getActivity().getApplicationContext(),"ELSE", Toast.LENGTH_SHORT);
+//            toast1.show();
+//            DatabaseManager databaseManager = new DatabaseManager(getActivity().getApplicationContext());
+//
+//            view = inflater.inflate(R.layout.layout_empty, container, false);
+//            createBehaviourForTriggerOfExistanceFalse(view, difference);
+//            return view;
+//        }
 
 
         return view;
         }
 
-    private void noExerciseRecordForThatDay(View view, LayoutInflater inflater, ViewGroup container, Bundle savedState){
+    private void noExerciseRecordForThatDay(View view, LayoutInflater inflater, ViewGroup container, Bundle savedState, int difference  ){
 
         view = inflater.inflate(R.layout.dynamic_fragment_with_listview, container, false);
         ListView listView = (ListView) view.findViewById(R.id.listViewWithItems);
         //initializeFloatingButton(view);
         //listenerInsertFragmentClick(view);
 
-        ArrayList<ExerciseTemplate> adapterValues = new ArrayList<>();
+        ArrayList<ExerciseTemplate> adapterValues;
+        adapterValues = databaseManager.getAllExercises(difference);
+
+
 
         LetsMakeAnAdapter adapter = new LetsMakeAnAdapter(getActivity(), adapterValues);
 
         listView.setAdapter(adapter);
+
+
 
     }
 

@@ -113,6 +113,39 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     }
 
+    public ArrayList<ExerciseTemplate> getAllExercises(int difference){
+
+        ArrayList<ExerciseTemplate> arrayToReturn = new ArrayList<>();
+
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+
+        String searchItem = String.valueOf(difference);
+        String[] columns = {"DIFFERENCE"};
+        String selection = "DIFFERENCE" + " =?";
+        String[] selectionArgs = {searchItem};
+
+        Cursor cursor = sqLiteDatabase.query(Constants.EXERCISE_TABLE, columns, selection, selectionArgs, null,null,null);
+
+        if(cursor!=null){
+            cursor.moveToFirst();
+        }
+        while (cursor.moveToNext()){
+
+            String exerciseName = cursor.getString(cursor.getColumnIndex("EXERCISE_NAME"));
+            int differenceI = cursor.getInt(cursor.getColumnIndex("DIFFERENCE"));
+            float weight = cursor.getFloat(cursor.getColumnIndex("WEIGHT"));
+            int reps = cursor.getInt(cursor.getColumnIndex("REPETITIONS"));
+
+            ExerciseTemplate exerciseTemplate = new ExerciseTemplate(exerciseName,differenceI, reps, weight);
+
+            arrayToReturn.add(exerciseTemplate);
+        }
+
+        cursor.close();
+        sqLiteDatabase.close();
+
+        return arrayToReturn;
+    }
 
 
     @Override
