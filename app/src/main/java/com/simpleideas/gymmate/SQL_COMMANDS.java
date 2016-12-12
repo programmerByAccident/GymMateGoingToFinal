@@ -35,9 +35,11 @@ public class SQL_COMMANDS {
     }
 
 
-    public String create_exercise_table(String TABLE_NAME, String ID, String DIFFERENCE_FOR_DAYS, String EXERCISE_OBJECT){
 
-        String query = "CREATE TABLE " + TABLE_NAME + " (" + ID + " INTEGER PRIMARY KEY," + DIFFERENCE_FOR_DAYS + " INTEGER" + EXERCISE_OBJECT + " BLOB not null" + " )";
+    public String create_exercise_table(String TABLE_NAME, String ID, String DIFFERENCE_FOR_DAYS, String EXERCISE_NAME, String REPETITIONS, String WEIGHT){
+
+        String query = "CREATE TABLE " + TABLE_NAME + " (" + ID + " INTEGER PRIMARY KEY," + DIFFERENCE_FOR_DAYS
+                + " INTEGER" + EXERCISE_NAME + " TEXT" + REPETITIONS + " INTEGER" + WEIGHT +" REAL" + " )";
 
 
         return query;

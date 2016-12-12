@@ -42,6 +42,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
     public DataSenderBetweenFragments senderBetweenFragments;
     TextView textView;
     private String date;
+    private int difference;
     private static Context context;
     private static ExerciseIODatabase exerciseIODatabase;
     DatabaseManager databaseManager;
@@ -57,6 +58,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
 
         date = getArguments().getString(Constants.DATE);
         triggerOfExistance = getArguments().getBoolean(Constants.TRIGGER_EXISTANCE);
+        difference = getArguments().getInt("Difference");
     }
 
     @Override
@@ -79,7 +81,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
             DatabaseManager databaseManager = new DatabaseManager(getActivity().getApplicationContext());
 
             view = inflater.inflate(R.layout.layout_empty, container, false);
-            createBehaviourForTriggerOfExistanceFalse(view);
+            createBehaviourForTriggerOfExistanceFalse(view, difference);
             return view;
         }
 
@@ -146,23 +148,24 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
 
 
 
-    public void createBehaviourForTriggerOfExistanceFalse(View view){
+    public void createBehaviourForTriggerOfExistanceFalse(View view, final int difference){
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_trigger_of_existance_false);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setFabActions();
+                setFabActions(difference);
             }
         });
 
 
     }
 
-    private void setFabActions(){
+    private void setFabActions(int difference){
 
         Intent intent = new Intent(getActivity(), ListViewWithMuscleGroups.class);
+        intent.putExtra("Difference", difference);
         startActivity(intent);
 
     }
@@ -271,6 +274,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
         }
         exerciseIODatabase = new ExerciseIODatabase(context);
         arguments.putString(Constants.DATE, str);
+        arguments.putInt("Difference", difference);
 
         if(exerciseIODatabase.checkIfExerciseExists(difference)){
 

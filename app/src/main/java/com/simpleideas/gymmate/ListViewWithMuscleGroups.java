@@ -41,6 +41,9 @@ public class ListViewWithMuscleGroups extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setupActionBar();
         ListView muscles = (ListView) findViewById(R.id.muscle_groups);
+        Intent intent = getIntent();
+
+        int difference = intent.getExtras().getInt("Difference");
 
         ArrayList<String> muscleGroups = getMuscleGroups();
 
@@ -49,7 +52,7 @@ public class ListViewWithMuscleGroups extends AppCompatActivity {
         muscles.setAdapter(muscleGroupsAdapter);
 
         //setAdapterToMuscleGroupListView(muscles);
-        setOnItemClickListenerMuscleGroupsListView(muscles, muscleGroupsAdapter);
+        setOnItemClickListenerMuscleGroupsListView(muscles, muscleGroupsAdapter, difference);
 
     }
 
@@ -68,7 +71,7 @@ public class ListViewWithMuscleGroups extends AppCompatActivity {
     // MuscleGroups listview actions(setAdapter and setOnItemClickListener)
     //================================================================================
 
-    private void setOnItemClickListenerMuscleGroupsListView(ListView listView, final MuscleGroupsAdapter adapter){
+    private void setOnItemClickListenerMuscleGroupsListView(ListView listView, final MuscleGroupsAdapter adapter, final int difference){
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -82,6 +85,7 @@ public class ListViewWithMuscleGroups extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), CertainMuscleListView.class);
 
                 intent.putExtra(Constants.MUSCLE_NAME, muscleName);
+                intent.putExtra("Difference", difference);
 
                 startActivity(intent);
 

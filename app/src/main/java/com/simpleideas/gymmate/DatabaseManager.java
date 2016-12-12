@@ -41,12 +41,20 @@ public class DatabaseManager extends SQLiteOpenHelper {
         sqLiteDatabase.insert(Constants.EXERCISE_TABLE, null, values);
     }
 
-    public void insertExerciseIntoDatabase(){
+    public void insertExerciseIntoDatabase(int difference, String exercise_name, int repetitions, float weight){
 
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        values.put("Difference", difference);
+        values.put("Exercise", exercise_name);
+        values.put("Repetitions", repetitions);
+        values.put("Weight", weight);
 
+
+        sqLiteDatabase.insert(Constants.EXERCISE_TABLE, null, values);
+
+        sqLiteDatabase.close();
 
 
     }
@@ -110,7 +118,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
-        sqLiteDatabase.execSQL(sql_commands.create_exercise_table(Constants.EXERCISE_TABLE, "ID", "DIFFERENCE", "EXERCISEOBJECT"));
+        sqLiteDatabase.execSQL(sql_commands.create_exercise_table(Constants.EXERCISE_TABLE, "ID", "DIFFERENCE", "EXERCISE_NAME", "WEIGHT", "REPETITIONS"));
 
 //        sqLiteDatabase.execSQL(sql_commands.create_table("USERS" , "ID", "NAME", "", ""));
 //        sqLiteDatabase.execSQL(sql_commands.create_table("MUSCLE_GROUP", "ID", "NAME", "", ""));
