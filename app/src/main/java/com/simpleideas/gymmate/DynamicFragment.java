@@ -2,7 +2,6 @@ package com.simpleideas.gymmate;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -63,7 +62,19 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("onResume", "onResume");
+
+        ArrayList<ExerciseTemplate> arrayList = databaseManager.getAllExercises(dateString);
+
+        if(arrayList.isEmpty() == false){
+
+            ListView listView = (ListView)getView().findViewById(R.id.listViewWithItems);
+
+            LetsMakeAnAdapter adapter = new LetsMakeAnAdapter(getActivity(), arrayList);
+
+            listView.setAdapter(adapter);
+
+
+        }
 
     }
 
@@ -92,7 +103,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
 
         }
         else{
-            noExerciseRecordForThatDay(view,inflater, container, savedInstanceState, difference);
+            populateWithData(view,inflater, container, savedInstanceState, difference);
 
         }
 
@@ -101,7 +112,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
         return view;
         }
 
-    private void noExerciseRecordForThatDay(View view, LayoutInflater inflater, ViewGroup container, Bundle savedState, int difference  ){
+    private void populateWithData(View view, LayoutInflater inflater, ViewGroup container, Bundle savedState, int difference  ){
 
         view = inflater.inflate(R.layout.dynamic_fragment_with_listview, container, false);
         ListView listView = (ListView) view.findViewById(R.id.listViewWithItems);
