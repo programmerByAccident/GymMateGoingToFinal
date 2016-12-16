@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringDef;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,6 +14,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by George Ciopei on 12/10/2016.
@@ -23,6 +30,7 @@ public class InsertActivity extends AppCompatActivity implements View.OnClickLis
 
     private String exercise_name;
     private String muscle_name;
+    private String date;
     private int difference;
 
     @Override
@@ -42,7 +50,7 @@ public class InsertActivity extends AppCompatActivity implements View.OnClickLis
         exercise_name = intent.getExtras().getString(Constants.EXERCISE_NAME);
         muscle_name = intent.getExtras().getString(Constants.MUSCLE_NAME);
         difference = intent.getExtras().getInt("Difference");
-
+        date = intent.getExtras().getString("date");
 
         toolbar_actions(exercise_name);
 
@@ -132,16 +140,18 @@ public class InsertActivity extends AppCompatActivity implements View.OnClickLis
                 break;
 
             case R.id.save_button:
-                DatabaseManager databaseManager = new DatabaseManager(getApplicationContext());
+                DateTime dateTime = DateTime.now(DateTimeZone.forTimeZone(TimeZone.getDefault()));
+                DateTime current_date = dateTime.plusDays(difference);
+                Date normalDate = current_date.toDate();
+                DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
                 EditText weights = (EditText) findViewById(R.id.editTextWeights);
                 EditText reps =(EditText) findViewById(R.id.editTextRepetitions);
                 float weight = Float.valueOf(weights.getText().toString());
                 int rep = Integer.valueOf(reps.getText().toString());
-                Toast toast1= Toast.makeText(getApplicationContext(), "SUCCESS -> here", Toast.LENGTH_SHORT);
+                Toast toast1= Toast.makeText(getApplicationContext(), "Inserted -> " + date, Toast.LENGTH_SHORT);
                 toast1.show();
-                databaseManager.insertExerciseIntoDatabase(difference, exercise_name, rep, weight);
-                Toast toast= Toast.makeText(getApplicationContext(), "SUCCESS", Toast.LENGTH_SHORT);
-                toast.show();
+                databaseHelper.insertExerciseIntoDatabase(date, exercise_name, rep, weight);
+
                 break;
             case R.id.clear_button:
                 EditText weight_clear = (EditText) findViewById(R.id.editTextWeights);

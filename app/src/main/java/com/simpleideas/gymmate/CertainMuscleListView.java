@@ -25,17 +25,17 @@ public class CertainMuscleListView extends AppCompatActivity {
         setContentView(R.layout.certain_muscle_group);
         ListView exercisesListView = (ListView) findViewById(R.id.muscleExerciseList);
         String muscle_name;
-
+        String date;
         Intent intent = getIntent();
 
         muscle_name = intent.getExtras().getString(Constants.MUSCLE_NAME);
-
+        date = intent.getExtras().getString("date");
         Set<String> exercises = getExercises(muscle_name);
         ArrayList<String> exercisesForAdapter = new ArrayList<>();
         exercisesForAdapter.addAll(exercises);
         MuscleGroupsAdapter muscleGroupsAdapter = new MuscleGroupsAdapter(exercisesForAdapter, getApplicationContext());
         exercisesListView.setAdapter(muscleGroupsAdapter);
-        setOnItemClickListenerMuscleGroupsListView(exercisesListView, muscleGroupsAdapter, muscle_name);
+        setOnItemClickListenerMuscleGroupsListView(exercisesListView, muscleGroupsAdapter, muscle_name, date);
     }
 
 
@@ -47,7 +47,7 @@ public class CertainMuscleListView extends AppCompatActivity {
 
     }
 
-    private void setOnItemClickListenerMuscleGroupsListView(ListView listView, final MuscleGroupsAdapter adapter,final String muscleName){
+    private void setOnItemClickListenerMuscleGroupsListView(ListView listView, final MuscleGroupsAdapter adapter,final String muscleName, final String date){
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -63,6 +63,8 @@ public class CertainMuscleListView extends AppCompatActivity {
                 intent.putExtra(Constants.EXERCISE_NAME, exerciseName);
 
                 intent.putExtra(Constants.MUSCLE_NAME, muscleName);
+
+                intent.putExtra("date", date);
 
                 startActivity(intent);
 

@@ -44,7 +44,7 @@ public class ListViewWithMuscleGroups extends AppCompatActivity {
         Intent intent = getIntent();
 
         int difference = intent.getExtras().getInt("Difference");
-
+        String date = intent.getExtras().getString("date");
         ArrayList<String> muscleGroups = getMuscleGroups();
 
         MuscleGroupsAdapter muscleGroupsAdapter = new MuscleGroupsAdapter(muscleGroups, getApplicationContext());
@@ -52,7 +52,7 @@ public class ListViewWithMuscleGroups extends AppCompatActivity {
         muscles.setAdapter(muscleGroupsAdapter);
 
         //setAdapterToMuscleGroupListView(muscles);
-        setOnItemClickListenerMuscleGroupsListView(muscles, muscleGroupsAdapter, difference);
+        setOnItemClickListenerMuscleGroupsListView(muscles, muscleGroupsAdapter, difference, date);
 
     }
 
@@ -71,7 +71,7 @@ public class ListViewWithMuscleGroups extends AppCompatActivity {
     // MuscleGroups listview actions(setAdapter and setOnItemClickListener)
     //================================================================================
 
-    private void setOnItemClickListenerMuscleGroupsListView(ListView listView, final MuscleGroupsAdapter adapter, final int difference){
+    private void setOnItemClickListenerMuscleGroupsListView(ListView listView, final MuscleGroupsAdapter adapter, final int difference, final String date){
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -86,7 +86,7 @@ public class ListViewWithMuscleGroups extends AppCompatActivity {
 
                 intent.putExtra(Constants.MUSCLE_NAME, muscleName);
                 intent.putExtra("Difference", difference);
-
+                intent.putExtra("date", date);
                 startActivity(intent);
 
             }

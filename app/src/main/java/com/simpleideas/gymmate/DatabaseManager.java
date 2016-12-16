@@ -18,140 +18,24 @@ import java.util.ArrayList;
 public class DatabaseManager extends SQLiteOpenHelper {
 
 
-    private SQL_COMMANDS sql_commands = new SQL_COMMANDS();
+    private static final String DATABASENAME = "bazadedate.db";
+
+    private static final int DATABASEVERSION = 3;
+
+    private static final String database_table_creation = "create table firsttable  (_id integer primary key, Exercise varchar(255), Difference varchar(255),  Repetitions integer, Weight real);";
+
 
     public DatabaseManager(Context context){
 
-        super(context, Constants.DATABASE_NAME, null, Constants.DATABASE_VERSION_1);
+        super(context, DATABASENAME, null, DATABASEVERSION);
     }
 
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    public void insertDifferenceAndObject(int difference, ExerciseTemplate exerciseTemplate){
-
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-
-        byte[] byteArray = SerializationClient.serializeExerciseTemplateObject(exerciseTemplate);
-
-        values.put("Difference", difference);
-        values.put("Object", byteArray);
-
-        sqLiteDatabase.insert(Constants.EXERCISE_TABLE, null, values);
-    }
-
-    public void insertExerciseIntoDatabase(int difference, String exercise_name, int repetitions, float weight){
-
-        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put("Difference", difference);
-        values.put("Exercise", exercise_name);
-        values.put("Repetitions", repetitions);
-        values.put("Weight", weight);
-
-
-        sqLiteDatabase.insert(Constants.EXERCISE_TABLE, null, values);
-
-        sqLiteDatabase.close();
-
-
-    }
-
-    public ExerciseTemplate mapExerciseObjectWithDate(int difference, ExerciseTemplate exerciseTemplate){
-
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-
-
-
-
-
-
-        return null;
-
-    }
-
-    public ArrayList<ExerciseTemplate> getExerciseFromDatabaseBasedOnDifference(int difference){
-
-        ArrayList<ExerciseTemplate> arrayListToReturn = new ArrayList<>();
-
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-
-        String searchItem = String.valueOf(difference);
-
-        String[] columns = {"DIFFERENCE"};
-        String selection = "DIFFERENCE" + " =?";
-        String[] selectionArgs = { searchItem };
-
-        Cursor cursor = sqLiteDatabase.query(Constants.EXERCISE_TABLE, columns, selection, selectionArgs, null,null,null);
-        cursor.moveToFirst();
-
-        return arrayListToReturn;
-
-    }
-
-    public boolean checkIfExerciseExists(int difference){
-
-
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-
-        String searchItem = String.valueOf(difference);
-
-        String[] columns = {"DIFFERENCE"};
-        String selection = "DIFFERENCE" + " =?";
-        String[] selectionArgs = { searchItem };
-
-        Cursor cursor = sqLiteDatabase.query(Constants.EXERCISE_TABLE, columns, selection, selectionArgs, null,null,null);
-
-        boolean exists = (cursor.getCount() > 0);
-
-        cursor.close();
-        sqLiteDatabase.close();
-
-        return exists;
-
-    }
-
-    public ArrayList<ExerciseTemplate> getAllExercises(int difference){
-
-        ArrayList<ExerciseTemplate> arrayToReturn = new ArrayList<>();
-
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-
-        String searchItem = String.valueOf(difference);
-        String[] columns = {"DIFFERENCE"};
-        String selection = "DIFFERENCE" + " =?";
-        String[] selectionArgs = {searchItem};
-
-        Cursor cursor = sqLiteDatabase.query(Constants.EXERCISE_TABLE, columns, selection, selectionArgs, null,null,null);
-
-        if(cursor!=null){
-            cursor.moveToFirst();
-        }
-        while (cursor.moveToNext()){
-
-            String exerciseName = cursor.getString(cursor.getColumnIndex("EXERCISE_NAME"));
-            int differenceI = cursor.getInt(cursor.getColumnIndex("DIFFERENCE"));
-            float weight = cursor.getFloat(cursor.getColumnIndex("WEIGHT"));
-            int reps = cursor.getInt(cursor.getColumnIndex("REPETITIONS"));
-
-            ExerciseTemplate exerciseTemplate = new ExerciseTemplate(exerciseName,differenceI, reps, weight);
-
-            arrayToReturn.add(exerciseTemplate);
-        }
-
-        cursor.close();
-        sqLiteDatabase.close();
-
-        return arrayToReturn;
-    }
 
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
-        sqLiteDatabase.execSQL(sql_commands.create_exercise_table(Constants.EXERCISE_TABLE, "ID", "DIFFERENCE", "EXERCISE_NAME", "WEIGHT", "REPETITIONS"));
+        sqLiteDatabase.execSQL(database_table_creation);
 
 //        sqLiteDatabase.execSQL(sql_commands.create_table("USERS" , "ID", "NAME", "", ""));
 //        sqLiteDatabase.execSQL(sql_commands.create_table("MUSCLE_GROUP", "ID", "NAME", "", ""));
@@ -161,6 +45,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+        sqLiteDatabase.execSQL("drop table if exists firsttable");
     }
 }

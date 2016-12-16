@@ -9,7 +9,7 @@ public class Constants {
 
     public static final int DATABASE_VERSION_1 = 1;
     public static final String DATABASE_NAME = "Exercises.db";
-
+    public static final String first_table = "firsttable";
 
     public static final String PHP_SCRIPT_LOCAL_HOST = "http://echo.jsontest.com/key/value/one/two";
     public static final String DATE = "DATE";

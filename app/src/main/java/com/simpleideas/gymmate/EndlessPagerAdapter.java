@@ -30,7 +30,7 @@ public class EndlessPagerAdapter extends FragmentStatePagerAdapter {
         int difference_between_days = position - 50000;
 
 
-        return DynamicFragment.createInstanceBasedOnDifferenceBetweenCurrentDateAndPosition(difference_between_days, this.context);
+        return DynamicFragment.createInstanceBasedOnDifferenceBetweenCurrentDateAndPosition(difference_between_days);
     }
 
     @Override

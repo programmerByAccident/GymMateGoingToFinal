@@ -2,25 +2,17 @@ package com.simpleideas.gymmate;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.provider.Settings;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,9 +23,9 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.zip.Inflater;
 
 /**
  * Created by programmerByAccident on 8/28/2016.
@@ -43,69 +35,67 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
 
     public DataSenderBetweenFragments senderBetweenFragments;
     TextView textView;
-    private String date;
+    private String dateString;
     private int difference;
-    private static Context context;
-    private static ExerciseIODatabase exerciseIODatabase;
-    DatabaseManager databaseManager;
-    private boolean triggerOfExistance;
+    DatabaseHelper databaseManager;
+    private long currentDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = getActivity();
 
-        exerciseIODatabase = new ExerciseIODatabase(context);
+        Log.i("OnCreate", "OnCreate");
         makeConnectionToTheInterface();
 
-        date = getArguments().getString(Constants.DATE);
-        triggerOfExistance = getArguments().getBoolean(Constants.TRIGGER_EXISTANCE);
+        dateString = getArguments().getString("DATEString");
+        Toast.makeText(getActivity().getApplicationContext(), dateString, Toast.LENGTH_SHORT).show();
+        //triggerOfExistance = getArguments().getBoolean(Constants.TRIGGER_EXISTANCE);
         difference = getArguments().getInt("Difference");
+        currentDate = getArguments().getLong("DATE");
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        exerciseIODatabase = new ExerciseIODatabase(context);
+        Log.i("OnCreate", "OnCreate");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i("onResume", "onResume");
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = null;
-        databaseManager = new DatabaseManager(getActivity().getApplicationContext());
-        ArrayList<ExerciseTemplate> arrayList = databaseManager.getAllExercises(difference);
+        databaseManager = new DatabaseHelper(getActivity().getApplicationContext());
+        Date date = new Date();
+        date.setTime(currentDate);
+        Log.i("onCreateView", "onCreateView");
+
+        ArrayList<ExerciseTemplate> arrayList;
+
+        arrayList=databaseManager.getAllExercises(dateString);
+
+        Toast.makeText(getActivity().getApplicationContext(), String.valueOf(arrayList.size()), Toast.LENGTH_SHORT).show();
+
         if(arrayList.isEmpty()){
 
-            Toast toast1 = Toast.makeText(getActivity().getApplicationContext(),"ELSE", Toast.LENGTH_SHORT);
-            toast1.show();
-            DatabaseManager databaseManager = new DatabaseManager(getActivity().getApplicationContext());
+//            Toast toast1 = Toast.makeText(getActivity().getApplicationContext(),"ELSE", Toast.LENGTH_SHORT);
+//            toast1.show();
 
             view = inflater.inflate(R.layout.layout_empty, container, false);
             createBehaviourForTriggerOfExistanceFalse(view, difference);
             return view;
 
         }
-        else{Toast toast = Toast.makeText(getActivity().getApplicationContext(),"BEFORE no exercise", Toast.LENGTH_SHORT);
-            toast.show();
+        else{
             noExerciseRecordForThatDay(view,inflater, container, savedInstanceState, difference);
 
         }
-//        if(triggerOfExistance == true){
-//            //insertFragments(view);
-//            //setCentralText(view);
-//            Toast toast = Toast.makeText(getActivity().getApplicationContext(),"BEFORE no exercise", Toast.LENGTH_SHORT);
-//            toast.show();
-//            noExerciseRecordForThatDay(view,inflater, container, savedInstanceState, difference);
-//        }
-//        else{
-//            Toast toast1 = Toast.makeText(getActivity().getApplicationContext(),"ELSE", Toast.LENGTH_SHORT);
-//            toast1.show();
-//            DatabaseManager databaseManager = new DatabaseManager(getActivity().getApplicationContext());
-//
-//            view = inflater.inflate(R.layout.layout_empty, container, false);
-//            createBehaviourForTriggerOfExistanceFalse(view, difference);
-//            return view;
-//        }
+
 
 
         return view;
@@ -119,8 +109,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
         //listenerInsertFragmentClick(view);
 
         ArrayList<ExerciseTemplate> adapterValues;
-        adapterValues = databaseManager.getAllExercises(difference);
-
+        adapterValues = databaseManager.getAllExercises(dateString);
 
 
         LetsMakeAnAdapter adapter = new LetsMakeAnAdapter(getActivity(), adapterValues);
@@ -131,27 +120,8 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
 
     }
 
-    private void createBehaviourForFABWhenEmptyScreen(FloatingActionButton floatingActionButton){
-
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), CertainMuscleListView.class);
-                startActivity(intent);
-            }
-        });
-
-    }
-
-    private void exerciseRecordFoundForThatDay(View view, LayoutInflater layoutInflater, ViewGroup container, Bundle savedState){
-
-        DatabaseManager databaseManager = new DatabaseManager(getActivity().getApplicationContext());
-
-        SQLiteDatabase sqLiteDatabase = databaseManager.getReadableDatabase();
 
 
-
-    }
 
     public interface DataSenderBetweenFragments {
 
@@ -192,7 +162,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
     private void setFabActions(int difference){
 
         Intent intent = new Intent(getActivity(), ListViewWithMuscleGroups.class);
-        intent.putExtra("Difference", difference);
+        intent.putExtra("date", dateString);
         startActivity(intent);
 
     }
@@ -281,34 +251,21 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
     }
 
 
-    public static DynamicFragment createInstanceBasedOnDifferenceBetweenCurrentDateAndPosition(int difference, Context context){
+    public static DynamicFragment createInstanceBasedOnDifferenceBetweenCurrentDateAndPosition(int difference){
 
         Bundle arguments = new Bundle();
         String str;
         DynamicFragment dynamicFragment = new DynamicFragment();
         DateTime dateTime = DateTime.now(DateTimeZone.forTimeZone(TimeZone.getDefault()));
         DateTime current_date = dateTime.plusDays(difference);
+        Date normalDate = current_date.toDate();
 
-        if(difference == 0)
-            str = "TODAY";
-        else if(difference == 1)
-            str = "TOMORROW";
-        else if(difference == -1)
-            str = "YESTERDAY";
-        else {
-            DateTimeFormatter fmt = DateTimeFormat.forPattern("E - d - MMMM - yyyy");
-            str = fmt.print(current_date);
-        }
-        exerciseIODatabase = new ExerciseIODatabase(context);
-        arguments.putString(Constants.DATE, str);
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("E - d - MMMM - yyyy");
+        str = fmt.print(current_date);
+
+        arguments.putString("DATEString", str);
         arguments.putInt("Difference", difference);
-
-        if(exerciseIODatabase.checkIfExerciseExists(difference)){
-
-            arguments.putBoolean(Constants.TRIGGER_EXISTANCE, true);
-
-        }
-        else{arguments.putBoolean(Constants.TRIGGER_EXISTANCE, false);}
+        arguments.putLong("DATE", normalDate.getTime());
 
 
         dynamicFragment.setArguments(arguments);
