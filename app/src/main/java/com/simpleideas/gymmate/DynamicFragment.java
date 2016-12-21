@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +40,9 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
     private int difference;
     DatabaseHelper databaseManager;
     private long currentDate;
-
+    private LetsMakeAnAdapter adapter;
+    private CustomRecyclerViewAdapter customRecyclerViewAdapter;
+    ArrayList<ExerciseTemplate> arrayList;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +51,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
         makeConnectionToTheInterface();
 
         dateString = getArguments().getString("DATEString");
-        Toast.makeText(getActivity().getApplicationContext(), dateString, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity().getApplicationContext(), dateString, Toast.LENGTH_SHORT).show();
         //triggerOfExistance = getArguments().getBoolean(Constants.TRIGGER_EXISTANCE);
         difference = getArguments().getInt("Difference");
         currentDate = getArguments().getLong("DATE");
@@ -62,50 +66,57 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        ArrayList<ExerciseTemplate> arrayList = databaseManager.getAllExercises(dateString);
-
-        if(arrayList.isEmpty() == false){
-
-            ListView listView = (ListView)getView().findViewById(R.id.listViewWithItems);
-
-            LetsMakeAnAdapter adapter = new LetsMakeAnAdapter(getActivity(), arrayList);
-
-            listView.setAdapter(adapter);
-
-
-        }
+//        arrayList.clear();
+//
+//        //Toast.makeText(getContext(),"Query value -> " + String.valueOf(databaseManager.getAllExercises(dateString).size()), Toast.LENGTH_SHORT).show();
+//
+//        arrayList.addAll(databaseManager.getAllExercises(dateString));
+//        adapter.notifyDataSetChanged();
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = null;
+        View view  = inflater.inflate(R.layout.dynamic_fragment_with_listview, container, false);
+        TextView textView = (TextView) view.findViewById(R.id.dateTestTextView);
+
+        //ListView listView = (ListView) view.findViewById(R.id.listViewWithItems);
+        RecyclerView recyclerViewOne = (RecyclerView) view.findViewById(R.id.recyclerViewOne);
+
         databaseManager = new DatabaseHelper(getActivity().getApplicationContext());
+
         Date date = new Date();
         date.setTime(currentDate);
-        Log.i("onCreateView", "onCreateView");
 
-        ArrayList<ExerciseTemplate> arrayList;
+
 
         arrayList=databaseManager.getAllExercises(dateString);
+        textView.setText(dateString + String.valueOf(arrayList.size()));
+        if(arrayList.size()>0){
 
-        Toast.makeText(getActivity().getApplicationContext(), String.valueOf(arrayList.size()), Toast.LENGTH_SHORT).show();
-
-        if(arrayList.isEmpty()){
-
-//            Toast toast1 = Toast.makeText(getActivity().getApplicationContext(),"ELSE", Toast.LENGTH_SHORT);
-//            toast1.show();
-
-            view = inflater.inflate(R.layout.layout_empty, container, false);
-            createBehaviourForTriggerOfExistanceFalse(view, difference);
+            //dapter = new LetsMakeAnAdapter(getActivity(), arrayList);
+            customRecyclerViewAdapter = new CustomRecyclerViewAdapter(getContext(),arrayList);
+            recyclerViewOne.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerViewOne.setAdapter(customRecyclerViewAdapter);
             return view;
-
         }
-        else{
-            populateWithData(view,inflater, container, savedInstanceState, difference);
 
-        }
+
+
+//        if(arrayList.isEmpty()){
+//
+////            Toast toast1 = Toast.makeText(getActivity().getApplicationContext(),"ELSE", Toast.LENGTH_SHORT);
+////            toast1.show();
+//
+//            view = inflater.inflate(R.layout.layout_empty, container, false);
+//            createBehaviourForTriggerOfExistanceFalse(view, difference);
+//            return view;
+//
+//        }
+//        else{
+//            populateWithData(view,inflater, container, savedInstanceState, difference);
+//
+//        }
 
 
 
@@ -115,19 +126,16 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
     private void populateWithData(View view, LayoutInflater inflater, ViewGroup container, Bundle savedState, int difference  ){
 
         view = inflater.inflate(R.layout.dynamic_fragment_with_listview, container, false);
-        ListView listView = (ListView) view.findViewById(R.id.listViewWithItems);
+        //ListView listView = (ListView) view.findViewById(R.id.listViewWithItems);
         //initializeFloatingButton(view);
         //listenerInsertFragmentClick(view);
 
         ArrayList<ExerciseTemplate> adapterValues;
         adapterValues = databaseManager.getAllExercises(dateString);
+        Log.i("SizeOfTheValues", String.valueOf(adapterValues.size()));
+        adapter.setExercises(adapterValues);
 
-
-        LetsMakeAnAdapter adapter = new LetsMakeAnAdapter(getActivity(), adapterValues);
-
-        listView.setAdapter(adapter);
-
-
+       // listView.setAdapter(adapter);
 
     }
 

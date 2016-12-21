@@ -18,6 +18,11 @@ import java.util.ArrayList;
 public class LetsMakeAnAdapter extends ArrayAdapter<ExerciseTemplate> {
 
     private ArrayList<ExerciseTemplate> exercises;
+
+    public void setExercises(ArrayList<ExerciseTemplate> exercises) {
+        this.exercises = exercises;
+    }
+
     private Activity activity;
     private static LayoutInflater inflater = null;
 
@@ -27,6 +32,7 @@ public class LetsMakeAnAdapter extends ArrayAdapter<ExerciseTemplate> {
         this.exercises = item;
 
     }
+
 
     @NonNull
     @Override
@@ -46,10 +52,12 @@ public class LetsMakeAnAdapter extends ArrayAdapter<ExerciseTemplate> {
         TextView textViewExample = (TextView) customViewToInflate.findViewById(R.id.exerciseNameViewWTF);
         TextView textViewWeights = (TextView) customViewToInflate.findViewById(R.id.exerciseNameViewWTFWeights);
         TextView textViewReps = (TextView) customViewToInflate.findViewById(R.id.exerciseNameViewWTFReps);
-
-        textViewExample.setText(exercises.get(position).getExerciseName());
-        textViewWeights.setText((int) exercises.get(position).getWeight());
-        textViewReps.setText(exercises.get(position).getRepetition());
+        String one = exercises.get(position).getExerciseName();
+        String two = String.valueOf(exercises.get(position).getWeight());
+        String three = String.valueOf(exercises.get(position).getRepetition());
+        textViewExample.setText(one.toString());
+        textViewWeights.setText(two);
+        textViewReps.setText(three);
 
 
         return customViewToInflate;

@@ -9,11 +9,20 @@
         <!--android:layout_height="wrap_content"-->
         <!--android:id="@+id/button" />-->
 
-    <ListView
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dateTestTextView" />
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@drawable/mydivider"
-        android:dividerHeight="@dimen/activity_horizontal_margin"
-        android:scrollbars="none"
-        android:id="@+id/listViewWithItems"/>
+        android:id="@+id/recyclerViewOne"></android.support.v7.widget.RecyclerView>
+    <!--<ListView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:divider="@drawable/mydivider"-->
+        <!--android:dividerHeight="@dimen/activity_horizontal_margin"-->
+        <!--android:scrollbars="none"-->
+        <!--android:id="@+id/listViewWithItems"/>-->
 </LinearLayout>
