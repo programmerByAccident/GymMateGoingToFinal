@@ -9,6 +9,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,19 +42,24 @@ public class ListViewWithMuscleGroups extends AppCompatActivity {
         setContentView(R.layout.muscle_groups);
         super.onCreate(savedInstanceState);
         setupActionBar();
-        ListView muscles = (ListView) findViewById(R.id.muscle_groups);
+        RecyclerView muscles = (RecyclerView) findViewById(R.id.muscle_groups);
         Intent intent = getIntent();
 
         int difference = intent.getExtras().getInt("Difference");
         String date = intent.getExtras().getString("date");
         ArrayList<String> muscleGroups = getMuscleGroups();
 
-        MuscleGroupsAdapter muscleGroupsAdapter = new MuscleGroupsAdapter(muscleGroups, getApplicationContext());
 
+        Toast.makeText(getApplicationContext(), String.valueOf(muscleGroups.size()), Toast.LENGTH_SHORT).show();
+
+
+        MuscleGroupsAdapter muscleGroupsAdapter = new MuscleGroupsAdapter(muscleGroups, getApplicationContext(), date);
+        muscles.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         muscles.setAdapter(muscleGroupsAdapter);
 
+
         //setAdapterToMuscleGroupListView(muscles);
-        setOnItemClickListenerMuscleGroupsListView(muscles, muscleGroupsAdapter, difference, date);
+        //setOnItemClickListenerMuscleGroupsListView(muscles, muscleGroupsAdapter, difference, date);
 
     }
 
@@ -71,28 +78,7 @@ public class ListViewWithMuscleGroups extends AppCompatActivity {
     // MuscleGroups listview actions(setAdapter and setOnItemClickListener)
     //================================================================================
 
-    private void setOnItemClickListenerMuscleGroupsListView(ListView listView, final MuscleGroupsAdapter adapter, final int difference, final String date){
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                ArrayList<String> muscleNames = new ArrayList<>();
-
-                String muscleName = (String) adapter.getItem(i);
-
-                Intent intent = new Intent(getApplicationContext(), CertainMuscleListView.class);
-
-                intent.putExtra(Constants.MUSCLE_NAME, muscleName);
-                intent.putExtra("Difference", difference);
-                intent.putExtra("date", date);
-                startActivity(intent);
-
-            }
-        });
-
-    }
 
     private void setAdapterToMuscleGroupListView(ListView listView){
 

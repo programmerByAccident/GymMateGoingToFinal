@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -23,7 +24,7 @@ public class CertainMuscleListView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.certain_muscle_group);
-        ListView exercisesListView = (ListView) findViewById(R.id.muscleExerciseList);
+        RecyclerView exercisesListView = (RecyclerView) findViewById(R.id.muscleExerciseList);
         String muscle_name;
         String date;
         Intent intent = getIntent();
@@ -33,9 +34,9 @@ public class CertainMuscleListView extends AppCompatActivity {
         Set<String> exercises = getExercises(muscle_name);
         ArrayList<String> exercisesForAdapter = new ArrayList<>();
         exercisesForAdapter.addAll(exercises);
-        MuscleGroupsAdapter muscleGroupsAdapter = new MuscleGroupsAdapter(exercisesForAdapter, getApplicationContext());
-        exercisesListView.setAdapter(muscleGroupsAdapter);
-        setOnItemClickListenerMuscleGroupsListView(exercisesListView, muscleGroupsAdapter, muscle_name, date);
+//        MuscleGroupsAdapter muscleGroupsAdapter = new MuscleGroupsAdapter(exercisesForAdapter, getApplicationContext(), date);
+//        exercisesListView.setAdapter(muscleGroupsAdapter);
+        //setOnItemClickListenerMuscleGroupsListView(exercisesListView, muscleGroupsAdapter, muscle_name, date);
     }
 
 
@@ -47,29 +48,29 @@ public class CertainMuscleListView extends AppCompatActivity {
 
     }
 
-    private void setOnItemClickListenerMuscleGroupsListView(ListView listView, final MuscleGroupsAdapter adapter,final String muscleName, final String date){
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                ArrayList<String> muscleNames = new ArrayList<>();
-
-                String exerciseName = (String) adapter.getItem(i);
-
-                Intent intent = new Intent(getApplicationContext(), InsertActivity.class);
-
-                intent.putExtra(Constants.EXERCISE_NAME, exerciseName);
-
-                intent.putExtra(Constants.MUSCLE_NAME, muscleName);
-
-                intent.putExtra("date", date);
-
-                startActivity(intent);
-
-            }
-        });
-
-    }
+//    private void setOnItemClickListenerMuscleGroupsListView(ListView listView, final MuscleGroupsAdapter adapter,final String muscleName, final String date){
+//
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//
+//                ArrayList<String> muscleNames = new ArrayList<>();
+//
+//                String exerciseName = (String) adapter.getItem(i);
+//
+//                Intent intent = new Intent(getApplicationContext(), InsertActivity.class);
+//
+//                intent.putExtra(Constants.EXERCISE_NAME, exerciseName);
+//
+//                intent.putExtra(Constants.MUSCLE_NAME, muscleName);
+//
+//                intent.putExtra("date", date);
+//
+//                startActivity(intent);
+//
+//            }
+//        });
+//
+//    }
 }

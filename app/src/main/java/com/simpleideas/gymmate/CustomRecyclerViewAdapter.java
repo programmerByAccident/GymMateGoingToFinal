@@ -28,7 +28,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
         this.exercises = exercises;
         this.dateString = dateString;
-
+        databaseHelper = new DatabaseHelper(context);
 
     }
 
@@ -39,7 +39,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
         CustomViewHolder customViewHolder = new CustomViewHolder(view);
 
-        databaseHelper = new DatabaseHelper(parent.getContext());
+
 
         return customViewHolder;
     }
