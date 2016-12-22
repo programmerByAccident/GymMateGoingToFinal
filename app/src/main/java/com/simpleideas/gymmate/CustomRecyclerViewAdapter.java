@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,9 +20,14 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
     private List<ExerciseTemplate> exercises = Collections.emptyList();
     private LayoutInflater inflater;
-    public CustomRecyclerViewAdapter(Context context, ArrayList<ExerciseTemplate> exercises){
+    DatabaseHelper databaseHelper;
+    private String dateString;
+
+
+    public CustomRecyclerViewAdapter(Context context, ArrayList<ExerciseTemplate> exercises, String dateString){
 
         this.exercises = exercises;
+        this.dateString = dateString;
 
 
     }
@@ -32,6 +38,8 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_item, parent,false);
 
         CustomViewHolder customViewHolder = new CustomViewHolder(view);
+
+        databaseHelper = new DatabaseHelper(parent.getContext());
 
         return customViewHolder;
     }
@@ -56,12 +64,13 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
 
 
-    class CustomViewHolder extends RecyclerView.ViewHolder{
+    class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
 
         private TextView exercicseName;
         private TextView weight;
         private TextView repetitions;
+        private ImageButton imageButton;
 
         public CustomViewHolder(View itemView) {
             super(itemView);
@@ -69,9 +78,22 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
             exercicseName = (TextView) itemView.findViewById(R.id.exerciseNameViewWTF);
             repetitions = (TextView) itemView.findViewById(R.id.exerciseNameViewWTFReps);
             weight = (TextView) itemView.findViewById(R.id.exerciseNameViewWTFWeights);
+            imageButton = (ImageButton) itemView.findViewById(R.id.deleteButton);
+            imageButton.setOnClickListener(this);
 
 
+        }
 
+        @Override
+        public void onClick(View view) {
+            switch(view.getId()){
+
+                case R.id.deleteButton:
+                    exercises.remove(getAdapterPosition());
+                    databaseHelper.deleteRecord(dateString, exercicseName.getText().toString(), repetitions.getText().toString(), weight.getText().toString());
+                    notifyItemRemoved(getAdapterPosition());
+
+            }
         }
     }
 }

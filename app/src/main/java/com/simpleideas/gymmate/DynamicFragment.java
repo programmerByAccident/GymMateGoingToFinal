@@ -32,7 +32,7 @@ import java.util.TimeZone;
  * Created by programmerByAccident on 8/28/2016.
  */
 
-public class DynamicFragment extends android.support.v4.app.Fragment {
+public class DynamicFragment extends android.support.v4.app.Fragment{
 
     public DataSenderBetweenFragments senderBetweenFragments;
     TextView textView;
@@ -77,27 +77,40 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view  = inflater.inflate(R.layout.dynamic_fragment_with_listview, container, false);
-        TextView textView = (TextView) view.findViewById(R.id.dateTestTextView);
+
+        View view = null;
+
+        //View view  = inflater.inflate(R.layout.dynamic_fragment_with_listview, container, false);
+        //TextView textView = (TextView) view.findViewById(R.id.dateTestTextView);
 
         //ListView listView = (ListView) view.findViewById(R.id.listViewWithItems);
-        RecyclerView recyclerViewOne = (RecyclerView) view.findViewById(R.id.recyclerViewOne);
+        //RecyclerView recyclerViewOne = (RecyclerView) view.findViewById(R.id.recyclerViewOne);
 
-        databaseManager = new DatabaseHelper(getActivity().getApplicationContext());
+
 
         Date date = new Date();
         date.setTime(currentDate);
 
 
-
+        databaseManager = new DatabaseHelper(getActivity().getApplicationContext());
         arrayList=databaseManager.getAllExercises(dateString);
-        textView.setText(dateString + String.valueOf(arrayList.size()));
-        if(arrayList.size()>0){
+        //textView.setText(dateString + String.valueOf(arrayList.size()));
 
+        if(arrayList.size()>0){
+            view = inflater.inflate(R.layout.dynamic_fragment_with_listview, container, false);
+            //TextView textView = (TextView) view.findViewById(R.id.dateTestTextView);
+            RecyclerView recyclerViewOne = (RecyclerView) view.findViewById(R.id.recyclerViewOne);
             //dapter = new LetsMakeAnAdapter(getActivity(), arrayList);
-            customRecyclerViewAdapter = new CustomRecyclerViewAdapter(getContext(),arrayList);
+            customRecyclerViewAdapter = new CustomRecyclerViewAdapter(getContext(),arrayList, dateString);
             recyclerViewOne.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerViewOne.setAdapter(customRecyclerViewAdapter);
+            return view;
+        }
+        else{
+
+            view = inflater.inflate(R.layout.layout_empty, container, false);
+            createBehaviourForTriggerOfExistanceFalse(view, difference);
+
             return view;
         }
 
@@ -118,9 +131,6 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
 //
 //        }
 
-
-
-        return view;
         }
 
     private void populateWithData(View view, LayoutInflater inflater, ViewGroup container, Bundle savedState, int difference  ){
@@ -138,8 +148,6 @@ public class DynamicFragment extends android.support.v4.app.Fragment {
        // listView.setAdapter(adapter);
 
     }
-
-
 
 
     public interface DataSenderBetweenFragments {

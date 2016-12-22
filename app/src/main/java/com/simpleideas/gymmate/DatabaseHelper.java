@@ -56,6 +56,27 @@ public class DatabaseHelper {
 
     }
 
+//    public void deleteRecord(String date, String exercise_name, String repetitions, String weight){
+//
+//        String table = Constants.first_table;
+//        String whereClause = "Difference  = ? AND Exercise = ? AND Repetitions = ? and Weight = ?";
+//        String[] whereTo = {date, exercise_name, repetitions, weight};
+//
+//        sqLiteDatabase.delete(table, whereClause, whereTo);
+//
+//    }
+
+    public void deleteRecord(String date, String exercise_name, String repetitions, String weight){
+
+
+        String deletestatement = "DELETE FROM " + Constants.first_table + " WHERE Difference = '" + date+ "'" + " AND Exercise = '" + exercise_name +"'"+ " AND Repetitions = '" + repetitions +"'"+ " AND Weight = '" + weight+"'";
+
+        sqLiteDatabase.execSQL(deletestatement);
+        //sqLiteDatabase.close();
+
+
+    }
+
     public boolean checkIfExerciseExists(int difference){
 
 
