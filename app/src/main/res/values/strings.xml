@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">Gym Mate</string>
-    <string name="title_activity_custom_workout">CustomWorkout</string>
     <string name="search">Search</string>
     <string name="current">Current</string>
-    <string name = "insert">New Category</string>
 </resources>

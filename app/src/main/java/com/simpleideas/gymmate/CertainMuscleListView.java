@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,6 +35,12 @@ public class CertainMuscleListView extends AppCompatActivity {
         Set<String> exercises = getExercises(muscle_name);
         ArrayList<String> exercisesForAdapter = new ArrayList<>();
         exercisesForAdapter.addAll(exercises);
+
+        ExerciseRecyclerViewAdapter exerciseRecyclerViewAdapter = new ExerciseRecyclerViewAdapter(this, exercisesForAdapter,muscle_name, date);
+
+        exercisesListView.setLayoutManager(new LinearLayoutManager(this));
+        exercisesListView.setAdapter(exerciseRecyclerViewAdapter);
+
 //        MuscleGroupsAdapter muscleGroupsAdapter = new MuscleGroupsAdapter(exercisesForAdapter, getApplicationContext(), date);
 //        exercisesListView.setAdapter(muscleGroupsAdapter);
         //setOnItemClickListenerMuscleGroupsListView(exercisesListView, muscleGroupsAdapter, muscle_name, date);
@@ -57,11 +64,11 @@ public class CertainMuscleListView extends AppCompatActivity {
 //
 //                ArrayList<String> muscleNames = new ArrayList<>();
 //
-//                String exerciseName = (String) adapter.getItem(i);
+//                String date = (String) adapter.getItem(i);
 //
 //                Intent intent = new Intent(getApplicationContext(), InsertActivity.class);
 //
-//                intent.putExtra(Constants.EXERCISE_NAME, exerciseName);
+//                intent.putExtra(Constants.EXERCISE_NAME, date);
 //
 //                intent.putExtra(Constants.MUSCLE_NAME, muscleName);
 //

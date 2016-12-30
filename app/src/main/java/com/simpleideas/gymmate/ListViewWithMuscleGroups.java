@@ -36,24 +36,31 @@ import java.util.List;
 public class ListViewWithMuscleGroups extends AppCompatActivity {
 
     private ArrayList<String> muscleGroups;
-
-
+    String date;
+    RecyclerView muscles;
+    MuscleGroupsAdapter muscleGroupsAdapter;
+    private DialogForAddingContent dialogForAddingContent;
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.muscle_groups);
         super.onCreate(savedInstanceState);
-        setupActionBar();
-        RecyclerView muscles = (RecyclerView) findViewById(R.id.muscle_groups);
+        setContentView(R.layout.muscle_groups);
+        //setupActionBar();
+        Toolbar toolbar;
+        toolbar = (Toolbar) findViewById(R.id.muscle_groups_toolbar);
+        setSupportActionBar(toolbar);
+        muscles = (RecyclerView) findViewById(R.id.muscle_groups);
         Intent intent = getIntent();
 
+        dialogForAddingContent = DialogForAddingContent.newInstance(Constants.GROUPS);
+
         int difference = intent.getExtras().getInt("Difference");
-        String date = intent.getExtras().getString("date");
+        date = intent.getExtras().getString("date");
         ArrayList<String> muscleGroups = getMuscleGroups();
 
 
         Toast.makeText(getApplicationContext(), String.valueOf(muscleGroups.size()), Toast.LENGTH_SHORT).show();
 
 
-        MuscleGroupsAdapter muscleGroupsAdapter = new MuscleGroupsAdapter(muscleGroups, getApplicationContext(), date);
+        muscleGroupsAdapter = new MuscleGroupsAdapter(muscleGroups, this, date);
         muscles.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         muscles.setAdapter(muscleGroupsAdapter);
 
@@ -63,6 +70,13 @@ public class ListViewWithMuscleGroups extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ArrayList<String> muscleList = getMuscleGroups();
+        muscleGroupsAdapter.setMuscleGroups(muscleList);
+        muscleGroupsAdapter.notifyDataSetChanged();
+    }
 
     @Override
     protected void onPause() {
@@ -98,8 +112,14 @@ public class ListViewWithMuscleGroups extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId() == R.id.action_addition){
-            Toast.makeText(getApplicationContext(),"message", Toast.LENGTH_LONG);
+        switch (item.getItemId()){
+
+            case R.id.action_addition:
+
+                dialogForAddingContent.show(getSupportFragmentManager(), "tag");
+
+                Toast.makeText(this, "addition", Toast.LENGTH_SHORT).show();
+
         }
 
         return super.onOptionsItemSelected(item);

@@ -2,6 +2,7 @@ package com.simpleideas.gymmate;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -41,13 +42,15 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
     DatabaseHelper databaseManager;
     private long currentDate;
     private LetsMakeAnAdapter adapter;
+    private  RecyclerView recyclerViewOne;
     private CustomRecyclerViewAdapter customRecyclerViewAdapter;
+    private FloatingActionButton refreshButton;
     ArrayList<ExerciseTemplate> arrayList;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.i("OnCreate", "OnCreate");
+
         makeConnectionToTheInterface();
 
         dateString = getArguments().getString("DATEString");
@@ -55,6 +58,9 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
         //triggerOfExistance = getArguments().getBoolean(Constants.TRIGGER_EXISTANCE);
         difference = getArguments().getInt("Difference");
         currentDate = getArguments().getLong("DATE");
+        databaseManager = new DatabaseHelper(getContext());
+        arrayList=databaseManager.getAllExercises(dateString);
+        customRecyclerViewAdapter = new CustomRecyclerViewAdapter(getContext(),arrayList, dateString);
     }
 
     @Override
@@ -63,15 +69,25 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
         Log.i("OnCreate", "OnCreate");
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
-//        arrayList.clear();
-//
-//        //Toast.makeText(getContext(),"Query value -> " + String.valueOf(databaseManager.getAllExercises(dateString).size()), Toast.LENGTH_SHORT).show();
-//
-//        arrayList.addAll(databaseManager.getAllExercises(dateString));
-//        adapter.notifyDataSetChanged();
+        Log.i("OnResume", "OnResume");
+
+        Log.d("Here", "Before transaction");
+
+        databaseManager = new DatabaseHelper(getContext());
+        ArrayList<ExerciseTemplate> onResumeData = databaseManager.getAllExercises(dateString);
+        if(onResumeData.size() > 0){
+
+            refreshButton.setVisibility(View.INVISIBLE);
+
+        }
+        CustomRecyclerViewAdapter customRecyclerViewAdapter2;
+        customRecyclerViewAdapter2= new CustomRecyclerViewAdapter(getContext(), databaseManager.getAllExercises(dateString),dateString);
+        recyclerViewOne.setAdapter(customRecyclerViewAdapter2);
+        Log.d("Here", "After transaction");
 
     }
 
@@ -79,57 +95,24 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = null;
-
-        //View view  = inflater.inflate(R.layout.dynamic_fragment_with_listview, container, false);
-        //TextView textView = (TextView) view.findViewById(R.id.dateTestTextView);
-
-        //ListView listView = (ListView) view.findViewById(R.id.listViewWithItems);
-        //RecyclerView recyclerViewOne = (RecyclerView) view.findViewById(R.id.recyclerViewOne);
-
-
-
         Date date = new Date();
         date.setTime(currentDate);
 
+        view = inflater.inflate(R.layout.dynamic_fragment_with_listview, container, false);
+        recyclerViewOne = (RecyclerView) view.findViewById(R.id.recyclerViewOne);
+        refreshButton = (FloatingActionButton) view.findViewById(R.id.fab_trigger_of_existance_false);
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setFabActions(difference);
+            }
+        });
 
-        databaseManager = new DatabaseHelper(getActivity().getApplicationContext());
-        arrayList=databaseManager.getAllExercises(dateString);
-        //textView.setText(dateString + String.valueOf(arrayList.size()));
+        recyclerViewOne.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewOne.setAdapter(customRecyclerViewAdapter);
+        return view;
+        //dapter = new LetsMakeAnAdapter(getActivity(), arrayList);
 
-        if(arrayList.size()>0){
-            view = inflater.inflate(R.layout.dynamic_fragment_with_listview, container, false);
-            //TextView textView = (TextView) view.findViewById(R.id.dateTestTextView);
-            RecyclerView recyclerViewOne = (RecyclerView) view.findViewById(R.id.recyclerViewOne);
-            //dapter = new LetsMakeAnAdapter(getActivity(), arrayList);
-            customRecyclerViewAdapter = new CustomRecyclerViewAdapter(getContext(),arrayList, dateString);
-            recyclerViewOne.setLayoutManager(new LinearLayoutManager(getContext()));
-            recyclerViewOne.setAdapter(customRecyclerViewAdapter);
-            return view;
-        }
-        else{
-
-            view = inflater.inflate(R.layout.layout_empty, container, false);
-            createBehaviourForTriggerOfExistanceFalse(view, difference);
-
-            return view;
-        }
-
-
-
-//        if(arrayList.isEmpty()){
-//
-////            Toast toast1 = Toast.makeText(getActivity().getApplicationContext(),"ELSE", Toast.LENGTH_SHORT);
-////            toast1.show();
-//
-//            view = inflater.inflate(R.layout.layout_empty, container, false);
-//            createBehaviourForTriggerOfExistanceFalse(view, difference);
-//            return view;
-//
-//        }
-//        else{
-//            populateWithData(view,inflater, container, savedInstanceState, difference);
-//
-//        }
 
         }
 
@@ -208,74 +191,70 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
         return exercises;
     }
 
-    private void listenerInsertFragmentClick(View view){
-
-        Button insertButton = (Button)view.findViewById(R.id.ifb);
-
-        insertButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                ArrayList<String> listSomething = new ArrayList<String>();
-                listSomething.add(0,"exercise1");
-                listSomething.add(1, "exercise2");
-                listSomething.add(2, "exercise3");
-
-
-                insertFragmentOnClick("SomeName", listSomething);
-            }
-        });
-
-    }
-
-    private void insertFragmentOnClick(String name, ArrayList<String> exerciseNames){
-
-        Log.d("CACALAU", name);
-        Log.d("LISTA", exerciseNames.get(0));
-
-        Exercise exercise = Exercise.newInstance(name, exerciseNames);
-
-        FragmentManager fragmentManager = getChildFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        fragmentTransaction.add(R.id.internalLinearLayout, exercise);
-        fragmentTransaction.commit();
-
-    }
-
-    private void insertFragments(View view){
-
-        List<Exercise> someExerciseList = Exercise.newInstance(120);
-
-        for(int index = 0; index<someExerciseList.size();index++){
-
-            FragmentManager fragmentManager = getChildFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            Exercise exerciseFragment = someExerciseList.get(index);
-            exerciseFragment.getView().setPadding(10,10,10,10);
-            if(index % 2 != 1){
-                exerciseFragment.getView().setBackgroundColor(2);
-            }
-            else{
-                exerciseFragment.getView().setBackgroundColor(3);
-            }
-            fragmentTransaction.add(R.id.internalLinearLayout,someExerciseList.get(index));
-
-            fragmentTransaction.commit();
-
-        }
-    }
-    private void initializeFloatingButton(View view){
-        FloatingActionButton insert_floating_button;
-        insert_floating_button = (FloatingActionButton) view.findViewById(R.id.insert_floating_button);
-        insert_floating_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                floatingButtonActions();
-            }
-        });
-    }
+//    private void listenerInsertFragmentClick(View view){
+//
+//        Button insertButton = (Button)view.findViewById(R.id.ifb);
+//
+//        insertButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//
+//                ArrayList<String> listSomething = new ArrayList<String>();
+//                listSomething.add(0,"exercise1");
+//                listSomething.add(1, "exercise2");
+//                listSomething.add(2, "exercise3");
+//
+//
+//                insertFragmentOnClick("SomeName", listSomething);
+//            }
+//        });
+//
+//    }
+//    private void insertFragmentOnClick(String name, ArrayList<String> exerciseNames){
+//
+//        Exercise exercise = Exercise.newInstance(name, exerciseNames);
+//
+//        FragmentManager fragmentManager = getChildFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//
+//        fragmentTransaction.add(R.id.internalLinearLayout, exercise);
+//        fragmentTransaction.commit();
+//
+//    }
+//
+//    private void insertFragments(View view){
+//
+//        List<Exercise> someExerciseList = Exercise.newInstance(120);
+//
+//        for(int index = 0; index<someExerciseList.size();index++){
+//
+//            FragmentManager fragmentManager = getChildFragmentManager();
+//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//            Exercise exerciseFragment = someExerciseList.get(index);
+//            exerciseFragment.getView().setPadding(10,10,10,10);
+//            if(index % 2 != 1){
+//                exerciseFragment.getView().setBackgroundColor(2);
+//            }
+//            else{
+//                exerciseFragment.getView().setBackgroundColor(3);
+//            }
+//            fragmentTransaction.add(R.id.internalLinearLayout,someExerciseList.get(index));
+//
+//            fragmentTransaction.commit();
+//
+//        }
+//    }
+//    private void initializeFloatingButton(View view){
+//        FloatingActionButton insert_floating_button;
+//        insert_floating_button = (FloatingActionButton) view.findViewById(R.id.insert_floating_button);
+//        insert_floating_button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                floatingButtonActions();
+//            }
+//        });
+//    }
 
 
     public static DynamicFragment createInstanceBasedOnDifferenceBetweenCurrentDateAndPosition(int difference){

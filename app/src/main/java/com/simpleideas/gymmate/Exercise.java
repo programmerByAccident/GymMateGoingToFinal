@@ -128,7 +128,7 @@ public class Exercise extends Fragment {
 
 //    private void attachDataIntoView(View view){
 //
-//        TextView exerciseName = (TextView) view.findViewById(R.id.exerciseName);
+//        TextView date = (TextView) view.findViewById(R.id.date);
 //        ListView informationLi
 //
 //    }

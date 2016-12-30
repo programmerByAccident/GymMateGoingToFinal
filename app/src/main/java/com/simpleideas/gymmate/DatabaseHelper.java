@@ -20,27 +20,29 @@ public class DatabaseHelper {
     public DatabaseHelper(Context context){
 
         databaseManager = new DatabaseManager(context);
-        sqLiteDatabase = databaseManager.getWritableDatabase();
+        this.sqLiteDatabase = databaseManager.getWritableDatabase();
 
     }
 
-    public ArrayList<ExerciseTemplate> getExerciseFromDatabaseBasedOnDifference(int difference){
-
-        ArrayList<ExerciseTemplate> arrayListToReturn = new ArrayList<>();
-
-        String searchItem = String.valueOf(difference);
-
-        String[] columns = {"DIFFERENCE"};
-        String selection = "DIFFERENCE" + " =?";
-        String[] selectionArgs = { searchItem };
-
-        Cursor cursor = sqLiteDatabase.query(Constants.EXERCISE_TABLE, columns, selection, selectionArgs, null,null,null);
-        cursor.moveToFirst();
-
-        return arrayListToReturn;
-
-    }
+//    public ArrayList<ExerciseTemplate> getExerciseFromDatabaseBasedOnDifference(int difference){
+//
+//        ArrayList<ExerciseTemplate> arrayListToReturn = new ArrayList<>();
+//
+//        String searchItem = String.valueOf(difference);
+//
+//        String[] columns = {"DIFFERENCE"};
+//        String selection = "DIFFERENCE" + " =?";
+//        String[] selectionArgs = { searchItem };
+//
+//        Cursor cursor = sqLiteDatabase.query(Constants.EXERCISE_TABLE, columns, selection, selectionArgs, null,null,null);
+//        cursor.moveToFirst();
+//
+//        return arrayListToReturn;
+//
+//    }
     public void insertExerciseIntoDatabase(String date, String exercise_name, int repetitions, float weight){
+
+        sqLiteDatabase = databaseManager.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put("Difference", date);
@@ -72,7 +74,7 @@ public class DatabaseHelper {
         String deletestatement = "DELETE FROM " + Constants.first_table + " WHERE Difference = '" + date+ "'" + " AND Exercise = '" + exercise_name +"'"+ " AND Repetitions = '" + repetitions +"'"+ " AND Weight = '" + weight+"'";
 
         sqLiteDatabase.execSQL(deletestatement);
-        //sqLiteDatabase.close();
+        sqLiteDatabase.close();
 
 
     }
@@ -90,7 +92,7 @@ public class DatabaseHelper {
 
         boolean exists = (cursor.getCount() > 0);
 
-        cursor.close();
+        //cursor.close();
         sqLiteDatabase.close();
 
         return exists;
@@ -98,6 +100,8 @@ public class DatabaseHelper {
     }
 
     public ArrayList<ExerciseTemplate> getAllExercises(String difference){
+
+        sqLiteDatabase = databaseManager.getWritableDatabase();
 
         ArrayList<ExerciseTemplate> arrayToReturn = new ArrayList<>();
 
@@ -117,20 +121,25 @@ public class DatabaseHelper {
         int weightIndex = cursor.getColumnIndex("Weight");
         int repsIndex = cursor.getColumnIndex("Repetitions");
 
-        while (cursor.moveToNext()){
+        try {
+            while (cursor.moveToNext()){
 
-            String exerciseName = cursor.getString(exerciseIndex);
-            int differenceI = cursor.getInt(differenceIndex);
-            float weight = cursor.getFloat(weightIndex);
-            int reps = cursor.getInt(repsIndex);
+                String exerciseName = cursor.getString(exerciseIndex);
+                int differenceI = cursor.getInt(differenceIndex);
+                float weight = cursor.getFloat(weightIndex);
+                int reps = cursor.getInt(repsIndex);
 
-            ExerciseTemplate exerciseTemplate = new ExerciseTemplate(exerciseName,differenceI, reps, weight);
+                ExerciseTemplate exerciseTemplate = new ExerciseTemplate(exerciseName,differenceI, reps, weight);
 
-            arrayToReturn.add(exerciseTemplate);
+                arrayToReturn.add(exerciseTemplate);
+            }
+
+            //cursor.close();
+
+        } finally {
+            cursor.close();
+            sqLiteDatabase.close();
         }
-
-        //cursor.close();
-        //sqLiteDatabase.close();
 
         return arrayToReturn;
     }

@@ -39,6 +39,6 @@ public class Constants {
     public static String LEGS = "legs";
     public static String SHOULDERS = "shoulders";
     public static String ARMS = "arms";
-
+    public static final String SHARED_PREFERENCES = "SharedPreferences";
 
 }

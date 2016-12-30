@@ -1,6 +1,7 @@
 package com.simpleideas.gymmate;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,6 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
     private LayoutInflater inflater;
     DatabaseHelper databaseHelper;
     private String dateString;
-
 
     public CustomRecyclerViewAdapter(Context context, ArrayList<ExerciseTemplate> exercises, String dateString){
 

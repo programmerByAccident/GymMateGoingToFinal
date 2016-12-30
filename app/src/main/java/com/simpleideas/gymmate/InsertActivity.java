@@ -2,11 +2,13 @@ package com.simpleideas.gymmate;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringDef;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -32,7 +34,7 @@ public class InsertActivity extends AppCompatActivity implements View.OnClickLis
     private String muscle_name;
     private String date;
     private int difference;
-
+    private SQLiteDatabase sqLiteDatabase;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,11 +148,22 @@ public class InsertActivity extends AppCompatActivity implements View.OnClickLis
                 DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
                 EditText weights = (EditText) findViewById(R.id.editTextWeights);
                 EditText reps =(EditText) findViewById(R.id.editTextRepetitions);
-                float weight = Float.valueOf(weights.getText().toString());
-                int rep = Integer.valueOf(reps.getText().toString());
-                Toast toast1= Toast.makeText(getApplicationContext(), "Inserted -> " + date, Toast.LENGTH_SHORT);
-                toast1.show();
-                databaseHelper.insertExerciseIntoDatabase(date, exercise_name, rep, weight);
+                String w,r;
+                float weight=0;
+                int rep = 0;
+                w = weights.getText().toString();
+                r = reps.getText().toString();
+                Log.d("Values of w and r", w + r);
+                if(w.length() < 1 || r.length() < 1){
+
+                    Toast.makeText(getApplicationContext(), "No values inserted", Toast.LENGTH_SHORT).show();
+
+                }
+                else {
+                    weight = Float.valueOf(weights.getText().toString());
+                    rep = Integer.valueOf(reps.getText().toString());
+                    databaseHelper.insertExerciseIntoDatabase(date, exercise_name, rep, weight);
+                }
 
                 break;
             case R.id.clear_button:

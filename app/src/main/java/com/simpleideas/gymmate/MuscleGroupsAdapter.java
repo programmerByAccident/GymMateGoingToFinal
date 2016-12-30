@@ -17,6 +17,14 @@ import java.util.ArrayList;
 
 public class MuscleGroupsAdapter extends RecyclerView.Adapter<MuscleGroupsAdapter.MuscleViewHolder>{
 
+    public ArrayList<String> getMuscleGroups() {
+        return muscleGroups;
+    }
+
+    public void setMuscleGroups(ArrayList<String> muscleGroups) {
+        this.muscleGroups = muscleGroups;
+    }
+
     private ArrayList<String> muscleGroups;
     private Context context;
     private String date;
@@ -101,11 +109,11 @@ public class MuscleGroupsAdapter extends RecyclerView.Adapter<MuscleGroupsAdapte
     class MuscleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView textView;
-
         public MuscleViewHolder(View itemView) {
             super(itemView);
 
             textView = (TextView) itemView.findViewById(R.id.muscleItem);
+            textView.setOnClickListener(this);
         }
 
         @Override
