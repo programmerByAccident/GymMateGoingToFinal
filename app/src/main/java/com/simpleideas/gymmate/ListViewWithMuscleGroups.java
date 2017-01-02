@@ -1,5 +1,6 @@
 package com.simpleideas.gymmate;
 
+import android.animation.Animator;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -76,6 +78,7 @@ public class ListViewWithMuscleGroups extends AppCompatActivity {
         ArrayList<String> muscleList = getMuscleGroups();
         muscleGroupsAdapter.setMuscleGroups(muscleList);
         muscleGroupsAdapter.notifyDataSetChanged();
+
     }
 
     @Override

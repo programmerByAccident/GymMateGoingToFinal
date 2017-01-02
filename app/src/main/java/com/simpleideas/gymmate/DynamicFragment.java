@@ -1,9 +1,13 @@
 package com.simpleideas.gymmate;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
@@ -102,8 +107,10 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
         recyclerViewOne = (RecyclerView) view.findViewById(R.id.recyclerViewOne);
         refreshButton = (FloatingActionButton) view.findViewById(R.id.fab_trigger_of_existance_false);
         refreshButton.setOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
+
                 setFabActions(difference);
             }
         });

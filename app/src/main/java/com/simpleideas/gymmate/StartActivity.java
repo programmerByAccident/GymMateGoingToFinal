@@ -118,13 +118,13 @@ public class StartActivity extends AppCompatActivity
         String[] groups = getMuscleGroups();
         HashMap<String, String[]> muscleMap = new HashMap<>();
 
-        String[] chest = {"Bench Press", "Incline Bench Press", "Flyes", "Pushups"};
-        String[] back = {"Pullups", "Deadlift", "Bentover row", "Cable Row"};
-        String[] legs = {"Squats", "Leg Press", "Leg Curls"};
-        String[] arms = {"Barbell Curl", "Cable Curl", "Hammer Curl"};
-        String[] shoulders = {"Military Press", "Arnold Press="};
+        String[] chest = {"Dumbbell Flyes", "Barbell Incline Bench Press", "Barbell Bench Press", "Dumbbell Bench Press", "Decline Dumbbell Flyes", "Incline Dumbbell Press"};
+        String[] back = {"Barbell Deadlift", "Bent-Over Barbell Deadlift", "Wide-Grip Pull-Up", "Standing T-Bar Row","Wide-Grip Seated Cable Row", "Reverse-Grip Smith Machine Row","Close-Grip Pull-Down","Single-Arm Dumbbell Row","Decline Bench Dumbbell Pull-Over","Single-Arm Smith Machine Row"};
+        String[] legs = {"Squat", "Front Squat", "Snatch","Power Clean","Deadlift","Bulgarian Split Squat","Hack Squat","Dumbbell Lunge","Leg Press","Romanian Deadlift","Machine Squat"};
+        String[] biceps = {"Standing Barbell Curl", "Standing Cable Curl", "Dumbbell Curl","Weighted Chin-Up","Reverse-Grip Barbell Row","Rope Hammer Curl","Incline-Bench Curl","Concentration Curl","Preacher Curl","Barbell Drag Curl"};
+        String[] shoulders = {"Barbell Push Press", "Barbell Standing Military Press","Dumbbell Standing Military Press","Dumbbell Incline Row","Seated Overhead Dumbbell Press","Seated Overhead Barbell Press","Upright Row","Arnold Press","Dumbbell Lateral Raise","Front Dumbbell Raise"};
 
-        muscleMap.put(Constants.ARMS, arms);
+        muscleMap.put(Constants.ARMS, biceps);
         muscleMap.put(Constants.BACK, back);
         muscleMap.put(Constants.CHEST, chest);
         muscleMap.put(Constants.LEGS, legs);
