@@ -1,5 +1,6 @@
 package com.simpleideas.gymmate;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -99,6 +101,20 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
         editor.putStringSet(Constants.GROUPS, muscleSet);
 
         editor.apply();
+
+        SharedPreferences newCategory = getActivity().getApplicationContext().getSharedPreferences(category, getActivity().getApplicationContext().MODE_PRIVATE);
+
+        SharedPreferences.Editor newCategoryEditor = newCategory.edit();
+
+        String[] categoryArray = new String[0];
+
+        Set<String> stringSet = new HashSet<String>(Arrays.asList(categoryArray));
+
+        newCategoryEditor.putStringSet(category, stringSet);
+
+        newCategoryEditor.apply();
+
+
 
     }
     private ArrayList<String> getInformation(String sharedPreference){

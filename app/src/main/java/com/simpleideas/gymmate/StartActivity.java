@@ -28,7 +28,7 @@ public class StartActivity extends AppCompatActivity
         implements DynamicFragment.DataSenderBetweenFragments {
 
 
-
+    HashMap<String, String[]> muscleMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,8 +115,9 @@ public class StartActivity extends AppCompatActivity
             editor.apply();
         }
 
+
         String[] groups = getMuscleGroups();
-        HashMap<String, String[]> muscleMap = new HashMap<>();
+        muscleMap = new HashMap<>();
 
         String[] chest = {"Dumbbell Flyes", "Barbell Incline Bench Press", "Barbell Bench Press", "Dumbbell Bench Press", "Decline Dumbbell Flyes", "Incline Dumbbell Press"};
         String[] back = {"Barbell Deadlift", "Bent-Over Barbell Deadlift", "Wide-Grip Pull-Up", "Standing T-Bar Row","Wide-Grip Seated Cable Row", "Reverse-Grip Smith Machine Row","Close-Grip Pull-Down","Single-Arm Dumbbell Row","Decline Bench Dumbbell Pull-Over","Single-Arm Smith Machine Row"};
@@ -142,7 +143,9 @@ public class StartActivity extends AppCompatActivity
             editor.apply();
 
         }
+
     }
+
 
 
 
