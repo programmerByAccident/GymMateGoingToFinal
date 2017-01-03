@@ -3,6 +3,8 @@ package com.simpleideas.gymmate;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +52,9 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
         String one = exercises.get(position).getExerciseName();
         String two = String.valueOf(exercises.get(position).getWeight());
         String three = String.valueOf(exercises.get(position).getRepetition());
-        holder.exercicseName.setText(one.toString());
+        SpannableString content = new SpannableString(one);
+        content.setSpan(new UnderlineSpan(), 0, one.length(), 0);
+        holder.exercicseName.setText(content);
         holder.repetitions.setText(two);
         holder.weight.setText(three);
 
@@ -90,7 +94,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
                 case R.id.deleteButton:
                     exercises.remove(getAdapterPosition());
-                    databaseHelper.deleteRecord(dateString, exercicseName.getText().toString(), repetitions.getText().toString(), weight.getText().toString());
+                    //databaseHelper.deleteRecord(dateString, exercicseName.getText().toString(), repetitions.getText().toString(), weight.getText().toString());
                     notifyItemRemoved(getAdapterPosition());
 
             }

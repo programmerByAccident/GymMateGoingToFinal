@@ -119,14 +119,7 @@ public class ListViewWithMuscleGroups extends AppCompatActivity {
 
             case R.id.action_addition:
 
-                //dialogForAddingContent.show(getSupportFragmentManager(), "tag");
-                Dialog dialog = new Dialog(this);
-
-                dialog.setContentView(R.layout.dialog_fragment);
-
-                dialog.show();
-
-                Toast.makeText(this, "addition", Toast.LENGTH_SHORT).show();
+                dialogForAddingContent.show(getSupportFragmentManager(), "tag");
 
         }
 

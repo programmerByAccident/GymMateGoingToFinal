@@ -9,8 +9,11 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -27,6 +30,8 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
     private ImageButton addCategories;
     private String preferences;
     private EditText newCategory;
+    private Spinner chooseCategory;
+    private SpinnerAdapter spinnerAdapter;
 
     public static DialogForAddingContent newInstance(String sharedPreferencesType){
 
@@ -46,10 +51,14 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view;
         view = inflater.inflate(R.layout.dialog_fragment, container, false);
-
-        addCategories = (ImageButton) view.findViewById(R.id.insert_muscle_group);
+        //addCategories = (ImageButton) view.findViewById(R.id.insert_muscle_group);
         newCategory = (EditText) view.findViewById(R.id.muscle_group);
-        addCategories.setOnClickListener(this);
+        chooseCategory = (Spinner) view.findViewById(R.id.categorySpinner);
+        ArrayList<String> elementsForSpinner = getInformation(Constants.GROUPS);
+        elementsForSpinner.add(0, "");
+        spinnerAdapter = new SpinnerAdapter(getContext(),elementsForSpinner);
+        chooseCategory.setAdapter(spinnerAdapter);
+        //addCategories.setOnClickListener(this);
         return view;
     }
 
@@ -69,11 +78,11 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
     public void onClick(View view) {
         switch (view.getId()){
 
-            case R.id.insert_muscle_group:
-
-                modifySharedPreferenes(newCategory.getText().toString());
-
-                break;
+//            case R.id.insert_muscle_group:
+//
+//                modifySharedPreferenes(newCategory.getText().toString());
+//
+//                break;
 
 
         }
@@ -114,9 +123,8 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
 
         newCategoryEditor.apply();
 
-
-
     }
+
     private ArrayList<String> getInformation(String sharedPreference){
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
