@@ -99,6 +99,26 @@ public class DatabaseHelper {
 
     }
 
+    public ArrayList<String> getDaysWithWorkout(){
+
+        sqLiteDatabase = databaseManager.getWritableDatabase();
+
+        ArrayList<String> listToReturn = new ArrayList<>();
+
+        String[] columns = {"DIFFERENCE"};
+
+        Cursor cursor = sqLiteDatabase.query(Constants.first_table, columns,null,null,null,null,null,null);
+
+        while(cursor.moveToNext()){
+
+            String date = cursor.getString(cursor.getColumnIndex("Difference"));
+
+            listToReturn.add(date);
+        }
+
+        return listToReturn;
+    }
+
     public ArrayList<ExerciseTemplate> getAllExercises(String difference){
 
         sqLiteDatabase = databaseManager.getWritableDatabase();

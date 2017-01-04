@@ -1,17 +1,57 @@
 package com.simpleideas.gymmate;
 
-import android.content.Context;
-import android.widget.CalendarView;
+import android.content.Intent;
+import android.icu.util.Calendar;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.CalendarMode;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+
+import java.util.ArrayList;
 
 /**
- * Created by Geprge on 10/2/2016.
+ * Created by George Ciopei on 1/3/2017.
  */
-public class CalendarViewCustomized extends CalendarView {
 
-    public CalendarViewCustomized(Context context) {
-        super(context);
+public class CalendarViewCustomized extends AppCompatActivity {
+
+
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.material_calendar);
+
+        MaterialCalendarView materialCalendarView = (MaterialCalendarView) findViewById(R.id.calendarView);
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+
+        ArrayList<String> dates = databaseHelper.getDaysWithWorkout();
+
+        DayWithWorkout dayWithWorkout = new DayWithWorkout(dates);
+
+        materialCalendarView.state().edit()
+                .setFirstDayOfWeek(Calendar.WEDNESDAY)
+                .setMinimumDate(CalendarDay.from(2000, 4, 3))
+                .setMaximumDate(CalendarDay.from(2100, 5, 12))
+                .setCalendarDisplayMode(CalendarMode.MONTHS)
+                .commit();
+
+
+        materialCalendarView.addDecorator(dayWithWorkout);
+
+        materialCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+
+                Intent intent = new Intent(CalendarViewCustomized.this, StartActivity.class);
+                startActivity(intent);
+            }
+        });
     }
-
-
-
 }

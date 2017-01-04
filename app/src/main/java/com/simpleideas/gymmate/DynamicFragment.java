@@ -121,7 +121,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
         //dapter = new LetsMakeAnAdapter(getActivity(), arrayList);
 
 
-        }
+    }
 
     private void populateWithData(View view, LayoutInflater inflater, ViewGroup container, Bundle savedState, int difference  ){
 
