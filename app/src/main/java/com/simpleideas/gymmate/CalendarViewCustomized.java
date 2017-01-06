@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
+import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
@@ -52,11 +53,19 @@ public class CalendarViewCustomized extends AppCompatActivity {
 
     private void customizeMaterialCalendarView(MaterialCalendarView calendarView){
 
+        ArrayList<DayViewDecorator> collectionOfDecorators = new ArrayList<>();
+
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         ArrayList<String> dates = databaseHelper.getDaysWithWorkout();
         DayWithWorkout dayWithWorkout = new DayWithWorkout(this,dates, calendarView.getWidth(), calendarView.getHeight());
+        AllDaysSelector allDaysSelector = new AllDaysSelector(this);
 
-        calendarView.addDecorator(dayWithWorkout);
+        collectionOfDecorators.add(dayWithWorkout);
+        collectionOfDecorators.add(allDaysSelector);
+
+        //calendarView.addDecorator(dayWithWorkout);
+
+        calendarView.addDecorators(collectionOfDecorators);
 
     }
 }
