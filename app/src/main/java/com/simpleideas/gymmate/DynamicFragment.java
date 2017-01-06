@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,6 +61,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
         makeConnectionToTheInterface();
 
         dateString = getArguments().getString("DATEString");
+
         //Toast.makeText(getActivity().getApplicationContext(), dateString, Toast.LENGTH_SHORT).show();
         //triggerOfExistance = getArguments().getBoolean(Constants.TRIGGER_EXISTANCE);
         difference = getArguments().getInt("Difference");

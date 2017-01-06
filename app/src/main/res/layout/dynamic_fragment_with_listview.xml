@@ -7,6 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recyclerViewOne"></android.support.v7.widget.RecyclerView>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_trigger_of_existance_false"
         android:layout_width="wrap_content"
@@ -17,6 +18,7 @@
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom|right"
         android:src="@drawable/ic_pencil_white_24dp" />
+
     <!--<ListView-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"-->

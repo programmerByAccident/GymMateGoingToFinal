@@ -33,4 +33,5 @@ dependencies {
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.android.support:recyclerview-v7:24.2.1'
     compile 'com.prolificinteractive:material-calendarview:1.4.2'
+    //compile 'com.nshmura:recyclertablayout:1.1.0'
 }

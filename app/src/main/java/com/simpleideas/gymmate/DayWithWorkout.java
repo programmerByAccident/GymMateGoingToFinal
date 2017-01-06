@@ -1,8 +1,17 @@
 package com.simpleideas.gymmate;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.Shape;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.ColorUtils;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -20,16 +29,20 @@ import java.util.Locale;
  * Created by George Ciopei on 1/4/2017.
  */
 
-public class DayWithWorkout  implements DayViewDecorator {
+public class DayWithWorkout implements DayViewDecorator {
 
     ArrayList<String> parseToDate;
     private Drawable color;
+    private int width, height;
+    private Context context;
 
-    public DayWithWorkout(ArrayList<String> parseToDate){
+    public DayWithWorkout(Context context,ArrayList<String> parseToDate, int width, int height){
 
         this.parseToDate = parseToDate;
         color = new ColorDrawable(Color.BLUE);
-
+        this.width = width;
+        this.context = context;
+        this.height = height;
     }
 
 
@@ -63,6 +76,11 @@ public class DayWithWorkout  implements DayViewDecorator {
     @Override
     public void decorate(DayViewFacade view) {
 
-        view.setBackgroundDrawable(color);
+        Drawable circle = ContextCompat.getDrawable(context,R.drawable.circle);
+        GradientDrawable gradientDrawable = (GradientDrawable) circle;
+
+        gradientDrawable.setColor(Color.GREEN);
+
+        view.setBackgroundDrawable(gradientDrawable);
     }
 }

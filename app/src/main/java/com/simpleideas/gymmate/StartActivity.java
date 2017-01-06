@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+//import com.nshmura.recyclertablayout.RecyclerTabLayout;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -186,6 +189,9 @@ public class StartActivity extends AppCompatActivity
         EndlessPagerAdapter adapter = new EndlessPagerAdapter(getSupportFragmentManager(), getApplicationContext());
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(50000,false);
+
+//        RecyclerTabLayout tabLayout = (RecyclerTabLayout) findViewById(R.id.recycler_tab_layout);
+//        tabLayout.setUpWithViewPager(viewPager);
     }
 
     private void setupActionBar(){

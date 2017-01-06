@@ -29,11 +29,6 @@ public class CalendarViewCustomized extends AppCompatActivity {
 
         MaterialCalendarView materialCalendarView = (MaterialCalendarView) findViewById(R.id.calendarView);
 
-        DatabaseHelper databaseHelper = new DatabaseHelper(this);
-
-        ArrayList<String> dates = databaseHelper.getDaysWithWorkout();
-
-        DayWithWorkout dayWithWorkout = new DayWithWorkout(dates);
 
         materialCalendarView.state().edit()
                 .setFirstDayOfWeek(Calendar.WEDNESDAY)
@@ -43,7 +38,7 @@ public class CalendarViewCustomized extends AppCompatActivity {
                 .commit();
 
 
-        materialCalendarView.addDecorator(dayWithWorkout);
+        customizeMaterialCalendarView(materialCalendarView);
 
         materialCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
@@ -53,5 +48,15 @@ public class CalendarViewCustomized extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void customizeMaterialCalendarView(MaterialCalendarView calendarView){
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        ArrayList<String> dates = databaseHelper.getDaysWithWorkout();
+        DayWithWorkout dayWithWorkout = new DayWithWorkout(this,dates, calendarView.getWidth(), calendarView.getHeight());
+
+        calendarView.addDecorator(dayWithWorkout);
+
     }
 }
