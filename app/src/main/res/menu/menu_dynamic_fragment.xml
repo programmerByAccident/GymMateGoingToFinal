@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".StartActivity">
+    <!--<item-->
+        <!--android:title="navigationDrawerOpen"-->
+        <!--android:icon="@drawable/ic_menu_white_24dp"-->
+        <!--android:showAsAction="always"-->
+        <!--app:showAsAction="always">-->
+
+    <!--</item>-->
     <item
         android:title="@string/search"
         android:icon="@drawable/ic_search_white_24dp"

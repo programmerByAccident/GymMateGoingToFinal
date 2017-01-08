@@ -34,11 +34,11 @@ public class Constants {
 
     // SharedPreferences names
 
-    public static String CHEST = "chest";
-    public static String BACK = "back";
-    public static String LEGS = "legs";
-    public static String SHOULDERS = "shoulders";
-    public static String ARMS = "arms";
+    public static String CHEST = "Chest";
+    public static String BACK = "Back";
+    public static String LEGS = "Legs";
+    public static String SHOULDERS = "Shoulders";
+    public static String ARMS = "Arms";
     public static final String SHARED_PREFERENCES = "SharedPreferences";
 
 }
