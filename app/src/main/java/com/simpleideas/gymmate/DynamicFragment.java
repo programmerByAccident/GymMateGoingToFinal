@@ -89,11 +89,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
 
         databaseManager = new DatabaseHelper(getContext());
         ArrayList<ExerciseTemplate> onResumeData = databaseManager.getAllExercises(dateString);
-        if(onResumeData.size() > 0){
 
-            refreshButton.setVisibility(View.INVISIBLE);
-
-        }
         CustomRecyclerViewAdapter customRecyclerViewAdapter2;
         customRecyclerViewAdapter2= new CustomRecyclerViewAdapter(getContext(), databaseManager.getAllExercises(dateString),dateString);
         recyclerViewOne.setAdapter(customRecyclerViewAdapter2);
@@ -327,6 +323,8 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
 
 
     }
+
+
 
 }
 

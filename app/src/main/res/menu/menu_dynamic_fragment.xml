@@ -11,12 +11,14 @@
 
     <!--</item>-->
     <item
-        android:title="@string/search"
-        android:icon="@drawable/ic_search_white_24dp"
-        app:showAsAction="always"/>
-    <item
         android:title="@string/current"
         android:icon="@drawable/ic_date_range_white_24dp"
         android:id="@+id/material_calendar_view"
         app:showAsAction="always"/>
+    <item
+        android:title="@string/search"
+        android:icon="@drawable/ic_adjust_white_24dp"
+        android:id="@+id/adjustViewPager"
+        app:showAsAction="always"/>
+
 </menu>

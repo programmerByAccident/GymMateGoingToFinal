@@ -30,7 +30,7 @@ public class StartActivity extends AppCompatActivity
 
 
     HashMap<String, String[]> muscleMap;
-
+    ViewPager viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +86,9 @@ public class StartActivity extends AppCompatActivity
                 startActivity(intent);
 
                 break;
+
+            case R.id.adjustViewPager:
+                viewPager.setCurrentItem(50000);
 
 
         }
@@ -190,7 +193,7 @@ public class StartActivity extends AppCompatActivity
 
 
     private void setupPagerAdapter(){
-        ViewPager viewPager;
+
         viewPager = (ViewPager)findViewById(R.id.view_pager_main_activity);
         EndlessPagerAdapter adapter = new EndlessPagerAdapter(getSupportFragmentManager(), getApplicationContext());
         viewPager.setAdapter(adapter);
@@ -212,7 +215,16 @@ public class StartActivity extends AppCompatActivity
             @Override
             public void onPageScrollStateChanged(int state) {
 
-                DynamicFragment.showFAB();
+                //DynamicFragment.showFAB();
+                switch (state){
+                    case ViewPager.SCROLL_STATE_IDLE:
+                        DynamicFragment.showFAB();
+                        break;
+                    case ViewPager.SCROLL_STATE_DRAGGING:
+                    case ViewPager.SCROLL_STATE_SETTLING:
+                        DynamicFragment.hideFAB();
+                        break;
+                }
             }
         });
 
@@ -224,8 +236,6 @@ public class StartActivity extends AppCompatActivity
         Toolbar toolbar;
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void callPhpScript(){
