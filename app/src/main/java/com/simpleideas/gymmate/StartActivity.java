@@ -198,6 +198,8 @@ public class StartActivity extends AppCompatActivity
         Toolbar toolbar;
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void callPhpScript(){

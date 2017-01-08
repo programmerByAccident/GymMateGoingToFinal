@@ -1,6 +1,7 @@
 package com.simpleideas.gymmate;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -35,9 +36,11 @@ public class AllDaysSelector implements DayViewDecorator {
         Drawable circle = ContextCompat.getDrawable(context,R.drawable.circle);
         GradientDrawable gradientDrawable = (GradientDrawable) circle;
 
-        gradientDrawable.setColor(Color.TRANSPARENT);
+        gradientDrawable.setColor(Color.LTGRAY);
 
         view.setSelectionDrawable(gradientDrawable);
+        gradientDrawable.setColor(Color.GREEN);
+        view.setBackgroundDrawable(gradientDrawable);
 
     }
 }
