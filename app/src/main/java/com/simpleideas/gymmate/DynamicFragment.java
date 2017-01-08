@@ -51,7 +51,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
     private LetsMakeAnAdapter adapter;
     private  RecyclerView recyclerViewOne;
     private CustomRecyclerViewAdapter customRecyclerViewAdapter;
-    private FloatingActionButton refreshButton;
+    private static FloatingActionButton refreshButton;
     ArrayList<ExerciseTemplate> arrayList;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,6 +70,8 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
         arrayList=databaseManager.getAllExercises(dateString);
         customRecyclerViewAdapter = new CustomRecyclerViewAdapter(getContext(),arrayList, dateString);
     }
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -98,7 +100,16 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
         Log.d("Here", "After transaction");
 
     }
+    public static void hideFAB(){
 
+        refreshButton.hide();
+
+    }
+
+    public static void showFAB(){
+
+        refreshButton.show();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 

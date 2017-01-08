@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 
 //import com.nshmura.recyclertablayout.RecyclerTabLayout;
 
@@ -189,6 +191,26 @@ public class StartActivity extends AppCompatActivity
         EndlessPagerAdapter adapter = new EndlessPagerAdapter(getSupportFragmentManager(), getApplicationContext());
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(50000,false);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                DynamicFragment.hideFAB();
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                DynamicFragment.hideFAB();
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+                DynamicFragment.showFAB();
+            }
+        });
 
 //        RecyclerTabLayout tabLayout = (RecyclerTabLayout) findViewById(R.id.recycler_tab_layout);
 //        tabLayout.setUpWithViewPager(viewPager);

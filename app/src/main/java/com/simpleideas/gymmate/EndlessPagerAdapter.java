@@ -15,9 +15,6 @@ public class EndlessPagerAdapter extends FragmentStatePagerAdapter {
     private int get_count_return_value = 100000;
     Context context;
 
-    public static void setCurrentPosition(){
-
-    }
 
     public EndlessPagerAdapter(FragmentManager fm, Context context) {
         super(fm);

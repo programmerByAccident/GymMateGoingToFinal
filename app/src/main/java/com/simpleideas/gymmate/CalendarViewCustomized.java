@@ -61,7 +61,7 @@ public class CalendarViewCustomized extends AppCompatActivity {
         AllDaysSelector allDaysSelector = new AllDaysSelector(this);
 
         collectionOfDecorators.add(dayWithWorkout);
-        collectionOfDecorators.add(allDaysSelector);
+        //collectionOfDecorators.add(allDaysSelector);
 
         //calendarView.addDecorator(dayWithWorkout);
 

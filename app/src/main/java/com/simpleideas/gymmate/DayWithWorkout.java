@@ -79,7 +79,7 @@ public class DayWithWorkout implements DayViewDecorator {
         Drawable circle = ContextCompat.getDrawable(context,R.drawable.circle);
         GradientDrawable gradientDrawable = (GradientDrawable) circle;
 
-        gradientDrawable.setColor(Color.GREEN);
+        gradientDrawable.setColor(Color.LTGRAY);
 
         view.setBackgroundDrawable(gradientDrawable);
     }
