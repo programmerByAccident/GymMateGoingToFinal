@@ -20,10 +20,18 @@ import android.view.View;
 
 //import com.nshmura.recyclertablayout.RecyclerTabLayout;
 
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TimeZone;
+
+import hirondelle.date4j.DateTime;
 
 public class StartActivity extends AppCompatActivity
         implements DynamicFragment.DataSenderBetweenFragments {
@@ -191,6 +199,10 @@ public class StartActivity extends AppCompatActivity
 
     }
 
+    public int getViewPagerPosition(){
+
+        return viewPager.getCurrentItem();
+    }
 
     private void setupPagerAdapter(){
 
@@ -198,6 +210,9 @@ public class StartActivity extends AppCompatActivity
         EndlessPagerAdapter adapter = new EndlessPagerAdapter(getSupportFragmentManager(), getApplicationContext());
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(50000,false);
+
+
+
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -221,9 +236,12 @@ public class StartActivity extends AppCompatActivity
                         DynamicFragment.showFAB();
                         break;
                     case ViewPager.SCROLL_STATE_DRAGGING:
+                        DynamicFragment.hideFAB();
+                        break;
                     case ViewPager.SCROLL_STATE_SETTLING:
                         DynamicFragment.hideFAB();
                         break;
+
                 }
             }
         });

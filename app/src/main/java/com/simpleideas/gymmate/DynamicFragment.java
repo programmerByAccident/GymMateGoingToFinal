@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -114,6 +115,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
         date.setTime(currentDate);
 
         view = inflater.inflate(R.layout.dynamic_fragment_with_listview, container, false);
+        setTextWithCurrentItem();
         recyclerViewOne = (RecyclerView) view.findViewById(R.id.recyclerViewOne);
         refreshButton = (FloatingActionButton) view.findViewById(R.id.fab_trigger_of_existance_false);
         refreshButton.setOnClickListener(new View.OnClickListener() {
@@ -125,11 +127,31 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
             }
         });
 
+
+
         recyclerViewOne.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewOne.setAdapter(customRecyclerViewAdapter);
         return view;
         //dapter = new LetsMakeAnAdapter(getActivity(), arrayList);
 
+
+    }
+
+    public void setTextWithCurrentItem(){
+
+       int difference = ((StartActivity)getActivity()).getViewPagerPosition();
+        int result = difference - 50000;
+
+        org.joda.time.DateTime dateTime = org.joda.time.DateTime.now(DateTimeZone.forTimeZone(TimeZone.getDefault()));
+        org.joda.time.DateTime current_date = dateTime.plusDays(result);
+        Date normalDate = current_date.toDate();
+
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("E d MMMM yyyy");
+        String str;
+
+        str = fmt.print(current_date);
+
+        ((StartActivity)getActivity()).setTitle(str);
 
     }
 
