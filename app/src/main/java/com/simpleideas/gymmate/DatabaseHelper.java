@@ -6,6 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by George Ciopei on 12/12/2016.
@@ -164,4 +168,89 @@ public class DatabaseHelper {
         return arrayToReturn;
     }
 
+    public ArrayList getAllExercisesMapped(String difference){
+
+        sqLiteDatabase = databaseManager.getWritableDatabase();
+
+        ArrayList<ExerciseTemplate> arrayToReturn = new ArrayList<>();
+
+        String searchItem = String.valueOf(difference);
+        String[] columns = {"Difference", "Exercise", "Weight", "Repetitions"};
+        String selection = "Difference=?";
+        String[] selectionArgs = {searchItem};
+
+        Cursor cursor = sqLiteDatabase.query(Constants.first_table, columns, selection, selectionArgs, null,null,null);
+
+//        if(cursor!=null){
+//            cursor.moveToFirst();
+//        }
+
+        int exerciseIndex = cursor.getColumnIndexOrThrow("Exercise");
+        int differenceIndex = cursor.getColumnIndexOrThrow("Difference");
+        int weightIndex = cursor.getColumnIndex("Weight");
+        int repsIndex = cursor.getColumnIndex("Repetitions");
+
+        try {
+            while (cursor.moveToNext()){
+
+                String exerciseName = cursor.getString(exerciseIndex);
+                int differenceI = cursor.getInt(differenceIndex);
+                float weight = cursor.getFloat(weightIndex);
+                int reps = cursor.getInt(repsIndex);
+
+                ExerciseTemplate exerciseTemplate = new ExerciseTemplate(exerciseName,differenceI, reps, weight);
+
+                arrayToReturn.add(exerciseTemplate);
+            }
+
+            //cursor.close();
+
+        } finally {
+            cursor.close();
+            sqLiteDatabase.close();
+        }
+
+
+        HashMap<String, ArrayList<String>> map = new HashMap<>();
+
+        ArrayList<String> keyPopulated = new ArrayList<>();
+
+        for (ExerciseTemplate exerciseTemplate:
+                arrayToReturn) {
+            if(keyPopulated.contains(exerciseTemplate.getExerciseName())== false){
+
+                keyPopulated.add(exerciseTemplate.getExerciseName());
+            }
+        }
+
+
+        ArrayList<HashMap<String, ArrayList>> finalList = new ArrayList<>();
+        for (String key:
+                keyPopulated) {
+            HashMap<String, String> keyMap = new HashMap<>();
+            HashMap<String, ArrayList> wtf = new HashMap<>();
+            HashMap<String, HashMap> finalMap = new HashMap<>();
+            ArrayList<HashMap<String,String>> temporaryList = new ArrayList<>();
+            for(int index =0; index<arrayToReturn.size();index++){
+
+                if(arrayToReturn.get(index).getExerciseName() == key){
+                    keyMap.put(String.valueOf(arrayToReturn.get(index).getWeight()), String.valueOf(arrayToReturn.get(index).getRepetition()));
+
+                    temporaryList.add(keyMap);
+                }
+
+            }
+
+            wtf.put(key, temporaryList);
+            finalList.add(wtf);
+        }
+        return finalList;
+
+
+
+
+
+
+
+    }
 }

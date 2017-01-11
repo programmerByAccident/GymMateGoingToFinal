@@ -68,7 +68,8 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
         difference = getArguments().getInt("Difference");
         currentDate = getArguments().getLong("DATE");
         databaseManager = new DatabaseHelper(getContext());
-        arrayList=databaseManager.getAllExercises(dateString);
+        //rrayList=databaseManager.getAllExercises(dateString);
+        arrayList=databaseManager.getAllExercisesMapped(dateString);
         customRecyclerViewAdapter = new CustomRecyclerViewAdapter(getContext(),arrayList, dateString);
     }
 
@@ -92,7 +93,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
         ArrayList<ExerciseTemplate> onResumeData = databaseManager.getAllExercises(dateString);
 
         CustomRecyclerViewAdapter customRecyclerViewAdapter2;
-        customRecyclerViewAdapter2= new CustomRecyclerViewAdapter(getContext(), databaseManager.getAllExercises(dateString),dateString);
+        customRecyclerViewAdapter2= new CustomRecyclerViewAdapter(getContext(), databaseManager.getAllExercisesMapped(dateString),dateString);
         recyclerViewOne.setAdapter(customRecyclerViewAdapter2);
         Log.d("Here", "After transaction");
 

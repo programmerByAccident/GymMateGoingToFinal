@@ -11,9 +11,13 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Geprge on 12/18/2016.
@@ -49,14 +53,19 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
 
-        String one = exercises.get(position).getExerciseName();
-        String two = String.valueOf(exercises.get(position).getWeight());
-        String three = String.valueOf(exercises.get(position).getRepetition());
-        SpannableString content = new SpannableString(one);
-        content.setSpan(new UnderlineSpan(), 0, one.length(), 0);
-        holder.exercicseName.setText(content);
-        holder.repetitions.setText(two);
-        holder.weight.setText(three);
+
+
+
+
+
+//        String one = exercises.get(position).getExerciseName();
+//        String two = String.valueOf(exercises.get(position).getWeight());
+//        String three = String.valueOf(exercises.get(position).getRepetition());
+//        SpannableString content = new SpannableString(one);
+//        content.setSpan(new UnderlineSpan(), 0, one.length(), 0);
+        holder.exercicseName.setText(String.valueOf(exercises.size()));
+        holder.repetitions.setText(exercises.size() + " reps" + "\n" + exercises.size() + " reps" + "\n"+exercises.size() + " reps");
+        holder.weight.setText(exercises.size() +" weight" +"\n" + exercises.size() +" weight" + "\n" + exercises.size() +" weight");
 
     }
 
@@ -82,6 +91,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
             exercicseName = (TextView) itemView.findViewById(R.id.exerciseNameViewWTF);
             repetitions = (TextView) itemView.findViewById(R.id.exerciseNameViewWTFReps);
             weight = (TextView) itemView.findViewById(R.id.exerciseNameViewWTFWeights);
+
             imageButton = (ImageButton) itemView.findViewById(R.id.deleteButton);
             imageButton.setOnClickListener(this);
 
