@@ -156,6 +156,16 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
 
     }
 
+    public void parseExerciseTemplateArrayListAndAdapt(ArrayList<ExerciseTemplate> exercises){
+
+        String[] keys = null;
+        for (ExerciseTemplate exercise:
+             exercises) {
+
+        }
+
+    }
+
     private void populateWithData(View view, LayoutInflater inflater, ViewGroup container, Bundle savedState, int difference  ){
 
         view = inflater.inflate(R.layout.dynamic_fragment_with_listview, container, false);

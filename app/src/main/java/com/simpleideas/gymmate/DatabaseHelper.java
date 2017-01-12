@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -227,22 +228,45 @@ public class DatabaseHelper {
         ArrayList<HashMap<String, ArrayList>> finalList = new ArrayList<>();
         for (String key:
                 keyPopulated) {
-            HashMap<String, String> keyMap = new HashMap<>();
+
             HashMap<String, ArrayList> wtf = new HashMap<>();
             HashMap<String, HashMap> finalMap = new HashMap<>();
             ArrayList<HashMap<String,String>> temporaryList = new ArrayList<>();
-            for(int index =0; index<arrayToReturn.size();index++){
+            ArrayList<String> weight = new ArrayList<>();
+            ArrayList<String> reps = new ArrayList<>();
+            int counter = 0;
+            for (ExerciseTemplate exerciseTemplate:
+                 arrayToReturn) {
+                Log.d("exerciseTemplateName", exerciseTemplate.getExerciseName());
+                Log.d("key", key);
 
-                if(arrayToReturn.get(index).getExerciseName() == key){
-                    keyMap.put(String.valueOf(arrayToReturn.get(index).getWeight()), String.valueOf(arrayToReturn.get(index).getRepetition()));
-
-                    temporaryList.add(keyMap);
+                if(exerciseTemplate.getExerciseName() == key){
+                    weight.add(counter, String.valueOf(exerciseTemplate.getWeight()));
+                    counter++;
+//                    HashMap<String, String> keyMap = new HashMap<>();
+//                    keyMap.put(String.valueOf(exerciseTemplate.getWeight()), String.valueOf(exerciseTemplate.getRepetition()));
                 }
 
             }
 
+            Log.d("temporaryList", String.valueOf(weight.size()));
+            Log.d("Counter value ", String.valueOf(counter));
             wtf.put(key, temporaryList);
             finalList.add(wtf);
+//            for(int index = 0; index < arrayToReturn.size(); index++){
+//
+//                if(String.valueOf(arrayToReturn.get(index).getExerciseName()) == key){
+//                    keyMap.put(String.valueOf(arrayToReturn.get(index).getWeight()), String.valueOf(arrayToReturn.get(index).getRepetition()));
+//                    String weightValue = String.valueOf(arrayToReturn.get(index).getWeight());
+//                    String repValue = String.valueOf(arrayToReturn.get(index).getRepetition());
+//                    weight.add(weightValue);
+//                    reps.add(repValue);
+//                    temporaryList.add(keyMap);
+//                }
+//
+//            }
+
+
         }
         return finalList;
 
