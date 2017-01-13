@@ -240,15 +240,16 @@ public class DatabaseHelper {
                 Log.d("exerciseTemplateName", exerciseTemplate.getExerciseName());
                 Log.d("key", key);
 
-                if(exerciseTemplate.getExerciseName() == key){
-                    weight.add(counter, String.valueOf(exerciseTemplate.getWeight()));
-                    counter++;
-//                    HashMap<String, String> keyMap = new HashMap<>();
-//                    keyMap.put(String.valueOf(exerciseTemplate.getWeight()), String.valueOf(exerciseTemplate.getRepetition()));
+                if(exerciseTemplate.getExerciseName().equals(key)){
+//                    weight.add(counter, String.valueOf(exerciseTemplate.getWeight()));
+//                    counter++;
+                    HashMap<String, String> keyMap = new HashMap<>();
+                    keyMap.put(String.valueOf(exerciseTemplate.getWeight()), String.valueOf(exerciseTemplate.getRepetition()));
+                    temporaryList.add(keyMap);
                 }
 
             }
-
+            weight.size();
             Log.d("temporaryList", String.valueOf(weight.size()));
             Log.d("Counter value ", String.valueOf(counter));
             wtf.put(key, temporaryList);
