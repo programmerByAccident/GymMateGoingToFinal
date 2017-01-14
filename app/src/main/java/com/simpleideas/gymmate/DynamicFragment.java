@@ -53,7 +53,8 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
     private  RecyclerView recyclerViewOne;
     private CustomRecyclerViewAdapter customRecyclerViewAdapter;
     private static FloatingActionButton refreshButton;
-    ArrayList<ExerciseTemplate> arrayList;
+    //ArrayList<ExerciseTemplate> arrayList;
+    ArrayList<ExerciseTagInformation> arrayList;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

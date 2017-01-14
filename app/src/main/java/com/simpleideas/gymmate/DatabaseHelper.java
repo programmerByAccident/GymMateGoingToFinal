@@ -169,7 +169,7 @@ public class DatabaseHelper {
         return arrayToReturn;
     }
 
-    public ArrayList getAllExercisesMapped(String difference){
+    public ArrayList<ExerciseTagInformation> getAllExercisesMapped(String difference){
 
         sqLiteDatabase = databaseManager.getWritableDatabase();
 
@@ -181,10 +181,6 @@ public class DatabaseHelper {
         String[] selectionArgs = {searchItem};
 
         Cursor cursor = sqLiteDatabase.query(Constants.first_table, columns, selection, selectionArgs, null,null,null);
-
-//        if(cursor!=null){
-//            cursor.moveToFirst();
-//        }
 
         int exerciseIndex = cursor.getColumnIndexOrThrow("Exercise");
         int differenceIndex = cursor.getColumnIndexOrThrow("Difference");
@@ -211,9 +207,6 @@ public class DatabaseHelper {
             sqLiteDatabase.close();
         }
 
-
-        HashMap<String, ArrayList<String>> map = new HashMap<>();
-
         ArrayList<String> keyPopulated = new ArrayList<>();
 
         for (ExerciseTemplate exerciseTemplate:
@@ -225,51 +218,36 @@ public class DatabaseHelper {
         }
 
 
-        ArrayList<HashMap<String, ArrayList>> finalList = new ArrayList<>();
+        ArrayList<ExerciseTagInformation> exercisesMapped = new ArrayList<>();
+
         for (String key:
                 keyPopulated) {
 
-            HashMap<String, ArrayList> wtf = new HashMap<>();
-            HashMap<String, HashMap> finalMap = new HashMap<>();
-            ArrayList<HashMap<String,String>> temporaryList = new ArrayList<>();
-            ArrayList<String> weight = new ArrayList<>();
-            ArrayList<String> reps = new ArrayList<>();
+            ExerciseTagInformation exerciseTagInformation = new ExerciseTagInformation();
+            ArrayList<String> weights = new ArrayList<>();
+            ArrayList<String> repetitions = new ArrayList<>();
+            exerciseTagInformation.setTAG(key);
             int counter = 0;
+
             for (ExerciseTemplate exerciseTemplate:
                  arrayToReturn) {
-                Log.d("exerciseTemplateName", exerciseTemplate.getExerciseName());
-                Log.d("key", key);
 
                 if(exerciseTemplate.getExerciseName().equals(key)){
-//                    weight.add(counter, String.valueOf(exerciseTemplate.getWeight()));
-//                    counter++;
-                    HashMap<String, String> keyMap = new HashMap<>();
-                    keyMap.put(String.valueOf(exerciseTemplate.getWeight()), String.valueOf(exerciseTemplate.getRepetition()));
-                    temporaryList.add(keyMap);
+
+                    weights.add(counter, String.valueOf(exerciseTemplate.getWeight()));
+                    repetitions.add(counter, String.valueOf(exerciseTemplate.getRepetition()));
+                    counter++;
                 }
 
             }
-            weight.size();
-            Log.d("temporaryList", String.valueOf(weight.size()));
-            Log.d("Counter value ", String.valueOf(counter));
-            wtf.put(key, temporaryList);
-            finalList.add(wtf);
-//            for(int index = 0; index < arrayToReturn.size(); index++){
-//
-//                if(String.valueOf(arrayToReturn.get(index).getExerciseName()) == key){
-//                    keyMap.put(String.valueOf(arrayToReturn.get(index).getWeight()), String.valueOf(arrayToReturn.get(index).getRepetition()));
-//                    String weightValue = String.valueOf(arrayToReturn.get(index).getWeight());
-//                    String repValue = String.valueOf(arrayToReturn.get(index).getRepetition());
-//                    weight.add(weightValue);
-//                    reps.add(repValue);
-//                    temporaryList.add(keyMap);
-//                }
-//
-//            }
 
+            exerciseTagInformation.setWeight(weights);
+            exerciseTagInformation.setRepetition(repetitions);
 
+            exercisesMapped.add(exerciseTagInformation);
         }
-        return finalList;
+
+        return exercisesMapped;
 
 
 

@@ -25,12 +25,12 @@ import java.util.Map;
 
 public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.CustomViewHolder>{
 
-    private List<ExerciseTemplate> exercises = Collections.emptyList();
+    private List<ExerciseTagInformation> exercises = Collections.emptyList();
     private LayoutInflater inflater;
     DatabaseHelper databaseHelper;
     private String dateString;
 
-    public CustomRecyclerViewAdapter(Context context, ArrayList<ExerciseTemplate> exercises, String dateString){
+    public CustomRecyclerViewAdapter(Context context, ArrayList<ExerciseTagInformation> exercises, String dateString){
 
         this.exercises = exercises;
         this.dateString = dateString;
@@ -63,9 +63,24 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 //        String three = String.valueOf(exercises.get(position).getRepetition());
 //        SpannableString content = new SpannableString(one);
 //        content.setSpan(new UnderlineSpan(), 0, one.length(), 0);
-        holder.exercicseName.setText(String.valueOf(exercises.size()));
-        holder.repetitions.setText(exercises.size() + " reps" + "\n" + exercises.size() + " reps" + "\n"+exercises.size() + " reps");
-        holder.weight.setText(exercises.size() +" weight" +"\n" + exercises.size() +" weight" + "\n" + exercises.size() +" weight");
+        holder.exercicseName.setText(exercises.get(position).getTAG());
+
+        ArrayList<String> reps = exercises.get(position).getRepetition();
+        ArrayList<String> weight = exercises.get(position).getWeight();
+        StringBuilder stringBuilderReps = new StringBuilder();
+        StringBuilder stringBuilderWeight = new StringBuilder();
+        for(int index=0; index < reps.size(); index++){
+            if(index <= 4) {
+                stringBuilderReps.append(reps.get(index) + " reps" + "\n");
+                stringBuilderWeight.append(weight.get(index)+ " kg" + "\n");
+            }
+            else{break;}
+
+
+        }
+
+        holder.repetitions.setText(stringBuilderReps);
+        holder.weight.setText(stringBuilderWeight);
 
     }
 
@@ -92,8 +107,8 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
             repetitions = (TextView) itemView.findViewById(R.id.exerciseNameViewWTFReps);
             weight = (TextView) itemView.findViewById(R.id.exerciseNameViewWTFWeights);
 
-            imageButton = (ImageButton) itemView.findViewById(R.id.deleteButton);
-            imageButton.setOnClickListener(this);
+            //imageButton = (ImageButton) itemView.findViewById(R.id.deleteButton);
+            //imageButton.setOnClickListener(this);
 
 
         }
@@ -102,10 +117,10 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
         public void onClick(View view) {
             switch(view.getId()){
 
-                case R.id.deleteButton:
-                    exercises.remove(getAdapterPosition());
-                    //databaseHelper.deleteRecord(dateString, exercicseName.getText().toString(), repetitions.getText().toString(), weight.getText().toString());
-                    notifyItemRemoved(getAdapterPosition());
+//                case R.id.deleteButton:
+//                    exercises.remove(getAdapterPosition());
+//                    //databaseHelper.deleteRecord(dateString, exercicseName.getText().toString(), repetitions.getText().toString(), weight.getText().toString());
+//                    notifyItemRemoved(getAdapterPosition());
 
             }
         }
