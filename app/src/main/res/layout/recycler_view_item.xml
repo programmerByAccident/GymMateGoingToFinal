@@ -47,7 +47,7 @@
                         android:layout_gravity="center"
                         android:id="@+id/exerciseNameViewWTFReps"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                        android:textColor="@color/caldroid_darker_gray"
+                        android:textColor="@color/colorTextIcons"
                         android:layout_weight="1"/>
 
                     <TextView
@@ -57,7 +57,7 @@
                         android:layout_gravity="right"
                         android:id="@+id/exerciseNameViewWTFWeights"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-                        android:textColor="@color/caldroid_darker_gray"
+                        android:textColor="@color/colorTextIcons"
                         android:layout_weight="1"/>
 
 

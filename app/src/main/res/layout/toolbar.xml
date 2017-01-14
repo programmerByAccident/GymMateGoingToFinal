@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:textColor="@color/textColorPrimary"
+        android:textColor="@color/colorTextIcons"
         android:id="@+id/titleTextView"/>
 
 </android.support.v7.widget.Toolbar>
