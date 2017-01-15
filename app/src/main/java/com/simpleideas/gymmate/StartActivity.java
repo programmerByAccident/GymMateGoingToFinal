@@ -10,6 +10,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -24,6 +26,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -43,12 +46,14 @@ public class StartActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        //DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
 
 
         createSharedPreferences(getApplicationContext());
         setupActionBar();
+        setupDrawerLayout();
         setupPagerAdapter();
+
 
     }
 
@@ -263,6 +268,30 @@ public class StartActivity extends AppCompatActivity
 
         AccesRemoteDatabase start_background_thread = new AccesRemoteDatabase();
         start_background_thread.execute(Constants.PHP_SCRIPT_LOCAL_HOST);
+
+    }
+
+    private void setupDrawerLayout(){
+
+
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.drawerRecycler);
+
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("element1");
+        arrayList.add("element1");
+        arrayList.add("element1");
+        arrayList.add("element1");
+
+        DrawerLayoutAdapter drawerLayoutAdapter = new DrawerLayoutAdapter(this, arrayList);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        recyclerView.setAdapter(drawerLayoutAdapter);
+
+
+
 
     }
 

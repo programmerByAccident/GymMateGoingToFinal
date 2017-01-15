@@ -71,7 +71,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
         databaseManager = new DatabaseHelper(getContext());
         //rrayList=databaseManager.getAllExercises(dateString);
         arrayList=databaseManager.getAllExercisesMapped(dateString);
-        customRecyclerViewAdapter = new CustomRecyclerViewAdapter(getContext(),arrayList, dateString);
+        customRecyclerViewAdapter = new CustomRecyclerViewAdapter(getActivity(),arrayList, dateString);
     }
 
 
@@ -94,7 +94,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
         ArrayList<ExerciseTemplate> onResumeData = databaseManager.getAllExercises(dateString);
 
         CustomRecyclerViewAdapter customRecyclerViewAdapter2;
-        customRecyclerViewAdapter2= new CustomRecyclerViewAdapter(getContext(), databaseManager.getAllExercisesMapped(dateString),dateString);
+        customRecyclerViewAdapter2= new CustomRecyclerViewAdapter(getActivity(), databaseManager.getAllExercisesMapped(dateString),dateString);
         recyclerViewOne.setAdapter(customRecyclerViewAdapter2);
         Log.d("Here", "After transaction");
 

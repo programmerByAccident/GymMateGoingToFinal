@@ -1,7 +1,11 @@
 package com.simpleideas.gymmate;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
@@ -29,12 +33,14 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
     private LayoutInflater inflater;
     DatabaseHelper databaseHelper;
     private String dateString;
+    Activity activity;
 
-    public CustomRecyclerViewAdapter(Context context, ArrayList<ExerciseTagInformation> exercises, String dateString){
+    public CustomRecyclerViewAdapter(Activity activity, ArrayList<ExerciseTagInformation> exercises, String dateString){
 
         this.exercises = exercises;
         this.dateString = dateString;
-        databaseHelper = new DatabaseHelper(context);
+        databaseHelper = new DatabaseHelper(activity.getBaseContext());
+        this.activity = activity;
 
     }
 
@@ -99,6 +105,7 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
         private TextView weight;
         private TextView repetitions;
         private ImageButton imageButton;
+        private CardView cardView;
 
         public CustomViewHolder(View itemView) {
             super(itemView);
@@ -106,7 +113,8 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
             exercicseName = (TextView) itemView.findViewById(R.id.exerciseNameViewWTF);
             repetitions = (TextView) itemView.findViewById(R.id.exerciseNameViewWTFReps);
             weight = (TextView) itemView.findViewById(R.id.exerciseNameViewWTFWeights);
-
+            cardView = (CardView) itemView.findViewById(R.id.card);
+            cardView.setOnClickListener(this);
             //imageButton = (ImageButton) itemView.findViewById(R.id.deleteButton);
             //imageButton.setOnClickListener(this);
 
@@ -116,6 +124,16 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
         @Override
         public void onClick(View view) {
             switch(view.getId()){
+//                case R.id.card:
+//
+//                    Intent intent = new Intent(activity.getApplication(), InsertActivity.class);
+//
+//                    Bundle bundle = new Bundle();
+//                    int position = getAdapterPosition();
+//
+//                    bundle.putString("");
+//
+//                    activity.startActivity(intent);
 
 //                case R.id.deleteButton:
 //                    exercises.remove(getAdapterPosition());
