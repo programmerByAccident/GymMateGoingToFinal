@@ -3,4 +3,6 @@
     <string name="search">Search</string>
     <string name="current">Current</string>
     <string name="adjust">adjust</string>
+    <string name="openDrawer">open</string>
+    <string name="closeDrawer">close</string>
 </resources>

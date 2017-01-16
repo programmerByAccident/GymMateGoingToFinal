@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.preference.PreferenceManager;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,11 +39,12 @@ import java.util.TimeZone;
 import hirondelle.date4j.DateTime;
 
 public class StartActivity extends AppCompatActivity
-        implements DynamicFragment.DataSenderBetweenFragments {
+        implements DynamicFragment.DataSenderBetweenFragments, NavigationView.OnNavigationItemSelectedListener{
 
 
     HashMap<String, String[]> muscleMap;
     ViewPager viewPager;
+    NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +54,12 @@ public class StartActivity extends AppCompatActivity
 
         createSharedPreferences(getApplicationContext());
         setupActionBar();
-        setupDrawerLayout();
+        //setupDrawerLayout();
         setupPagerAdapter();
+
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
 
 
     }
@@ -262,6 +269,29 @@ public class StartActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+        DrawerLayout Drawer;
+        ActionBarDrawerToggle mDrawerToggle;
+        Drawer = (DrawerLayout) findViewById(R.id.drawerLayout);        // Drawer object Assigned to the view
+        mDrawerToggle = new ActionBarDrawerToggle(this,Drawer,toolbar,R.string.openDrawer,R.string.closeDrawer){
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                // code here will execute once the drawer is opened( As I dont want anything happened whe drawer is
+                // open I am not going to put anything here)
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                // Code here will execute once drawer is closed
+            }
+
+
+
+        }; // Drawer Toggle Object Made
+        Drawer.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
+        mDrawerToggle.syncState();               // Finally we set the drawer toggle sync State
     }
 
     private void callPhpScript(){
@@ -271,29 +301,29 @@ public class StartActivity extends AppCompatActivity
 
     }
 
-    private void setupDrawerLayout(){
-
-
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.drawerRecycler);
-
-        ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("element1");
-        arrayList.add("element1");
-        arrayList.add("element1");
-        arrayList.add("element1");
-
-        DrawerLayoutAdapter drawerLayoutAdapter = new DrawerLayoutAdapter(this, arrayList);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        recyclerView.setAdapter(drawerLayoutAdapter);
-
-
-
-
-    }
+//    private void setupDrawerLayout(){
+//
+//
+//        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+//
+//        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.drawerRecycler);
+//
+//        ArrayList<String> arrayList = new ArrayList<>();
+//        arrayList.add("element1");
+//        arrayList.add("element1");
+//        arrayList.add("element1");
+//        arrayList.add("element1");
+//
+//        DrawerLayoutAdapter drawerLayoutAdapter = new DrawerLayoutAdapter(this, arrayList);
+//
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+//
+//        recyclerView.setAdapter(drawerLayoutAdapter);
+//
+//
+//
+//
+//    }
 
 
 
@@ -325,6 +355,24 @@ public class StartActivity extends AppCompatActivity
 
     }
 
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.calendarViewItem:
+                Intent intentCalendar = new Intent(this, CalendarViewCustomized.class);
+                startActivity(intentCalendar);
+                break;
+            case R.id.newExercise:
+
+                Intent intent = new Intent(this, InsertActivity.class);
+                startActivity(intent);
+                break;
+
+
+        }
+
+        return true;
+    }
 }
 
 
