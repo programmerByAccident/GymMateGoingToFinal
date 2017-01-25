@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,12 +53,18 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view;
         view = inflater.inflate(R.layout.dialog_fragment, container, false);
+
+        Toolbar toolbar = (Toolbar)view.findViewById(R.id.dinamic);
+
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+
         //addCategories = (ImageButton) view.findViewById(R.id.insert_muscle_group);
         newCategory = (EditText) view.findViewById(R.id.muscle_group);
         chooseCategory = (Spinner) view.findViewById(R.id.categorySpinner);
         ArrayList<String> elementsForSpinner = getInformation(Constants.GROUPS);
         elementsForSpinner.add(0, "");
         spinnerAdapter = new SpinnerAdapter(getContext(),elementsForSpinner);
+        //ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(),R.layout.spinner_item, elementsForSpinner);
         chooseCategory.setAdapter(spinnerAdapter);
         //addCategories.setOnClickListener(this);
         return view;
@@ -72,7 +80,6 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
 
         setStyle(style, R.style.AppTheme);
     }
-
 
     @Override
     public void onClick(View view) {

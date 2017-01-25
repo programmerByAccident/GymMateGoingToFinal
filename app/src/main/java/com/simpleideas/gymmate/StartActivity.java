@@ -364,8 +364,12 @@ public class StartActivity extends AppCompatActivity
                 break;
             case R.id.newExercise:
 
-                Intent intent = new Intent(this, InsertActivity.class);
-                startActivity(intent);
+                DialogForAddingContent dialogForAddingContent = DialogForAddingContent.newInstance(Constants.GROUPS);
+
+                dialogForAddingContent.show(getSupportFragmentManager(), "tag");
+
+//                Intent intent = new Intent(this, InsertActivity.class);
+//                startActivity(intent);
                 break;
 
 

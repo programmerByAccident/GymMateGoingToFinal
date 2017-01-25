@@ -59,7 +59,7 @@ public class DayWithWorkout implements DayViewDecorator {
             try {
                 Date date = dateFormat.parse(element);
 
-                CalendarDay calendarDay = new CalendarDay(date);
+                CalendarDay calendarDay = CalendarDay.from(date);
 
                 calendarArrayListToReturnTrueOrFalse.add(calendarDay);
 

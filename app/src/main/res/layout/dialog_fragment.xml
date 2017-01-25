@@ -7,6 +7,10 @@
     android:layout_height="wrap_content"
     app:layout_collapseParallaxMultiplier="1.0"
     >
+    <include
+        android:id="@+id/dinamic"
+        layout="@layout/toolbar"
+        ></include>
 
     <LinearLayout android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -18,10 +22,12 @@
         >
 
 
+
     <TextView
         android:text="Insert new exercise:"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:id="@+id/newCategoryEditTExt"
         android:textColor="@color/black"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
@@ -30,41 +36,77 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:inputType="textPersonName"
+        android:background="@android:color/transparent"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textAlignment="center"
         android:textColor="@color/black"
         android:ems="10"
         android:id="@+id/muscle_group"
         android:layout_weight="1"
         />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary"/>
+
         <TextView
             android:text="Choose category:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginTop"
             android:id="@+id/chooseCategory"
             android:textColor="@color/black"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:layout_weight="1"
             />
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
 
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/categorySpinner"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_weight="1" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary"/>
+        <TextView
+            android:text="Create category:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginTop"
+            android:id="@+id/newCategoryInsert"
+            android:textColor="@color/black"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_weight="1"
             />
-        </LinearLayout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:inputType="textPersonName"
+            android:background="@android:color/transparent"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:ems="10"
+            android:id="@+id/category_name"
+            android:layout_weight="1"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary"/>
 
-
-    </LinearLayout>
-
+        <Button
+            android:text="Insert"
+            android:background="@color/colorPrimary"
+            android:layout_marginTop="@dimen/marginTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button"
+            android:layout_weight="1" />
 
     </LinearLayout>
 
