@@ -7,13 +7,9 @@
     android:layout_height="wrap_content"
     app:layout_collapseParallaxMultiplier="1.0"
     >
-    <include
-        android:id="@+id/dinamic"
-        layout="@layout/toolbar"
-        ></include>
-
     <LinearLayout android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:id="@+id/manipulate"
         android:orientation="vertical"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginBottom="@dimen/activity_horizontal_margin"
@@ -52,7 +48,7 @@
             android:background="@color/colorPrimary"/>
 
         <TextView
-            android:text="Choose category:"
+            android:text="Category:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/marginTop"
@@ -68,6 +64,7 @@
             android:id="@+id/categorySpinner"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:layout_weight="1" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -105,7 +102,14 @@
             android:layout_marginTop="@dimen/marginTop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button"
+            android:id="@+id/insert_new_category_button"
+            android:layout_weight="1" />
+
+        <Button
+            android:text="Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/replaceBack"
             android:layout_weight="1" />
 
     </LinearLayout>
