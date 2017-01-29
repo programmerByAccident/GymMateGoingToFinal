@@ -58,17 +58,31 @@
             android:layout_weight="1"
             />
 
-        <Spinner
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/categorySpinner"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:layout_weight="1" />
+            android:layout_height="match_parent"
+            android:id="@+id/innerLayout"
+            android:layout_weight="1"
+            android:weightSum="4">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorPrimary"/>
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/categorySpinner"
+                android:backgroundTint="@color/colorPrimary"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:layout_weight="3" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_launcher"
+                android:background="@color/caldroid_transparent"
+                android:id="@+id/addNewCategory"
+                android:layout_weight="1" />
+        </LinearLayout>
+
         <TextView
             android:text="Create category:"
             android:layout_width="match_parent"
@@ -110,6 +124,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/replaceBack"
+            android:layout_weight="1" />
+
+        <Button
+            android:text="Check Validation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonGetText"
             android:layout_weight="1" />
 
     </LinearLayout>

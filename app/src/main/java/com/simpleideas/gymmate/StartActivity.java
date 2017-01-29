@@ -45,6 +45,7 @@ public class StartActivity extends AppCompatActivity
     HashMap<String, String[]> muscleMap;
     ViewPager viewPager;
     NavigationView navigationView;
+    DrawerLayout Drawer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -262,6 +263,7 @@ public class StartActivity extends AppCompatActivity
 //        tabLayout.setUpWithViewPager(viewPager);
     }
 
+
     private void setupActionBar(){
         Toolbar toolbar;
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
@@ -269,7 +271,8 @@ public class StartActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        DrawerLayout Drawer;
+
+
         ActionBarDrawerToggle mDrawerToggle;
         Drawer = (DrawerLayout) findViewById(R.id.drawerLayout);        // Drawer object Assigned to the view
         mDrawerToggle = new ActionBarDrawerToggle(this,Drawer,toolbar,R.string.openDrawer,R.string.closeDrawer){
@@ -290,7 +293,7 @@ public class StartActivity extends AppCompatActivity
 
 
         }; // Drawer Toggle Object Made
-        Drawer.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
+        Drawer.addDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
         mDrawerToggle.syncState();               // Finally we set the drawer toggle sync State
     }
 
