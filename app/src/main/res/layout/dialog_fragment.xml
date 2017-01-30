@@ -7,6 +7,7 @@
     android:layout_height="wrap_content"
     app:layout_collapseParallaxMultiplier="1.0"
     >
+
     <LinearLayout android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:id="@+id/manipulate"
@@ -83,33 +84,6 @@
                 android:layout_weight="1" />
         </LinearLayout>
 
-        <TextView
-            android:text="Create category:"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/marginTop"
-            android:id="@+id/newCategoryInsert"
-            android:textColor="@color/black"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:layout_weight="1"
-            />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:inputType="textPersonName"
-            android:background="@android:color/transparent"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:ems="10"
-            android:id="@+id/category_name"
-            android:layout_weight="1"
-            />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorPrimary"/>
-
         <Button
             android:text="Insert"
             android:background="@color/colorPrimary"
@@ -117,20 +91,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/insert_new_category_button"
-            android:layout_weight="1" />
-
-        <Button
-            android:text="Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/replaceBack"
-            android:layout_weight="1" />
-
-        <Button
-            android:text="Check Validation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/buttonGetText"
             android:layout_weight="1" />
 
     </LinearLayout>

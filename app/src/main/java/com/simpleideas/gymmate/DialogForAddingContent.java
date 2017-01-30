@@ -4,12 +4,15 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
@@ -34,6 +37,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static android.R.attr.button;
+import static android.R.attr.colorPrimary;
 
 /**
  * Created by Geprge on 12/27/2016.
@@ -74,34 +78,14 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
         globalView = view;
         manipulate = (LinearLayout) view.findViewById(R.id.manipulate);
         innerLayout = (LinearLayout) view.findViewById(R.id.innerLayout);
-        Log.d("View 0", innerLayout.getChildAt(0).toString());
-        Log.d("View 1", innerLayout.getChildAt(1).toString());
-//        Log.d("View 0", manipulate.getChildAt(0).toString());
-//        Log.d("View 1", manipulate.getChildAt(1).toString());
-//        Log.d("View 2", manipulate.getChildAt(2).toString());
-//        Log.d("View 3", manipulate.getChildAt(3).toString());
-//        Log.d("View 4", manipulate.getChildAt(4).toString());
-//        Log.d("View 5", manipulate.getChildAt(5).toString());
-//        Log.d("View 6", manipulate.getChildAt(6).toString());
-//        Log.d("View 7", manipulate.getChildAt(7).toString());
-//        Log.d("View 8", manipulate.getChildAt(8).toString());
-//        Log.d("View 9", manipulate.getChildAt(9).toString());
-//        Log.d("View 10", manipulate.getChildAt(10).toString());
-//        Log.d("View 11", manipulate.getChildAt(11).toString());
-
-
-
         newCategory = (EditText) view.findViewById(R.id.muscle_group);
         chooseCategory = (Spinner) view.findViewById(R.id.categorySpinner);
         insert_category = (Button) view.findViewById(R.id.insert_new_category_button);
-        replaceAgain = (Button) view.findViewById(R.id.replaceBack);
-        getText = (Button) view.findViewById(R.id.buttonGetText);
         addNewCategory = (ImageButton) view.findViewById(R.id.addNewCategory);
-        addNewCategory.setOnClickListener(this);
 
-        replaceAgain.setOnClickListener(this);
+        addNewCategory.setOnClickListener(this);
         insert_category.setOnClickListener(this);
-        getText.setOnClickListener(this);
+
         ArrayList<String> elementsForSpinner = getInformation(Constants.GROUPS);
         elementsForSpinner.add(0, "");
         spinnerAdapter = new SpinnerAdapter(getContext(),elementsForSpinner);
@@ -123,11 +107,24 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.insert_new_category_button:
-                replaceView(innerLayout, chooseCategory);
-                break;
+                View viewToManage = getView().findViewById(R.id.categorySpinner);
 
-            case R.id.replaceBack:
-                replaceBack(innerLayout, chooseCategory);
+                if(viewToManage instanceof Spinner){
+                    String checkExistance = ((Spinner) viewToManage).getSelectedItem().toString();
+                    if(checkExistance==""){
+                        Toast.makeText(getContext(), "Choose category", Toast.LENGTH_SHORT).show();
+                    }else {
+                        modifySharedPreferenes(((Spinner) viewToManage).getSelectedItem().toString());
+                    }
+                }
+                else if(viewToManage instanceof EditText){
+                    String checkExistance = ((EditText) viewToManage).getText().toString();
+                    if(checkExistance==""){
+                        Toast.makeText(getContext(), "Insert category", Toast.LENGTH_SHORT).show();
+                    }else{
+                        modifySharedPreferenes(((EditText) viewToManage).getText().toString());
+                    }
+                }
                 break;
 
             case R.id.addNewCategory:
@@ -136,36 +133,40 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
 
                 if(viewText2 instanceof Spinner){
                     replaceView(innerLayout, chooseCategory);
-
                 }
                 else
                 if(viewText2 instanceof EditText){
                     replaceBack(innerLayout, chooseCategory);
                 }
 
-                Toast.makeText(getContext(), toShow, Toast.LENGTH_SHORT).show();
-
                 break;
 
-            case R.id.buttonGetText:
-
-                View viewText = getView().findViewById(R.id.categorySpinner);
-
-                if(viewText instanceof Spinner){
-                    Spinner spinner = (Spinner)viewText;
-                    toShow = spinner.getSelectedItem().toString();
-                }
-                else
-                if(viewText instanceof EditText){
-                    EditText editText = (EditText)viewText;
-                    toShow = editText.getText().toString();
-                }
-
-                Toast.makeText(getContext(), toShow, Toast.LENGTH_SHORT).show();
-
-                break;
+//            case R.id.buttonGetText:
+//
+//                View viewText = getView().findViewById(R.id.categorySpinner);
+//
+//                if(viewText instanceof Spinner){
+//                    Spinner spinner = (Spinner)viewText;
+//                    toShow = spinner.getSelectedItem().toString();
+//                }
+//                else
+//                if(viewText instanceof EditText){
+//                    EditText editText = (EditText)viewText;
+//                    toShow = editText.getText().toString();
+//                }
+//
+//                Toast.makeText(getContext(), toShow, Toast.LENGTH_SHORT).show();
+//
+//                break;
 
         }
+    }
+
+
+
+    private void addExerciseToCategory(String category, String exercise){
+
+
     }
 
     private void modifySharedPreferenes(String category){
@@ -209,7 +210,7 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
         int width = viewToReplace.getWidth();
         EditText editText = new EditText(getActivity().getApplicationContext());
         editText.setTextColor(Color.BLACK);
-        editText.setBackgroundColor(Color.TRANSPARENT);
+//        editText.setBackgroundColor(Color.TRANSPARENT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             editText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         }
@@ -218,6 +219,8 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
         //22 sp text size
         editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
         editText.setId(viewToReplace.getId());
+
+        editText.setBackgroundResource(R.drawable.apptheme_textfield_activated_holo_light);
         linearLayout.removeViewAt(0);
         linearLayout.removeView(viewToReplace);
         linearLayout.addView(editText, 0);

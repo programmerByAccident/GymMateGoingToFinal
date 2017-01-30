@@ -32,14 +32,12 @@ import java.util.Locale;
 public class DayWithWorkout implements DayViewDecorator {
 
     ArrayList<String> parseToDate;
-    private Drawable color;
     private int width, height;
     private Context context;
 
     public DayWithWorkout(Context context,ArrayList<String> parseToDate, int width, int height){
 
         this.parseToDate = parseToDate;
-        color = new ColorDrawable(Color.BLUE);
         this.width = width;
         this.context = context;
         this.height = height;
@@ -78,9 +76,7 @@ public class DayWithWorkout implements DayViewDecorator {
 
         Drawable circle = ContextCompat.getDrawable(context,R.drawable.circle);
         GradientDrawable gradientDrawable = (GradientDrawable) circle;
-
-        gradientDrawable.setColor(Color.LTGRAY);
-        gradientDrawable.setSize(2,2);
+        gradientDrawable.setColor(R.color.colorPrimary);
         view.setBackgroundDrawable(gradientDrawable);
     }
 }
