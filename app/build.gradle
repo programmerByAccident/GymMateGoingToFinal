@@ -26,7 +26,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     compile 'com.android.support:appcompat-v7:24.0.0'
-    compile files('C:/Users/George Ciopei/AndroidStudioProjects/GymMate/libs/joda-time-2.9.4.jar')
+    compile files('C:/Users/Geprge/AndroidStudioProjects/GymMate2/libs/joda-time-2.9.4.jar')
     compile 'com.github.npanigrahy:Custom-Calendar-View:v1.1'
     compile 'com.roomorama:caldroid:3.0.1'
     compile 'com.android.support:design:24.1.1'
