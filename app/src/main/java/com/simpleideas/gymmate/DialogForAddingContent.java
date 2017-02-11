@@ -33,6 +33,7 @@ import android.widget.Toast;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,7 +48,7 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
 
     private ImageButton addCategories;
     private String preferences;
-    private EditText newCategory;
+    private EditText newCategory, newExercise;
     private Spinner chooseCategory;
     private SpinnerAdapter spinnerAdapter;
     private View globalView, customSpinnerWidth;
@@ -82,7 +83,6 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
         chooseCategory = (Spinner) view.findViewById(R.id.categorySpinner);
         insert_category = (Button) view.findViewById(R.id.insert_new_category_button);
         addNewCategory = (ImageButton) view.findViewById(R.id.addNewCategory);
-
         addNewCategory.setOnClickListener(this);
         insert_category.setOnClickListener(this);
 
@@ -114,7 +114,7 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
                     if(checkExistance==""){
                         Toast.makeText(getContext(), "Choose category", Toast.LENGTH_SHORT).show();
                     }else {
-                        modifySharedPreferenes(((Spinner) viewToManage).getSelectedItem().toString());
+                        addExerciseToCategory(((Spinner) viewToManage).getSelectedItem().toString(), newCategory.getText().toString());
                     }
                 }
                 else if(viewToManage instanceof EditText){
@@ -122,43 +122,23 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
                     if(checkExistance==""){
                         Toast.makeText(getContext(), "Insert category", Toast.LENGTH_SHORT).show();
                     }else{
-                        modifySharedPreferenes(((EditText) viewToManage).getText().toString());
+                        addExerciseToCategory(((EditText) viewToManage).getText().toString(), newCategory.getText().toString());
                     }
                 }
                 break;
 
             case R.id.addNewCategory:
 
-                View viewText2 = getView().findViewById(R.id.categorySpinner);
+                View genericView = getView().findViewById(R.id.categorySpinner);
 
-                if(viewText2 instanceof Spinner){
+                if(genericView instanceof Spinner){
                     replaceView(innerLayout, chooseCategory);
                 }
                 else
-                if(viewText2 instanceof EditText){
+                if(genericView instanceof EditText){
                     replaceBack(innerLayout, chooseCategory);
                 }
-
                 break;
-
-//            case R.id.buttonGetText:
-//
-//                View viewText = getView().findViewById(R.id.categorySpinner);
-//
-//                if(viewText instanceof Spinner){
-//                    Spinner spinner = (Spinner)viewText;
-//                    toShow = spinner.getSelectedItem().toString();
-//                }
-//                else
-//                if(viewText instanceof EditText){
-//                    EditText editText = (EditText)viewText;
-//                    toShow = editText.getText().toString();
-//                }
-//
-//                Toast.makeText(getContext(), toShow, Toast.LENGTH_SHORT).show();
-//
-//                break;
-
         }
     }
 
@@ -166,40 +146,44 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
 
     private void addExerciseToCategory(String category, String exercise){
 
-
-    }
-
-    private void modifySharedPreferenes(String category){
-        ArrayList<String> sharedInformation = new ArrayList();
-        sharedInformation = getInformation(preferences);
-        sharedInformation.add(category);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences(category, getActivity().getApplicationContext().MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        String[] muscles = new String[sharedInformation.size()];
-        muscles = sharedInformation.toArray(muscles);
 
-        Set<String> muscleSet = new HashSet<>(Arrays.asList(muscles));
+        if(preferences.contains(category)){
 
-        editor.putStringSet(Constants.GROUPS, muscleSet);
+            Set<String> exercises = preferences.getStringSet(category, null);
 
-        editor.apply();
+            if(exercises.contains(exercise)){
+                Toast.makeText(getActivity().getApplicationContext(), "Exercise already exists", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                exercises.add(exercise);
+                editor.putStringSet(category, exercises);
+                editor.apply();
+            }
+        }
+        else{
+            SharedPreferences defaultPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+            SharedPreferences.Editor defaultEditor = defaultPreferences.edit();
+            Set<String> groups = defaultPreferences.getStringSet(Constants.GROUPS, null);
+            if(groups.contains(category) == false){
 
-        SharedPreferences newCategory = getActivity().getApplicationContext().getSharedPreferences(category, getActivity().getApplicationContext().MODE_PRIVATE);
+                groups.add(category);
+                defaultEditor.putStringSet(Constants.GROUPS, groups);
+                defaultEditor.apply();
 
-        SharedPreferences.Editor newCategoryEditor = newCategory.edit();
+                SharedPreferences customPreferences = getActivity().getApplicationContext().getSharedPreferences(category, getActivity().getApplicationContext().MODE_PRIVATE);
+                SharedPreferences.Editor customEditor = customPreferences.edit();
 
-        String[] categoryArray = new String[0];
-
-        Set<String> stringSet = new HashSet<String>(Arrays.asList(categoryArray));
-
-        newCategoryEditor.putStringSet(category, stringSet);
-
-        newCategoryEditor.apply();
-
+                Set<String> stringSet = new HashSet<>();
+                stringSet.add(exercise);
+                customEditor.putStringSet(category, stringSet);
+                customEditor.apply();
+            }
+        }
     }
 
     private void replaceBack(LinearLayout linearLayout, View viewToInsert){
-
         linearLayout.removeViewAt(0);
         //linearLayout.removeView(viewToInsert);
         linearLayout.addView(viewToInsert, 0);
@@ -208,19 +192,19 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void replaceView(LinearLayout linearLayout, View viewToReplace){
         int width = viewToReplace.getWidth();
+
         EditText editText = new EditText(getActivity().getApplicationContext());
         editText.setTextColor(Color.BLACK);
-//        editText.setBackgroundColor(Color.TRANSPARENT);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             editText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         }
         
         editText.setWidth(width);
-        //22 sp text size
         editText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
         editText.setId(viewToReplace.getId());
-
         editText.setBackgroundResource(R.drawable.apptheme_textfield_activated_holo_light);
+
         linearLayout.removeViewAt(0);
         linearLayout.removeView(viewToReplace);
         linearLayout.addView(editText, 0);
@@ -239,8 +223,6 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
             arraylist.addAll(preferences.getStringSet(sharedPreference, new HashSet<String>()));
 
         }
-
         return  arraylist;
-
     }
 }
