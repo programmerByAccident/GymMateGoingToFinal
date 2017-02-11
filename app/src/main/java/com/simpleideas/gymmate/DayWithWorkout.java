@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.graphics.drawable.shapes.Shape;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.ColorUtils;
@@ -73,10 +74,13 @@ public class DayWithWorkout implements DayViewDecorator {
 
     @Override
     public void decorate(DayViewFacade view) {
-
-        Drawable circle = ContextCompat.getDrawable(context,R.drawable.circle);
-        GradientDrawable gradientDrawable = (GradientDrawable) circle;
-        gradientDrawable.setColor(R.color.colorPrimary);
-        view.setBackgroundDrawable(gradientDrawable);
+        //ShapeDrawable circle = new ShapeDrawable( new OvalShape() );
+        Drawable circle = ContextCompat.getDrawable(context,R.drawable.oval_shape);
+        view.setBackgroundDrawable(circle);
+//        GradientDrawable gradientDrawable = (GradientDrawable) circle;
+//        int colorPrimary = context.getResources().getColor(R.color.colorPrimary);
+//        gradientDrawable.setColor(colorPrimary);
+//        //gradientDrawable.setColor(R.color.colorPrimary);
+//        view.setBackgroundDrawable(gradientDrawable);
     }
 }
