@@ -24,48 +24,48 @@
 
             />
 
-        <item
+        <!--<item-->
 
-            android:id="@+id/share"
-            android:title="Share Progress"
-            android:icon="@drawable/ic_share_black_24dp"
-            android:checkable="true"
-            />
-
-
-
-    </group>
-
-    <group android:checkableBehavior="single">
-
-        <item
-            android:id="@+id/second_group"
-            android:title="">
-            <menu>
-
-                <item
-
-                    android:id="@+id/settings"
-                    android:title="Settings"
-                    android:icon="@drawable/ic_settings_black_24dp"
-                    android:checkable="true"
-
-
-                    />
-
-                <item
-
-                    android:id="@+id/info"
-                    android:title="About"
-                    android:icon="@drawable/ic_info_black_24dp"
-                    android:checkable="true"/>
-
-            </menu>
-
-
-        </item>
+            <!--android:id="@+id/share"-->
+            <!--android:title="Share Progress"-->
+            <!--android:icon="@drawable/ic_share_black_24dp"-->
+            <!--android:checkable="true"-->
+            <!--/>-->
 
 
 
     </group>
+
+    <!--<group android:checkableBehavior="single">-->
+
+        <!--<item-->
+            <!--android:id="@+id/second_group"-->
+            <!--android:title="">-->
+            <!--<menu>-->
+
+                <!--<item-->
+
+                    <!--android:id="@+id/settings"-->
+                    <!--android:title="Settings"-->
+                    <!--android:icon="@drawable/ic_settings_black_24dp"-->
+                    <!--android:checkable="true"-->
+
+
+                    <!--/>-->
+
+                <!--<item-->
+
+                    <!--android:id="@+id/info"-->
+                    <!--android:title="About"-->
+                    <!--android:icon="@drawable/ic_info_black_24dp"-->
+                    <!--android:checkable="true"/>-->
+
+            <!--</menu>-->
+
+
+        <!--</item>-->
+
+
+
+    <!--</group>-->
 </menu>

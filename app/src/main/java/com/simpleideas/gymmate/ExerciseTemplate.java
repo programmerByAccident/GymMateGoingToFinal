@@ -7,16 +7,27 @@ package com.simpleideas.gymmate;
 public class ExerciseTemplate {
 
     private String exerciseName;
-    private int difference;
+    private String dateOfExercise;
     private int repetition;
     private float weight;
 
-    public ExerciseTemplate(String exerciseName, int difference, int repetition, float weight){
+    public String getMuscleName() {
+        return muscleName;
+    }
+
+    public void setMuscleName(String muscleName) {
+        this.muscleName = muscleName;
+    }
+
+    private String muscleName;
+
+    public ExerciseTemplate(String muscleName, String exerciseName, String dateOfExercise, int repetition, float weight){
 
         this.exerciseName = exerciseName;
-        this.difference = difference;
+        this.dateOfExercise = dateOfExercise;
         this.repetition = repetition;
         this.weight = weight;
+        this.muscleName = muscleName;
 
     }
 
@@ -28,12 +39,12 @@ public class ExerciseTemplate {
         this.exerciseName = exerciseName;
     }
 
-    public int getDifference() {
-        return difference;
+    public String getDifference() {
+        return dateOfExercise;
     }
 
     public void setDifference(int difference) {
-        this.difference = difference;
+        this.dateOfExercise = dateOfExercise;
     }
 
     public int getRepetition() {

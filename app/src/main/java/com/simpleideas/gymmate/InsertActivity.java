@@ -162,7 +162,7 @@ public class InsertActivity extends AppCompatActivity implements View.OnClickLis
                 else {
                     weight = Float.valueOf(weights.getText().toString());
                     rep = Integer.valueOf(reps.getText().toString());
-                    databaseHelper.insertExerciseIntoDatabase(date, exercise_name, rep, weight);
+                    databaseHelper.insertExerciseIntoDatabase(date,muscle_name, exercise_name, rep, weight);
                 }
 
                 break;

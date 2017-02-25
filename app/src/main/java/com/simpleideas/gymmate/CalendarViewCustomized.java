@@ -11,17 +11,23 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
+import com.prolificinteractive.materialcalendarview.CalendarUtils;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 
+import org.joda.time.YearMonth;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,12 +43,14 @@ public class CalendarViewCustomized extends AppCompatActivity {
     private DatabaseHelper databaseHelper;
 
     MaterialCalendarView materialCalendarView;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.material_calendar);
         setupActionBar();
         materialCalendarView = (MaterialCalendarView) findViewById(R.id.calendarView);
+
         databaseHelper = new DatabaseHelper(getApplicationContext());
 
         materialCalendarView.state().edit()
@@ -58,8 +66,6 @@ public class CalendarViewCustomized extends AppCompatActivity {
         materialCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-
-
                 CalendarDay selectedDate = materialCalendarView.getSelectedDate();
                 Date dateConverted = selectedDate.getDate();
                 DateFormat dateFormat = new SimpleDateFormat("E - d - MMMM - yyyy");
@@ -87,22 +93,32 @@ public class CalendarViewCustomized extends AppCompatActivity {
     }
 
     private void customizeMaterialCalendarView(MaterialCalendarView calendarView){
-
+        calendarView.setArrowColor(R.color.colorPrimary);
         ArrayList<DayViewDecorator> collectionOfDecorators = new ArrayList<>();
 
         DatabaseHelper databaseHelper = new DatabaseHelper(this);
         ArrayList<String> dates = databaseHelper.getDaysWithWorkout();
-        DayWithWorkout dayWithWorkout = new DayWithWorkout(this,dates, calendarView.getWidth(), calendarView.getHeight());
-        CurrentDateDecorator currentDateDecorator = new CurrentDateDecorator(this);
-        AllDaysSelector allDaysSelector = new AllDaysSelector(this);
+        DayWithWorkout dayWithWorkout = new DayWithWorkout(this,dates, calendarView.getTileWidth(), calendarView.getTileHeight());
 
-        collectionOfDecorators.add(dayWithWorkout);
+        String today = "Thu 16 February 2017";
+        ArrayList<String> muscles = new ArrayList<>();
+        muscles.add("Legs");
+        muscles.add("Back");
+
+        CalendarViewMapDaysWithWorkouts calendarViewMapDaysWithWorkouts = new CalendarViewMapDaysWithWorkouts(today, muscles);
+
+        ArrayList<CalendarViewMapDaysWithWorkouts> calendarViewMapDaysWithWorkoutses = new ArrayList<CalendarViewMapDaysWithWorkouts>();
+        calendarViewMapDaysWithWorkoutses.add(calendarViewMapDaysWithWorkouts);
+        GenericDecorator genericDecorator = new GenericDecorator(CalendarViewCustomized.this,calendarViewMapDaysWithWorkoutses,calendarViewMapDaysWithWorkouts, R.color.colorPrimary, materialCalendarView.getTileWidth(), materialCalendarView.getTileHeight());
+        calendarView.addDecorator(genericDecorator);
+        //GenericDecorator genericDecorator = new GenericDecorator(this, dates, muscles, calendarView.getTileWidth(), calendarView.getTileHeight());
+        //collectionOfDecorators.add(dayWithWorkout);
         //collectionOfDecorators.add(currentDateDecorator);
         //collectionOfDecorators.add(allDaysSelector);
 
         //calendarView.addDecorator(dayWithWorkout);
         
-        calendarView.addDecorators(collectionOfDecorators);
+        //calendarView.addDecorators(collectionOfDecorators);
 
     }
 

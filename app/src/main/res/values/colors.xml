@@ -7,5 +7,34 @@
     <color name="colorPrimaryLight">#BBDEFB</color>
     <color name="colorTextIcons">#212121</color>
     <color name="colorDivider">#BDBDBD</color>
+    <color name="testPurple">#9C27B0</color>
+
+    <color name="bright_pink">#FF007F</color>
+    <color name="red">#FF0000</color>
+    <color name="orange">#FF7F00</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="chartreuse">#7FFF00</color>
+    <color name="green">#00FF00</color>
+    <color name="spring_green">#00FF7F</color>
+    <color name="cyan">#00FFFF</color>
+    <color name="azure">#007FFF</color>
+    <color name="blue">#0000FF</color>
+    <color name="violet">#7F00FF</color>
+    <color name="magenta">#FF00FF</color>
+
+
+
+    <color name="chest">#007FFF</color>
+    <color name="back">#0000FF</color>
+    <color name="legs">#7F00FF</color>
+    <color name="arms">#FF00FF</color>
+
+
+    <array name="rainbow">
+        <item>@color/chest</item>
+        <item>@color/back</item>
+        <item>@color/legs</item>
+        <item>@color/arms</item>
+    </array>
 
 </resources>

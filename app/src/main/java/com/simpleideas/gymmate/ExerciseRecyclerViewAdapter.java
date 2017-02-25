@@ -76,6 +76,7 @@ public class ExerciseRecyclerViewAdapter extends RecyclerView.Adapter<ExerciseRe
                     Intent intent = new Intent(context, InsertActivity.class);
 
                     intent.putExtra(Constants.EXERCISE_NAME, exerciseName.getText().toString());
+                    intent.putExtra(Constants.MUSCLE_NAME, muscleName);
                     //intent.putExtra("Difference", difference);
                     intent.putExtra("date", date);
                     context.startActivity(intent);

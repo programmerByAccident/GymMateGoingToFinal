@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,8 +22,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 //import com.nshmura.recyclertablayout.RecyclerTabLayout;
+
+import com.roomorama.caldroid.CaldroidFragment;
+import com.roomorama.caldroid.CaldroidListener;
 
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
@@ -30,6 +35,7 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -38,14 +44,14 @@ import java.util.TimeZone;
 
 import hirondelle.date4j.DateTime;
 
-public class StartActivity extends AppCompatActivity
-        implements DynamicFragment.DataSenderBetweenFragments, NavigationView.OnNavigationItemSelectedListener{
+public class StartActivity extends AppCompatActivity implements DynamicFragment.DataSenderBetweenFragments, NavigationView.OnNavigationItemSelectedListener{
 
 
     HashMap<String, String[]> muscleMap;
     ViewPager viewPager;
     NavigationView navigationView;
     DrawerLayout Drawer;
+    CaldroidFragment globalFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +63,7 @@ public class StartActivity extends AppCompatActivity
         setupActionBar();
         //setupDrawerLayout();
         setupPagerAdapter();
-
+        checkColorMapExistanceIntoDatabase();
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -102,9 +108,10 @@ public class StartActivity extends AppCompatActivity
 
             case R.id.material_calendar_view:
 
-                Intent intent = new Intent(this, CalendarViewCustomized.class);
 
-                startActivity(intent);
+//                Intent intent = new Intent(this, CalendarViewCustomized.class);
+//
+//                startActivity(intent);
 
                 break;
 
@@ -126,7 +133,11 @@ public class StartActivity extends AppCompatActivity
 
     }
 
+
+
     private void createSharedPreferences(Context context){
+
+
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -144,7 +155,6 @@ public class StartActivity extends AppCompatActivity
 
             editor.apply();
         }
-
 
         String[] groups = getMuscleGroups();
         muscleMap = new HashMap<>();
@@ -214,6 +224,23 @@ public class StartActivity extends AppCompatActivity
     public int getViewPagerPosition(){
 
         return viewPager.getCurrentItem();
+    }
+
+    private void checkColorMapExistanceIntoDatabase(){
+
+        HashMap<String, String> colorMap = new HashMap<>();
+
+        colorMap.put("Blue", "0000ff");
+        colorMap.put("Brown", "a52a2a" );
+        colorMap.put("Green","00ff00");
+        colorMap.put("Yellow","ffff00");
+        colorMap.put("Purple","a020f0");
+        colorMap.put("Red", "ff0000");
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
+
+        databaseHelper.insertColorsIntoDatabase(colorMap);
+
     }
 
     private void setupPagerAdapter(){
@@ -361,7 +388,8 @@ public class StartActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.calendarViewItem:
-                Intent intentCalendar = new Intent(this, CalendarViewCustomized.class);
+
+                Intent intentCalendar = new Intent(this, CaldroidCustomImplementation.class);
                 startActivity(intentCalendar);
                 break;
             case R.id.newExercise:
@@ -379,6 +407,7 @@ public class StartActivity extends AppCompatActivity
 
         return true;
     }
+
 }
 
 

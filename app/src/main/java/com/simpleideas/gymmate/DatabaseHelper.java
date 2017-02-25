@@ -45,7 +45,7 @@ public class DatabaseHelper {
 //        return arrayListToReturn;
 //
 //    }
-    public void insertExerciseIntoDatabase(String date, String exercise_name, int repetitions, float weight){
+    public void insertExerciseIntoDatabase(String date,String muscle_name, String exercise_name, int repetitions, float weight){
 
         sqLiteDatabase = databaseManager.getWritableDatabase();
 
@@ -54,6 +54,7 @@ public class DatabaseHelper {
         values.put("Exercise", exercise_name);
         values.put("Repetitions", repetitions);
         values.put("Weight", weight);
+        values.put("Muscle", muscle_name);
 
 
         sqLiteDatabase.insert(Constants.first_table, null, values);
@@ -104,6 +105,73 @@ public class DatabaseHelper {
 
     }
 
+    public ArrayList<String> exerciseNames(String difference){
+
+        ArrayList<String> names = new ArrayList<>();
+
+        String searchItem = String.valueOf(difference);
+        String[] columns = {"Exercise"};
+        String selection = "Difference=?";
+        String[] selectionArgs = {searchItem};
+        Cursor cursor = sqLiteDatabase.query(Constants.first_table, columns, selection, selectionArgs, null,null,null);
+
+        int exerciseIndex = cursor.getColumnIndex("Exercise");
+
+        while(cursor.moveToNext()){
+            String exercise = cursor.getString(exerciseIndex);
+            if(names.contains(exercise) == false){
+                names.add(exercise);
+            }
+
+        }
+
+        return names;
+    }
+
+
+
+    public ArrayList<String> getMuscleNames(String difference){
+        ArrayList<String> muscleGroups = new ArrayList<>();
+
+        String searchItem = String.valueOf(difference);
+        String[] columns = {"Muscle"};
+        String selection = "Difference=?";
+        String[] selectionArgs = {searchItem};
+        Cursor cursor = sqLiteDatabase.query(Constants.first_table, columns, selection, selectionArgs, null,null,null);
+
+
+        while(cursor.moveToNext()){
+            String muscle = cursor.getString(cursor.getColumnIndex("Muscle"));
+
+            if(muscleGroups.contains(muscle) == false){
+                muscleGroups.add(muscle);
+            }
+        }
+
+        return muscleGroups;
+    }
+
+    public ArrayList<String> getExerciseName(String difference){
+        ArrayList<String> muscleGroups = new ArrayList<>();
+
+        String searchItem = String.valueOf(difference);
+        String[] columns = {"Exercise"};
+        String selection = "Difference=?";
+        String[] selectionArgs = {searchItem};
+        Cursor cursor = sqLiteDatabase.query(Constants.first_table, columns, selection, selectionArgs, null,null,null);
+
+
+        while(cursor.moveToNext()){
+            String muscle = cursor.getString(cursor.getColumnIndex("Exercise"));
+
+            if(muscleGroups.contains(muscle) == false){
+                muscleGroups.add(muscle);
+            }
+        }
+
+        return muscleGroups;
+    }
+
     public ArrayList<String> getDaysWithWorkout(){
 
         sqLiteDatabase = databaseManager.getWritableDatabase();
@@ -123,7 +191,25 @@ public class DatabaseHelper {
 
         return listToReturn;
     }
+    
+    public void insertColorsIntoDatabase(HashMap<String, String> colorMap){
 
+        sqLiteDatabase = databaseManager.getWritableDatabase();
+
+        for (Map.Entry<String, String> inserationIntoDatabase:
+             colorMap.entrySet()) {
+            ContentValues values = new ContentValues();
+
+            values.put("ColorName", inserationIntoDatabase.getKey());
+            values.put("ColorValue", inserationIntoDatabase.getValue());
+
+            sqLiteDatabase.insert(Constants.first_table, null, values);
+        }
+
+        sqLiteDatabase.close();
+        
+    }
+    
     public ArrayList<ExerciseTemplate> getAllExercises(String difference){
 
         sqLiteDatabase = databaseManager.getWritableDatabase();
@@ -131,7 +217,7 @@ public class DatabaseHelper {
         ArrayList<ExerciseTemplate> arrayToReturn = new ArrayList<>();
 
         String searchItem = String.valueOf(difference);
-        String[] columns = {"Difference", "Exercise", "Weight", "Repetitions"};
+        String[] columns = {"Difference", "Exercise", "Weight", "Repetitions", "Muscle"};
         String selection = "Difference=?";
         String[] selectionArgs = {searchItem};
 
@@ -145,16 +231,18 @@ public class DatabaseHelper {
         int differenceIndex = cursor.getColumnIndexOrThrow("Difference");
         int weightIndex = cursor.getColumnIndex("Weight");
         int repsIndex = cursor.getColumnIndex("Repetitions");
+        int muscleIndex = cursor.getColumnIndex("Muscle");
 
         try {
             while (cursor.moveToNext()){
 
                 String exerciseName = cursor.getString(exerciseIndex);
-                int differenceI = cursor.getInt(differenceIndex);
+                String muscleName = cursor.getString(muscleIndex);
+                String differenceI = cursor.getString(differenceIndex);
                 float weight = cursor.getFloat(weightIndex);
                 int reps = cursor.getInt(repsIndex);
 
-                ExerciseTemplate exerciseTemplate = new ExerciseTemplate(exerciseName,differenceI, reps, weight);
+                ExerciseTemplate exerciseTemplate = new ExerciseTemplate(muscleName,exerciseName,differenceI, reps, weight);
 
                 arrayToReturn.add(exerciseTemplate);
             }
@@ -176,7 +264,7 @@ public class DatabaseHelper {
         ArrayList<ExerciseTemplate> arrayToReturn = new ArrayList<>();
 
         String searchItem = String.valueOf(difference);
-        String[] columns = {"Difference", "Exercise", "Weight", "Repetitions"};
+        String[] columns = {"Difference", "Exercise","Muscle", "Weight", "Repetitions"};
         String selection = "Difference=?";
         String[] selectionArgs = {searchItem};
 
@@ -186,16 +274,18 @@ public class DatabaseHelper {
         int differenceIndex = cursor.getColumnIndexOrThrow("Difference");
         int weightIndex = cursor.getColumnIndex("Weight");
         int repsIndex = cursor.getColumnIndex("Repetitions");
+        int muscleIndex = cursor.getColumnIndex("Muscle");
 
         try {
             while (cursor.moveToNext()){
 
                 String exerciseName = cursor.getString(exerciseIndex);
-                int differenceI = cursor.getInt(differenceIndex);
+                String differenceI = cursor.getString(differenceIndex);
                 float weight = cursor.getFloat(weightIndex);
                 int reps = cursor.getInt(repsIndex);
+                String muscleName = cursor.getString(muscleIndex);
 
-                ExerciseTemplate exerciseTemplate = new ExerciseTemplate(exerciseName,differenceI, reps, weight);
+                ExerciseTemplate exerciseTemplate = new ExerciseTemplate(muscleName, exerciseName,differenceI, reps, weight);
 
                 arrayToReturn.add(exerciseTemplate);
             }
