@@ -1,6 +1,8 @@
 package com.simpleideas.gymmate;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
@@ -100,10 +102,9 @@ public class CaldroidCustomImplementation extends AppCompatActivity{
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            CustomLayerDrawable customLayerDrawable = new CustomLayerDrawable(mapInseration.getValue().size(), CaldroidCustomImplementation.this);
-
-            caldroidFragment.setBackgroundDrawableForDate(customLayerDrawable.getLayerDrawable(), date);
-
+            CustomLayerDrawable customLayerDrawable = new CustomLayerDrawable(mapInseration.getValue(), CaldroidCustomImplementation.this);
+            int[] colors = {Color.RED, Color.GREEN};
+            caldroidFragment.setBackgroundDrawableForDate(new ShapeDrawable(new TestShapeClass(colors)), date);
 
         }
 
@@ -169,10 +170,10 @@ public class CaldroidCustomImplementation extends AppCompatActivity{
             e.printStackTrace();
         }
 
-        CustomLayerDrawable customLayerDrawable = new CustomLayerDrawable(4, getApplicationContext());
-
-        //dateDrawableMap.put(date, ContextCompat.getDrawable(CaldroidCustomImplementation.this, R.drawable.oval_shape));
-        dateDrawableMap.put(date, customLayerDrawable.getLayerDrawable());
+//        CustomLayerDrawable customLayerDrawable = new CustomLayerDrawable(4, getApplicationContext());
+//
+//        //dateDrawableMap.put(date, ContextCompat.getDrawable(CaldroidCustomImplementation.this, R.drawable.oval_shape));
+//        dateDrawableMap.put(date, customLayerDrawable.getLayerDrawable());
 
         args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
         caldroidFragment.setBackgroundDrawableForDates(dateDrawableMap);

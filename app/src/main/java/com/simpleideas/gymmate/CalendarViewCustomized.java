@@ -1,6 +1,7 @@
 package com.simpleideas.gymmate;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -59,8 +60,6 @@ public class CalendarViewCustomized extends AppCompatActivity {
                 .setMaximumDate(CalendarDay.from(2100, 5, 12))
                 .setCalendarDisplayMode(CalendarMode.MONTHS)
                 .commit();
-
-
         customizeMaterialCalendarView(materialCalendarView);
 
         materialCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {

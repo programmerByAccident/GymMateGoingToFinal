@@ -4,13 +4,12 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.graphics.drawable.shapes.Shape;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
+
+import java.util.ArrayList;
 
 /**
  * Created by George Ciopei on 2/18/2017.
@@ -18,30 +17,31 @@ import android.util.Log;
 
 public class CustomLayerDrawable {
 
-    private int numberOfCircles;
+    private ArrayList<String> muscleBasedOnDate;
     private Context context;
-    public CustomLayerDrawable(int numberOfCircles, Context context){
-        this.numberOfCircles = numberOfCircles;
+    public CustomLayerDrawable(ArrayList<String> muscleBasedOnDAte, Context context){
+        this.muscleBasedOnDate = muscleBasedOnDAte;
         this.context = context;
     }
 
     public LayerDrawable getLayerDrawable(){
 
-        Drawable[] drawables = new Drawable[numberOfCircles];
+        Drawable[] drawables = new Drawable[muscleBasedOnDate.size()];
         float maximumValue = 100;
 
-        float difference = maximumValue / numberOfCircles;
+        float difference = maximumValue / muscleBasedOnDate.size();
         float addition = difference;
-        int[] colors = new int[numberOfCircles];
+        int[] colors = new int[muscleBasedOnDate.size()];
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        for (int index = 0; index<muscleBasedOnDate.size(); index++){
 
-        colors[0] = ContextCompat.getColor(context, R.color.caldroid_holo_blue_dark);
-        colors[1] = ContextCompat.getColor(context, R.color.caldroid_light_red);
-        colors[2] = ContextCompat.getColor(context,R.color.caldroid_sky_blue);
-        colors[3] = ContextCompat.getColor(context,R.color.textColorPrimary);
+            colors[index] = Color.parseColor(databaseHelper.selectColorBasedOnMuscle(muscleBasedOnDate.get(index)));
+
+        }
 
 
 
-        for (int i=0; i<numberOfCircles; i++){
+        for (int i = 0; i< muscleBasedOnDate.size(); i++){
 
             ShapeDrawable shapeDrawable = new ShapeDrawable(new OvalShape());
             shapeDrawable.setIntrinsicHeight((int)difference);

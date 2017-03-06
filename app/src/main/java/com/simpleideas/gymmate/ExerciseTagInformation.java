@@ -11,6 +11,15 @@ public class ExerciseTagInformation {
     private ArrayList<String> weight;
     private ArrayList<String> repetition;
     private String TAG;
+    private String Group;
+
+    public String getGroup() {
+        return Group;
+    }
+
+    public void setGroup(String group) {
+        Group = group;
+    }
 
     public ArrayList<String> getRepetition() {
         return repetition;

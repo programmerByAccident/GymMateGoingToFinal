@@ -5,7 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -22,10 +24,13 @@ public class DatabaseHelper {
 
     private SQLiteDatabase sqLiteDatabase;
 
+    private Context context;
+
     public DatabaseHelper(Context context){
 
         databaseManager = new DatabaseManager(context);
         this.sqLiteDatabase = databaseManager.getWritableDatabase();
+        this.context = context;
 
     }
 
@@ -45,6 +50,61 @@ public class DatabaseHelper {
 //        return arrayListToReturn;
 //
 //    }
+
+
+    public String selectColorBasedOnMuscle(String muscle){
+
+        String stringToReturn = null;
+        String[] columns = {"color_hex_code"};
+        String selection = "muscle_name=?";
+        String[] selectionArgs = { muscle };
+        Cursor cursor = sqLiteDatabase.query(Constants.color_map, columns, selection, selectionArgs, null,null,null);
+        int color = cursor.getColumnIndex("color_hex_code");
+        while(cursor.moveToFirst()){
+            stringToReturn = cursor.getString(color);
+        }
+
+
+        return stringToReturn;
+    }
+
+    public void saveOrUpdate(ArrayList<String> hexCodes, ArrayList<String> muscleNames){
+
+
+        String[] columns = { "color_hex_code" };
+
+
+        Cursor cursor = sqLiteDatabase.query(Constants.color_map, columns,null,null,null,null,null);
+
+        if(cursor.moveToFirst()){
+
+            Toast.makeText(context, "EXISTS", Toast.LENGTH_SHORT).show();
+
+            return;
+
+        }
+        else{
+
+            sqLiteDatabase = databaseManager.getWritableDatabase();
+            Toast.makeText(context, "Does not Exist", Toast.LENGTH_SHORT).show();
+            String sql = "insert into " + Constants.color_map + " (color_hex_code) VALUES (?);";
+            String sql_muscle = "UPDATE " + Constants.color_map + " SET muscle_name = ? WHERE _id=?;";
+            for (String hexCode:
+                 hexCodes) {
+                sqLiteDatabase.execSQL(sql, new String[]{hexCode});
+            }
+            for (int i = 0; i <muscleNames.size() ; i++) {
+
+                sqLiteDatabase.execSQL(sql_muscle, new String[]{muscleNames.get(i), String.valueOf(i)});
+
+            }
+
+            sqLiteDatabase.close();
+        }
+
+
+    }
+
     public void insertExerciseIntoDatabase(String date,String muscle_name, String exercise_name, int repetitions, float weight){
 
         sqLiteDatabase = databaseManager.getWritableDatabase();
@@ -129,6 +189,17 @@ public class DatabaseHelper {
     }
 
 
+    public String getColorBaseOnMuscleName(String muscle_name){
+
+        String[] columns = {"ColorName"};
+        String selection = "Muscle=?";
+        String[] selectionArgs = { muscle_name };
+        Cursor cursor = sqLiteDatabase.query(Constants.first_table, columns, selection, selectionArgs, null,null,null);
+
+
+
+        return "";
+    }
 
     public ArrayList<String> getMuscleNames(String difference){
         ArrayList<String> muscleGroups = new ArrayList<>();
@@ -191,7 +262,33 @@ public class DatabaseHelper {
 
         return listToReturn;
     }
-    
+
+    public void updateRecordColor(String colorHexCode, String muscleName){
+
+        sqLiteDatabase = databaseManager.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(muscleName, muscleName);
+        String where = "color_hex_code=?";
+        String[] whereArgs = { colorHexCode };
+        sqLiteDatabase.update(Constants.color_map,values,where,whereArgs);
+        sqLiteDatabase.close();
+
+    }
+
+    public void insertColorsHexCodes(ArrayList<String> hexCodes){
+
+        sqLiteDatabase = databaseManager.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        for (String hexcode:
+             hexCodes) {
+            values.put(hexcode, hexcode);
+        }
+
+    }
+
     public void insertColorsIntoDatabase(HashMap<String, String> colorMap){
 
         sqLiteDatabase = databaseManager.getWritableDatabase();
@@ -200,7 +297,7 @@ public class DatabaseHelper {
              colorMap.entrySet()) {
             ContentValues values = new ContentValues();
 
-            values.put("ColorName", inserationIntoDatabase.getKey());
+            values.put("MuscleName", inserationIntoDatabase.getKey());
             values.put("ColorValue", inserationIntoDatabase.getValue());
 
             sqLiteDatabase.insert(Constants.first_table, null, values);

@@ -228,19 +228,50 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
 
     private void checkColorMapExistanceIntoDatabase(){
 
-        HashMap<String, String> colorMap = new HashMap<>();
-
-        colorMap.put("Blue", "0000ff");
-        colorMap.put("Brown", "a52a2a" );
-        colorMap.put("Green","00ff00");
-        colorMap.put("Yellow","ffff00");
-        colorMap.put("Purple","a020f0");
-        colorMap.put("Red", "ff0000");
-
         DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
 
-        databaseHelper.insertColorsIntoDatabase(colorMap);
+        ArrayList<String> hexCodes = new ArrayList<>();
 
+        hexCodes.add("800000");
+        hexCodes.add("7FFFD4");
+        hexCodes.add("7FFF00");
+        hexCodes.add("7CFC00");
+        hexCodes.add("7B68EE");
+        hexCodes.add("778899");
+        hexCodes.add("708090");
+        hexCodes.add("6B8E23");
+        hexCodes.add("6A5ACD");
+        hexCodes.add("696969");
+        hexCodes.add("66CDAA");
+        hexCodes.add("6495ED");
+        hexCodes.add("5F9EA0");
+        hexCodes.add("556B2F");
+        hexCodes.add("4B0082");
+        hexCodes.add("48D1CC");
+        hexCodes.add("483D8B");
+        hexCodes.add("4682B4");
+        hexCodes.add("4169E1");
+        hexCodes.add("40E0D0");
+        hexCodes.add("3CB371");
+        hexCodes.add("32CD32");
+        hexCodes.add("2F4F4F");
+        hexCodes.add("2E8B57");
+        hexCodes.add("228B22");
+        hexCodes.add("20B2AA");
+        hexCodes.add("1E90FF");
+        hexCodes.add("191970");
+        hexCodes.add("00FFFF");
+        hexCodes.add("00FF7F");
+        hexCodes.add("00FF00");
+        hexCodes.add("00FA9A");
+        hexCodes.add("00CED1");
+        hexCodes.add("00BFFF");
+        hexCodes.add("008B8B");
+        hexCodes.add("008080");
+
+        ArrayList<String> muscles = getMuscles();
+
+        databaseHelper.saveOrUpdate(hexCodes, muscles);
     }
 
     private void setupPagerAdapter(){
@@ -321,6 +352,23 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
         }; // Drawer Toggle Object Made
         Drawer.addDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
         mDrawerToggle.syncState();               // Finally we set the drawer toggle sync State
+    }
+    private ArrayList<String> getMuscles(){
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        SharedPreferences.Editor editor = preferences.edit();
+
+        ArrayList<String> arralist = new ArrayList<>();
+
+        if(preferences.contains(Constants.GROUPS)){
+
+            arralist.addAll(preferences.getStringSet(Constants.GROUPS, new HashSet<String>()));
+
+        }
+
+        return  arralist;
+
     }
 
     private void callPhpScript(){

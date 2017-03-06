@@ -30,6 +30,7 @@
     <color name="arms">#FF00FF</color>
 
 
+
     <array name="rainbow">
         <item>@color/chest</item>
         <item>@color/back</item>
