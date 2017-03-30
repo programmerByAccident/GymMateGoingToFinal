@@ -1,44 +1,31 @@
 package com.simpleideas.gymmate;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.ColorRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutCompat;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import static android.R.attr.button;
-import static android.R.attr.colorPrimary;
+import adapters.ColorAdapter;
 
 /**
  * Created by Geprge on 12/27/2016.
@@ -48,13 +35,17 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
 
     private ImageButton addCategories;
     private String preferences;
+    private TextView colorOption;
     private EditText newCategory, newExercise;
     private Spinner chooseCategory;
     private SpinnerAdapter spinnerAdapter;
+    private ColorAdapter colorAdapter;
+    private Spinner colorPick;
     private View globalView, customSpinnerWidth;
     private Button insert_category, replaceAgain, getText;
     private ImageButton addNewCategory;
     LinearLayout manipulate, innerLayout;
+    private DatabaseHelper databaseHelper;
 
     String toShow = "Something";
 
@@ -77,18 +68,24 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
         View view;
         view = inflater.inflate(R.layout.dialog_fragment, container, false);
         globalView = view;
+        databaseHelper = new DatabaseHelper(getContext());
         manipulate = (LinearLayout) view.findViewById(R.id.manipulate);
         innerLayout = (LinearLayout) view.findViewById(R.id.innerLayout);
         newCategory = (EditText) view.findViewById(R.id.muscle_group);
         chooseCategory = (Spinner) view.findViewById(R.id.categorySpinner);
+        colorPick = (Spinner)view.findViewById(R.id.colorSpinner);
+        colorOption = (TextView)view.findViewById(R.id.colorOption);
         insert_category = (Button) view.findViewById(R.id.insert_new_category_button);
         addNewCategory = (ImageButton) view.findViewById(R.id.addNewCategory);
         addNewCategory.setOnClickListener(this);
         insert_category.setOnClickListener(this);
 
         ArrayList<String> elementsForSpinner = getInformation(Constants.GROUPS);
+        ArrayList<String> colorElements = databaseHelper.getAllHexCodes();
         elementsForSpinner.add(0, "");
         spinnerAdapter = new SpinnerAdapter(getContext(),elementsForSpinner);
+        colorAdapter = new ColorAdapter(getContext(), "color", colorElements);
+        colorPick.setAdapter(colorAdapter);
         //ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(),R.layout.spinner_item, elementsForSpinner);
         chooseCategory.setAdapter(spinnerAdapter);
         //addCategories.setOnClickListener(this);
@@ -123,6 +120,7 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
                         Toast.makeText(getContext(), "Insert category", Toast.LENGTH_SHORT).show();
                     }else{
                         addExerciseToCategory(((EditText) viewToManage).getText().toString(), newCategory.getText().toString());
+                        databaseHelper.insertColorBasedOnPositionPick(colorPick.getSelectedItem().toString(), checkExistance);
                     }
                 }
                 break;
@@ -133,10 +131,18 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
 
                 if(genericView instanceof Spinner){
                     replaceView(innerLayout, chooseCategory);
+                    colorPick.setVisibility(View.VISIBLE);
+                    colorOption.setVisibility(View.VISIBLE);
+                    addNewCategory.setImageResource(R.drawable.clear_custom);
+                    //addNewCategory.setBackgroundResource(R.drawable.clear_custom);
                 }
                 else
                 if(genericView instanceof EditText){
                     replaceBack(innerLayout, chooseCategory);
+                    colorPick.setVisibility(View.INVISIBLE);
+                    colorOption.setVisibility(View.INVISIBLE);
+                    //addNewCategory.setBackgroundResource(R.drawable.ic_launcher);
+                    addNewCategory.setImageResource(R.drawable.ic_launcher);
                 }
                 break;
         }
@@ -159,6 +165,7 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
             else{
                 exercises.add(exercise);
                 editor.putStringSet(category, exercises);
+                editor.clear();
                 editor.apply();
             }
         }
@@ -169,7 +176,14 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
             if(groups.contains(category) == false){
 
                 groups.add(category);
+                for (String muscle:
+                     groups) {
+
+                    Log.d("MARINAEEE", muscle);
+
+                }
                 defaultEditor.putStringSet(Constants.GROUPS, groups);
+                defaultEditor.clear();
                 defaultEditor.apply();
 
                 SharedPreferences customPreferences = getActivity().getApplicationContext().getSharedPreferences(category, getActivity().getApplicationContext().MODE_PRIVATE);
@@ -178,6 +192,7 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
                 Set<String> stringSet = new HashSet<>();
                 stringSet.add(exercise);
                 customEditor.putStringSet(category, stringSet);
+                customEditor.clear();
                 customEditor.apply();
             }
         }

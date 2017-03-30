@@ -1,35 +1,24 @@
 package com.simpleideas.gymmate;
 
-import android.animation.Animator;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
+
+import adapters.MuscleGroupsAdapter;
 
 /**
  * Created by Geprge on 12/4/2016.
@@ -58,12 +47,12 @@ public class ListViewWithMuscleGroups extends AppCompatActivity {
         date = intent.getExtras().getString("date");
         ArrayList<String> muscleGroups = getMuscleGroups();
 
-
         Toast.makeText(getApplicationContext(), String.valueOf(muscleGroups.size()), Toast.LENGTH_SHORT).show();
 
 
         muscleGroupsAdapter = new MuscleGroupsAdapter(muscleGroups, this, date);
-        muscles.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+      //  muscles.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        muscles.setLayoutManager(new LinearLayoutManager(this));
         muscles.setAdapter(muscleGroupsAdapter);
 
 

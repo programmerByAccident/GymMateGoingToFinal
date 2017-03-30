@@ -4,11 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,51 +36,65 @@ public class DatabaseHelper {
 
     }
 
-//    public ArrayList<ExerciseTemplate> getExerciseFromDatabaseBasedOnDifference(int difference){
-//
-//        ArrayList<ExerciseTemplate> arrayListToReturn = new ArrayList<>();
-//
-//        String searchItem = String.valueOf(difference);
-//
-//        String[] columns = {"DIFFERENCE"};
-//        String selection = "DIFFERENCE" + " =?";
-//        String[] selectionArgs = { searchItem };
-//
-//        Cursor cursor = sqLiteDatabase.query(Constants.EXERCISE_TABLE, columns, selection, selectionArgs, null,null,null);
-//        cursor.moveToFirst();
-//
-//        return arrayListToReturn;
-//
-//    }
+    public ArrayList<String> getAllHexCodes(){
 
+        ArrayList<String> colors = new ArrayList<>();
+        String[] columns = {"color_hex_code"};
+        Cursor cursor = sqLiteDatabase.query(Constants.color_map, columns,null,null,null,null,null);
+        cursor.moveToFirst();
+        int color = cursor.getColumnIndex("color_hex_code");
+        while (cursor.moveToNext()){
 
-    public String selectColorBasedOnMuscle(String muscle){
+            String string = cursor.getString(color);
+            colors.add(string);
 
+        }
+        return colors;
+
+    }
+
+    public int selectColorBasedOnMuscle(String muscle){
+        Log.d("astaVineCaParametru", muscle);
         String stringToReturn = null;
         String[] columns = {"color_hex_code"};
         String selection = "muscle_name=?";
         String[] selectionArgs = { muscle };
         Cursor cursor = sqLiteDatabase.query(Constants.color_map, columns, selection, selectionArgs, null,null,null);
         int color = cursor.getColumnIndex("color_hex_code");
-        while(cursor.moveToFirst()){
+        while(cursor.moveToNext()){
             stringToReturn = cursor.getString(color);
+            Log.d("Color from database", stringToReturn);
         }
 
+        Log.d("CEPLMEAICI", stringToReturn);
+        return Color.parseColor("#"+stringToReturn);
+    }
 
-        return stringToReturn;
+    public HashMap<String, ArrayList<String>> mapDateWithMuscles(){
+        HashMap<String, ArrayList<String>> musclemap = new HashMap<>();
+        ArrayList<String> dates = getDaysWithWorkout();
+        for (String availableDate:
+        dates) {
+
+            musclemap.put(availableDate, getMuscleNames(availableDate));
+
+        }
+
+        for (Map.Entry<String,ArrayList<String>> entry:
+             musclemap.entrySet()) {
+
+            Log.d("PLMMMMMM", String.valueOf(entry.getValue()));
+
+        }
+        return musclemap;
     }
 
     public void saveOrUpdate(ArrayList<String> hexCodes, ArrayList<String> muscleNames){
 
 
         String[] columns = { "color_hex_code" };
-
-
         Cursor cursor = sqLiteDatabase.query(Constants.color_map, columns,null,null,null,null,null);
-
         if(cursor.moveToFirst()){
-
-            Toast.makeText(context, "EXISTS", Toast.LENGTH_SHORT).show();
 
             return;
 
@@ -86,7 +102,6 @@ public class DatabaseHelper {
         else{
 
             sqLiteDatabase = databaseManager.getWritableDatabase();
-            Toast.makeText(context, "Does not Exist", Toast.LENGTH_SHORT).show();
             String sql = "insert into " + Constants.color_map + " (color_hex_code) VALUES (?);";
             String sql_muscle = "UPDATE " + Constants.color_map + " SET muscle_name = ? WHERE _id=?;";
             for (String hexCode:
@@ -95,7 +110,7 @@ public class DatabaseHelper {
             }
             for (int i = 0; i <muscleNames.size() ; i++) {
 
-                sqLiteDatabase.execSQL(sql_muscle, new String[]{muscleNames.get(i), String.valueOf(i)});
+                sqLiteDatabase.execSQL(sql_muscle, new String[]{muscleNames.get(i), String.valueOf(i+1)});
 
             }
 
@@ -120,19 +135,7 @@ public class DatabaseHelper {
         sqLiteDatabase.insert(Constants.first_table, null, values);
 
         sqLiteDatabase.close();
-
-
     }
-
-//    public void deleteRecord(String date, String exercise_name, String repetitions, String weight){
-//
-//        String table = Constants.first_table;
-//        String whereClause = "Difference  = ? AND Exercise = ? AND Repetitions = ? and Weight = ?";
-//        String[] whereTo = {date, exercise_name, repetitions, weight};
-//
-//        sqLiteDatabase.delete(table, whereClause, whereTo);
-//
-//    }
 
     public void deleteRecord(String date, String exercise_name, String repetitions, String weight){
 
@@ -141,12 +144,9 @@ public class DatabaseHelper {
 
         sqLiteDatabase.execSQL(deletestatement);
         sqLiteDatabase.close();
-
-
     }
 
     public boolean checkIfExerciseExists(int difference){
-
 
         String searchItem = String.valueOf(difference);
 
@@ -158,12 +158,20 @@ public class DatabaseHelper {
 
         boolean exists = (cursor.getCount() > 0);
 
-        //cursor.close();
         sqLiteDatabase.close();
 
         return exists;
+    }
+
+    public void insertColorBasedOnPositionPick(String hexcode, String muscle){
+
+        sqLiteDatabase = databaseManager.getWritableDatabase();
+        String sql_muscle = "UPDATE " + Constants.color_map + " SET muscle_name = ? WHERE color_hex_code=?;";
+        sqLiteDatabase.execSQL(sql_muscle, new String[]{muscle, String.valueOf(hexcode)});
+        sqLiteDatabase.close();
 
     }
+
 
     public ArrayList<String> exerciseNames(String difference){
 
@@ -188,15 +196,12 @@ public class DatabaseHelper {
         return names;
     }
 
-
     public String getColorBaseOnMuscleName(String muscle_name){
 
         String[] columns = {"ColorName"};
         String selection = "Muscle=?";
         String[] selectionArgs = { muscle_name };
         Cursor cursor = sqLiteDatabase.query(Constants.first_table, columns, selection, selectionArgs, null,null,null);
-
-
 
         return "";
     }
@@ -222,6 +227,41 @@ public class DatabaseHelper {
         return muscleGroups;
     }
 
+    public ArrayList<Float> getLast10WeightRecords(String exercise){
+
+        ArrayList<Float> getLast10 = new ArrayList<>();
+
+        String SearchItem = String.valueOf(exercise);
+        String[] columns = {"Weight"};
+        String selection = "Exercise=?";
+        String[] selectionArgs = {exercise};
+
+        Cursor cursor = sqLiteDatabase.query(Constants.first_table,columns,selection,selectionArgs,null,null,"_id DESC", "10");
+        int weightIndex = cursor.getColumnIndex("Weight");
+        while (cursor.moveToNext()){
+            getLast10.add(cursor.getFloat(weightIndex));
+        }
+
+        return getLast10;
+    }
+    public ArrayList<Integer> getLast10RepsRecords(String exercise){
+
+        ArrayList<Integer> getLast10 = new ArrayList<>();
+
+        String SearchItem = String.valueOf(exercise);
+        String[] columns = {"Repetitions"};
+        String selection = "Exercise=?";
+        String[] selectionArgs = {exercise};
+
+        Cursor cursor = sqLiteDatabase.query(Constants.first_table,columns,selection,selectionArgs,null,null,"_id DESC", "10");
+        int weightIndex = cursor.getColumnIndex("Repetitions");
+        while (cursor.moveToNext()){
+            getLast10.add(cursor.getInt(weightIndex));
+        }
+        Collections.sort(getLast10);
+        return getLast10;
+    }
+
     public ArrayList<String> getExerciseName(String difference){
         ArrayList<String> muscleGroups = new ArrayList<>();
 
@@ -243,6 +283,130 @@ public class DatabaseHelper {
         return muscleGroups;
     }
 
+    public HashMap<Integer, ArrayList<String>> getInformationOnMonthlyBasis(String exerciseName){
+
+        HashMap<Integer, ArrayList<String>> monthBasedDate = new HashMap<>();
+
+
+        sqLiteDatabase = databaseManager.getWritableDatabase();
+        String[] columns = {"Difference", "Exercise", "Muscle"};
+        String selection = "Difference LIKE ? and Exercise = ?";
+        String[] monthMap = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+
+
+        for (int i = 0; i < monthMap.length; i++){
+
+            String[] selectionArgs = {"%"+monthMap[i]+"%", exerciseName};
+
+
+            Cursor cursor = sqLiteDatabase.query(Constants.first_table, columns,selection,selectionArgs,null,null,null);
+
+            int differenceIndex = cursor.getColumnIndex("Difference");
+            int exerciseIndex = cursor.getColumnIndex("Exercise");
+            int muscleIndex = cursor.getColumnIndex("Muscle");
+            ArrayList<String> days = new ArrayList<>();
+            while(cursor.moveToNext()){
+
+                if (days.contains(cursor.getString(differenceIndex)) == false){
+                    days.add(cursor.getString(differenceIndex));
+                }
+
+
+            }
+
+            monthBasedDate.put(i, days);
+        }
+
+
+        return monthBasedDate;
+
+
+    }
+
+    public HashMap<Integer, ArrayList<String>> getInformationOnMonthlyBasis(){
+
+        HashMap<Integer, ArrayList<String>> monthBasedDate = new HashMap<>();
+
+
+        sqLiteDatabase = databaseManager.getWritableDatabase();
+        String[] columns = {"Difference", "Exercise", "Muscle"};
+        String selection = "Difference LIKE ?";
+        String[] monthMap = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+
+
+        for (int i = 0; i < monthMap.length; i++){
+
+            String[] selectionArgs = {"%"+monthMap[i]+"%"};
+
+
+            Cursor cursor = sqLiteDatabase.query(Constants.first_table, columns,selection,selectionArgs,null,null,null);
+
+            int differenceIndex = cursor.getColumnIndex("Difference");
+            int exerciseIndex = cursor.getColumnIndex("Exercise");
+            int muscleIndex = cursor.getColumnIndex("Muscle");
+            ArrayList<String> days = new ArrayList<>();
+            while(cursor.moveToNext()){
+
+                if (days.contains(cursor.getString(differenceIndex)) == false){
+                    days.add(cursor.getString(differenceIndex));
+                }
+
+
+            }
+
+            monthBasedDate.put(i, days);
+        }
+
+
+        return monthBasedDate;
+
+
+    }
+
+    public ArrayList<ExerciseTemplate> getInformationForExercise(String exerciseName){
+
+        sqLiteDatabase = databaseManager.getWritableDatabase();
+
+        ArrayList<ExerciseTemplate> arrayToReturn = new ArrayList<>();
+
+        String searchItem = String.valueOf(exerciseName);
+        String[] columns = {"Difference", "Exercise", "Weight", "Repetitions", "Muscle"};
+        String selection = "Exercise=?";
+        String[] selectionArgs = {searchItem};
+
+        Cursor cursor = sqLiteDatabase.query(Constants.first_table, columns, selection, selectionArgs, null,null,null);
+
+        int exerciseIndex = cursor.getColumnIndexOrThrow("Exercise");
+        int differenceIndex = cursor.getColumnIndexOrThrow("Difference");
+        int weightIndex = cursor.getColumnIndex("Weight");
+        int repsIndex = cursor.getColumnIndex("Repetitions");
+        int muscleIndex = cursor.getColumnIndex("Muscle");
+
+        try {
+            while (cursor.moveToNext()){
+
+                String exerciseRecord = cursor.getString(exerciseIndex);
+                String muscleName = cursor.getString(muscleIndex);
+                String differenceI = cursor.getString(differenceIndex);
+                float weight = cursor.getFloat(weightIndex);
+                int reps = cursor.getInt(repsIndex);
+
+                ExerciseTemplate exerciseTemplate = new ExerciseTemplate(muscleName,exerciseRecord,differenceI, reps, weight);
+
+                arrayToReturn.add(exerciseTemplate);
+            }
+
+            //cursor.close();
+
+        } finally {
+            cursor.close();
+            sqLiteDatabase.close();
+        }
+
+        return arrayToReturn;
+
+    }
+
     public ArrayList<String> getDaysWithWorkout(){
 
         sqLiteDatabase = databaseManager.getWritableDatabase();
@@ -258,6 +422,13 @@ public class DatabaseHelper {
             String date = cursor.getString(cursor.getColumnIndex("Difference"));
 
             listToReturn.add(date);
+        }
+
+        for (String day:
+             listToReturn) {
+
+            Log.d("PLM trebuie sa fie", day);
+
         }
 
         return listToReturn;
@@ -319,10 +490,6 @@ public class DatabaseHelper {
         String[] selectionArgs = {searchItem};
 
         Cursor cursor = sqLiteDatabase.query(Constants.first_table, columns, selection, selectionArgs, null,null,null);
-
-//        if(cursor!=null){
-//            cursor.moveToFirst();
-//        }
 
         int exerciseIndex = cursor.getColumnIndexOrThrow("Exercise");
         int differenceIndex = cursor.getColumnIndexOrThrow("Difference");

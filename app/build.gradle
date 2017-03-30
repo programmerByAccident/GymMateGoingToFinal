@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "23.0.3"
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "com.simpleideas.gymmate"
@@ -21,11 +21,16 @@ android {
 }
 
 dependencies {
+
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
     testCompile 'junit:junit:4.12'
-
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile "com.androidplot:androidplot-core:1.4.1"
+    compile 'com.facebook.android:facebook-android-sdk:4.+'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
     compile 'com.android.support:appcompat-v7:25.0.0'
+    //compile 'com.androidplot:androidplot-core:1.4.1'
     compile 'com.android.support:design:25.0.0'
     compile files('C:/Users/Geprge/AndroidStudioProjects/GymMate2/libs/joda-time-2.9.4.jar')
     compile 'com.github.npanigrahy:Custom-Calendar-View:v1.1'

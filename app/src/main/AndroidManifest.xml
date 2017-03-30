@@ -5,7 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+
     <application
+
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,28 +17,42 @@
             android:theme="@style/AppTheme">
 
         </activity>
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".StartActivity"
             android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity android:name=".ListViewWithMuscleGroups"
             android:theme="@style/AppTheme"></activity>
         <activity android:name=".CertainMuscleListView"
             android:theme="@style/AppTheme">
-
         </activity>
 
         <activity android:name=".InsertActivity"
-        android:theme="@style/AppTheme">
-
+        android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden">
         </activity>
         <activity android:name=".CalendarViewCustomized"
             android:theme="@style/AppTheme">
-
+        </activity>
+        <activity android:name=".FacebookActivityMyOwnImplementation"
+            android:theme="@style/AppTheme"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

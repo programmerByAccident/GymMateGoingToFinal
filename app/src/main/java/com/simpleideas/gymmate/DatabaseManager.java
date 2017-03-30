@@ -39,10 +39,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(database_table_creation);
         sqLiteDatabase.execSQL(database_color_table_creation);
 
-//        sqLiteDatabase.execSQL(sql_commands.create_table("USERS" , "ID", "NAME", "", ""));
-//        sqLiteDatabase.execSQL(sql_commands.create_table("MUSCLE_GROUP", "ID", "NAME", "", ""));
-//        sqLiteDatabase.execSQL(sql_commands.create_table("RECORDS", "ID", "USER", "MUSCLE_GROUP", ""));
-
     }
 
     @Override

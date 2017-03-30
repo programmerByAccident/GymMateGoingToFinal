@@ -23,7 +23,6 @@ public class SpinnerAdapter extends ArrayAdapter<String> {
     private LayoutInflater inflater;
     public SpinnerAdapter(Context context, ArrayList<String> spinnerElements) {
         super(context,R.layout.spinner_item, spinnerElements);
-
         this.spinnerElements = spinnerElements;
     }
 
@@ -41,7 +40,6 @@ public class SpinnerAdapter extends ArrayAdapter<String> {
         }
 
         TextView spinnerItem = (TextView) customViewToInflate.findViewById(R.id.spinnerItem);
-
         spinnerItem.setText(this.spinnerElements.get(position).toString());
 
         return customViewToInflate;

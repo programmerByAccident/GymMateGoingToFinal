@@ -22,6 +22,9 @@ public class Constants {
     public static final String DELETE_OPERATION = "";
     public static final String CREDENTIALS = "credentials";
 
+    public static final String PROFILE_PIC = "profile_pic";
+
+    public static final String bitmap = "bitmap";
 
     ///DynamicFragment creation arguments tags.
 

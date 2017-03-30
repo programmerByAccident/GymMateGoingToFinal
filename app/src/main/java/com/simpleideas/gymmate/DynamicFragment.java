@@ -1,41 +1,32 @@
 package com.simpleideas.gymmate;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.TimeZone;
+
+import adapters.CustomRecyclerViewAdapter;
 
 /**
  * Created by programmerByAccident on 8/28/2016.
@@ -72,6 +63,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
         //rrayList=databaseManager.getAllExercises(dateString);
         arrayList=databaseManager.getAllExercisesMapped(dateString);
         customRecyclerViewAdapter = new CustomRecyclerViewAdapter(getActivity(),arrayList, dateString);
+
     }
 
 
@@ -233,79 +225,8 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
 
         ArrayList<ExerciseTemplate> exercises = new ArrayList<>();
 
-
-
-
-
-
-
         return exercises;
     }
-
-//    private void listenerInsertFragmentClick(View view){
-//
-//        Button insertButton = (Button)view.findViewById(R.id.ifb);
-//
-//        insertButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//
-//                ArrayList<String> listSomething = new ArrayList<String>();
-//                listSomething.add(0,"exercise1");
-//                listSomething.add(1, "exercise2");
-//                listSomething.add(2, "exercise3");
-//
-//
-//                insertFragmentOnClick("SomeName", listSomething);
-//            }
-//        });
-//
-//    }
-//    private void insertFragmentOnClick(String name, ArrayList<String> exerciseNames){
-//
-//        Exercise exercise = Exercise.newInstance(name, exerciseNames);
-//
-//        FragmentManager fragmentManager = getChildFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//
-//        fragmentTransaction.add(R.id.internalLinearLayout, exercise);
-//        fragmentTransaction.commit();
-//
-//    }
-//
-//    private void insertFragments(View view){
-//
-//        List<Exercise> someExerciseList = Exercise.newInstance(120);
-//
-//        for(int index = 0; index<someExerciseList.size();index++){
-//
-//            FragmentManager fragmentManager = getChildFragmentManager();
-//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//            Exercise exerciseFragment = someExerciseList.get(index);
-//            exerciseFragment.getView().setPadding(10,10,10,10);
-//            if(index % 2 != 1){
-//                exerciseFragment.getView().setBackgroundColor(2);
-//            }
-//            else{
-//                exerciseFragment.getView().setBackgroundColor(3);
-//            }
-//            fragmentTransaction.add(R.id.internalLinearLayout,someExerciseList.get(index));
-//
-//            fragmentTransaction.commit();
-//
-//        }
-//    }
-//    private void initializeFloatingButton(View view){
-//        FloatingActionButton insert_floating_button;
-//        insert_floating_button = (FloatingActionButton) view.findViewById(R.id.insert_floating_button);
-//        insert_floating_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                floatingButtonActions();
-//            }
-//        });
-//    }
 
 
     public static DynamicFragment createInstanceBasedOnDifferenceBetweenCurrentDateAndPosition(int difference){
@@ -330,23 +251,12 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
         return dynamicFragment;
     }
 
-//    private void setCentralText(View view){
-//        textView = (TextView) view.findViewById(R.id.textView);
-//        textView.setText(date);
-//    }
-
     private void floatingButtonActions(){
 
         Log.d("DynamicFragment","floating button actions");
         AccesRemoteDatabase start_background_thread = new AccesRemoteDatabase();
         start_background_thread.execute(Constants.PHP_SCRIPT_LOCAL_HOST);
         Log.d("FBActions","after");
-
-//        Intent intent = new Intent(getActivity(), CalendarArea.class);
-//        startActivity(intent);
-
-
-
     }
 
     public void insertFragment(){

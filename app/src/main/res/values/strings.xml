@@ -5,4 +5,6 @@
     <string name="adjust">adjust</string>
     <string name="openDrawer">open</string>
     <string name="closeDrawer">close</string>
+    <string name="fb_login_protocol_scheme">fbAPP_ID</string>
+    <string name="facebook_app_id">1924949681068484</string>
 </resources>

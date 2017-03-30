@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Geprge on 11/27/2016.
@@ -37,8 +38,6 @@ public class LetsMakeAnAdapter extends ArrayAdapter<ExerciseTemplate> {
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-
 
         View customViewToInflate = convertView;
 

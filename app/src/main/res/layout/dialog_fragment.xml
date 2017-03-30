@@ -83,7 +83,25 @@
                 android:id="@+id/addNewCategory"
                 android:layout_weight="1" />
         </LinearLayout>
-
+        <TextView
+            android:text="Color:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginTop"
+            android:visibility="invisible"
+            android:id="@+id/colorOption"
+            android:textColor="@color/black"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_weight="1"
+            />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/colorSpinner"
+            android:backgroundTint="@color/colorPrimary"
+            android:visibility="invisible"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:layout_weight="3" />
         <Button
             android:text="Insert"
             android:background="@color/colorPrimary"

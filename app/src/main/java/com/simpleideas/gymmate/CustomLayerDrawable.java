@@ -35,7 +35,7 @@ public class CustomLayerDrawable {
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         for (int index = 0; index<muscleBasedOnDate.size(); index++){
 
-            colors[index] = Color.parseColor(databaseHelper.selectColorBasedOnMuscle(muscleBasedOnDate.get(index)));
+            colors[index] = databaseHelper.selectColorBasedOnMuscle(muscleBasedOnDate.get(index));
 
         }
 

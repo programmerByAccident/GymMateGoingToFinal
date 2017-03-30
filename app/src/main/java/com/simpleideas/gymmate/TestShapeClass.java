@@ -6,6 +6,8 @@ import android.graphics.drawable.shapes.Shape;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import java.util.ArrayList;
+
 
 /**
  * Created by Geprge on 3/6/2017.
@@ -14,9 +16,9 @@ import android.graphics.Paint;
     public class TestShapeClass extends Shape {
 
         private static final float WIDTH = 12f;
-        private int[] colors;
+        private ArrayList<Integer> colors;
 
-        public TestShapeClass(int[] colors){
+        public TestShapeClass(ArrayList<Integer> colors){
             this.colors = colors;
         }
 
@@ -32,7 +34,7 @@ import android.graphics.Paint;
             for(int color:colors){
                 paint.setColor(color);
                 canvas.drawCircle(cx,cy,radius,paint);
-                radius-=WIDTH/2;
+                radius-=WIDTH;
             }
 
         }

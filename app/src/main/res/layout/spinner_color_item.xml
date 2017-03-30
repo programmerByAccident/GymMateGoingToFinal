@@ -2,8 +2,5 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:textAlignment="center"
-    android:textColor="@color/caldroid_transparent"
-    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
     android:id="@+id/spinnerItem">
 </TextView>

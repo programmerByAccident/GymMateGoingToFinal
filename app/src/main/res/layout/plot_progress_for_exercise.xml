@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ap="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/chart"></com.github.mikephil.charting.charts.LineChart>
+
+    <!--<com.androidplot.xy.XYPlot-->
+        <!--android:id="@+id/plot"-->
+        <!--android:background="@color/colorPrimaryLight"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--ap:title="A Simple XY Plot"-->
+        <!--ap:rangeTitle="range"-->
+        <!--ap:domainTitle="domain"-->
+        <!--ap:lineLabels="left|bottom"-->
+        <!--ap:lineLabelRotationBottom="-45"/>-->
+
+</LinearLayout>

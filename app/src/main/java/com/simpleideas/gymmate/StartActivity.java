@@ -4,45 +4,45 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.nshmura.recyclertablayout.RecyclerTabLayout;
 
+import com.facebook.FacebookActivity;
+import com.facebook.login.widget.ProfilePictureView;
 import com.roomorama.caldroid.CaldroidFragment;
-import com.roomorama.caldroid.CaldroidListener;
 
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import org.w3c.dom.Text;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TimeZone;
 
-import hirondelle.date4j.DateTime;
+import Fragments.DialogBoxForMetrics;
+import adapters.EndlessPagerAdapter;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class StartActivity extends AppCompatActivity implements DynamicFragment.DataSenderBetweenFragments, NavigationView.OnNavigationItemSelectedListener{
 
@@ -52,23 +52,33 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
     NavigationView navigationView;
     DrawerLayout Drawer;
     CaldroidFragment globalFragment;
+    private CircleImageView globalForResume;
+    private final String TAG = "StartActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        //DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-
-
+        Log.d(TAG, "onCreate: IF not passed");
         createSharedPreferences(getApplicationContext());
         setupActionBar();
         //setupDrawerLayout();
         setupPagerAdapter();
         checkColorMapExistanceIntoDatabase();
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
+
+
+        SharedPreferences preferences = getSharedPreferences(Constants.bitmap, MODE_PRIVATE);
+        String encoded = preferences.getString("bitmap","123");
+        byte[] imageAsBytes = Base64.decode(encoded,0);
+        View headerLayout = navigationView.inflateHeaderView(R.layout.drawer_header);
+        CircleImageView profilePictureView = (CircleImageView) headerLayout.findViewById(R.id.profile_image);
+        TextView userCredentials = (TextView) headerLayout.findViewById(R.id.nameAndLastName);
+        userCredentials.setText(preferences.getString("firstname","") + " "+ preferences.getString("lastname",""));
+        globalForResume = profilePictureView;
+        profilePictureView.setImageBitmap(BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length));
+
+
         navigationView.setNavigationItemSelectedListener(this);
-
-
-
     }
 
     @Override
@@ -98,7 +108,10 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
         super.onDestroy();
     }
 
+    private void populateTheView(){
 
+
+    }
         @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -142,9 +155,11 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         if(preferences.contains(Constants.GROUPS)){
+            Toast.makeText(context, "Exists", Toast.LENGTH_SHORT).show();
             return;
         }
         else{
+            Toast.makeText(context, "Does not exist", Toast.LENGTH_SHORT).show();
             SharedPreferences.Editor editor = preferences.edit();
 
             String[] muscleGroups = {Constants.BACK, Constants.CHEST, Constants.LEGS, Constants.ARMS, Constants.SHOULDERS};
@@ -187,7 +202,14 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
     }
 
 
-
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        SharedPreferences preferences = getSharedPreferences(Constants.bitmap, MODE_PRIVATE);
+//        String encoded = preferences.getString("bitmap","123");
+//        byte[] imageAsBytes = Base64.decode(encoded,0);
+//        globalForResume.setImageBitmap(BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length));
+//    }
 
     private void checkCredentials(){
         Log.d("RemoteDatabase","doinbackground before while");
@@ -270,7 +292,12 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
         hexCodes.add("008080");
 
         ArrayList<String> muscles = getMuscles();
+        for (String muscle:
+             muscles) {
 
+            Log.d("Muscle->>>>>>", muscle);
+
+        }
         databaseHelper.saveOrUpdate(hexCodes, muscles);
     }
 
@@ -280,10 +307,6 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
         EndlessPagerAdapter adapter = new EndlessPagerAdapter(getSupportFragmentManager(), getApplicationContext());
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(50000,false);
-
-
-
-
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -346,9 +369,6 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
                 super.onDrawerClosed(drawerView);
                 // Code here will execute once drawer is closed
             }
-
-
-
         }; // Drawer Toggle Object Made
         Drawer.addDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
         mDrawerToggle.syncState();               // Finally we set the drawer toggle sync State
@@ -377,48 +397,6 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
         start_background_thread.execute(Constants.PHP_SCRIPT_LOCAL_HOST);
 
     }
-
-//    private void setupDrawerLayout(){
-//
-//
-//        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-//
-//        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.drawerRecycler);
-//
-//        ArrayList<String> arrayList = new ArrayList<>();
-//        arrayList.add("element1");
-//        arrayList.add("element1");
-//        arrayList.add("element1");
-//        arrayList.add("element1");
-//
-//        DrawerLayoutAdapter drawerLayoutAdapter = new DrawerLayoutAdapter(this, arrayList);
-//
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//
-//        recyclerView.setAdapter(drawerLayoutAdapter);
-//
-//
-//
-//
-//    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //@Override
 //    public void sendData(String message_to_send) {
 //
