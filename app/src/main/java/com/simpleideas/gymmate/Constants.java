@@ -25,6 +25,7 @@ public class Constants {
     public static final String PROFILE_PIC = "profile_pic";
 
     public static final String bitmap = "bitmap";
+    public static final String bitmapP = "bitmapP";
 
     ///DynamicFragment creation arguments tags.
 

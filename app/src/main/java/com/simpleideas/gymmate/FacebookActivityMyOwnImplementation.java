@@ -14,6 +14,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -23,6 +26,7 @@ import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.simpleideas.gymmate.R;
 
 import java.io.ByteArrayOutputStream;
@@ -37,16 +41,19 @@ import java.util.ArrayList;
  * Created by Geprge on 3/27/2017.
  */
 
-public class FacebookActivityMyOwnImplementation extends AppCompatActivity{
+public class FacebookActivityMyOwnImplementation extends AppCompatActivity implements View.OnClickListener{
 
     CallbackManager mCallBackManager;
     String TAG = "FacebookActivityCustom";
     private ProfileTracker mProfileTracker;
+    private Button singUpViaemail;
+    private TextView alreadyRegistered;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.facebook_activity_layout);
-
+        singUpViaemail = (Button) findViewById(R.id.viaEmail);
+        alreadyRegistered  = (TextView) findViewById(R.id.alreadyRegistered);
         if (getSharedPreferences("bitmap", MODE_PRIVATE).contains("bitmap") == true){
 
             Intent firstIntent  = new Intent(FacebookActivityMyOwnImplementation.this, StartActivity.class);
@@ -61,6 +68,21 @@ public class FacebookActivityMyOwnImplementation extends AppCompatActivity{
     }
 
     public void createBehaviourForFacebook(){
+
+        singUpViaemail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(FacebookActivityMyOwnImplementation.this, SingUpActivity.class));
+            }
+        });
+
+        alreadyRegistered.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(FacebookActivityMyOwnImplementation.this, SignInActivity.class));
+                finish();
+            }
+        });
 
         LoginButton loginButton = (LoginButton) findViewById(R.id.login);
         loginButton.setReadPermissions(new ArrayList<String>());
@@ -162,6 +184,15 @@ public class FacebookActivityMyOwnImplementation extends AppCompatActivity{
         }).start();
 
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.viaEmail){
+
+            startActivity(new Intent(FacebookActivityMyOwnImplementation.this, SingUpActivity.class));
+
+        }
     }
 }
 

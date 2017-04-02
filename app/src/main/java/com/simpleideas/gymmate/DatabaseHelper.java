@@ -53,6 +53,21 @@ public class DatabaseHelper {
 
     }
 
+    public HashMap<String, Integer> mapNumberOfWorkoutsPerMonthForPieChart(String month){
+
+        sqLiteDatabase = databaseManager.getReadableDatabase();
+
+        String[] columns = {};
+        String selection = "Difference LIKE ?";
+        String[] selectionArgs = { month };
+        Cursor cursor = sqLiteDatabase.query(Constants.first_table, columns, selection, selectionArgs,null,null,null);
+
+        HashMap<String, Integer> map = new HashMap<>();
+
+        return map;
+
+    }
+
     public int selectColorBasedOnMuscle(String muscle){
         Log.d("astaVineCaParametru", muscle);
         String stringToReturn = null;
@@ -283,6 +298,44 @@ public class DatabaseHelper {
         return muscleGroups;
     }
 
+    public HashMap<Integer, ArrayList<String>> getInformationOnMonthlyBasesCategoryWised(String category){
+
+        HashMap<Integer, ArrayList<String>> monthBasedDate = new HashMap<>();
+
+
+        sqLiteDatabase = databaseManager.getWritableDatabase();
+        String[] columns = {"Difference", "Exercise", "Muscle"};
+        String selection = "Difference LIKE ? and Muscle = ?";
+        String[] monthMap = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+
+
+        for (int i = 0; i < monthMap.length; i++){
+
+            String[] selectionArgs = {"%"+monthMap[i]+"%", category};
+
+            Cursor cursor = sqLiteDatabase.query(Constants.first_table, columns,selection,selectionArgs,null,null,null);
+
+            int differenceIndex = cursor.getColumnIndex("Difference");
+            int exerciseIndex = cursor.getColumnIndex("Exercise");
+            int muscleIndex = cursor.getColumnIndex("Muscle");
+            ArrayList<String> days = new ArrayList<>();
+            while(cursor.moveToNext()){
+
+                if (days.contains(cursor.getString(differenceIndex)) == false){
+                    days.add(cursor.getString(differenceIndex));
+                }
+
+
+            }
+
+            monthBasedDate.put(i, days);
+        }
+
+
+        return monthBasedDate;
+
+    }
+
     public HashMap<Integer, ArrayList<String>> getInformationOnMonthlyBasis(String exerciseName){
 
         HashMap<Integer, ArrayList<String>> monthBasedDate = new HashMap<>();
@@ -297,7 +350,6 @@ public class DatabaseHelper {
         for (int i = 0; i < monthMap.length; i++){
 
             String[] selectionArgs = {"%"+monthMap[i]+"%", exerciseName};
-
 
             Cursor cursor = sqLiteDatabase.query(Constants.first_table, columns,selection,selectionArgs,null,null,null);
 

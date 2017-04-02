@@ -23,6 +23,16 @@
             android:checkable="true"
 
             />
+
+        <item
+
+            android:id="@+id/yearPieChart"
+            android:title="Overall Summary"
+            android:icon="@drawable/pie_chart"
+            android:checkable="true"
+
+            />
+
         <item
 
             android:id="@+id/nutritionalView"

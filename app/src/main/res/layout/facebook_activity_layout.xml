@@ -8,5 +8,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" />
+    <Button
+        android:layout_width="wrap_content"
+        android:id="@+id/viaEmail"
+        android:layout_height="wrap_content"
+        android:text="Register with email and password!"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimary"
+        android:layout_gravity="center_horizontal"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/alreadyRegistered"
+        android:text="Already registered? Click here to sign in."
+        android:gravity="bottom"
+        android:layout_gravity="bottom"/>
 
 </LinearLayout>
