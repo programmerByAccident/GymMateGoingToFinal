@@ -8,6 +8,11 @@ import android.graphics.Color;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -296,6 +301,54 @@ public class DatabaseHelper {
         }
 
         return muscleGroups;
+    }
+
+    public List<PieEntry> getMonthMapedWithNumbers(){
+        HashMap<Integer, ArrayList<String>> monthBasedDate = new HashMap<>();
+        List pieEntryList = new ArrayList();
+
+
+        sqLiteDatabase = databaseManager.getWritableDatabase();
+        String[] columns = {"Difference", "Exercise", "Muscle"};
+        String selection = "Difference LIKE ?";
+        String[] monthMap = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+
+
+        for (int i = 0; i < monthMap.length; i++){
+
+            String[] selectionArgs = {"%"+monthMap[i]+"%"};
+
+            Cursor cursor = sqLiteDatabase.query(Constants.first_table, columns,selection,selectionArgs,null,null,null);
+
+            int differenceIndex = cursor.getColumnIndex("Difference");
+            int exerciseIndex = cursor.getColumnIndex("Exercise");
+            int muscleIndex = cursor.getColumnIndex("Muscle");
+            ArrayList<String> days = new ArrayList<>();
+            while(cursor.moveToNext()){
+
+                if (days.contains(cursor.getString(differenceIndex)) == false){
+                    days.add(cursor.getString(differenceIndex));
+                }
+
+
+            }
+
+            monthBasedDate.put(i, days);
+        }
+
+        for (Map.Entry<Integer, ArrayList<String>> insertion:
+             monthBasedDate.entrySet()) {
+
+            if(insertion.getValue().size() != 0){
+                PieEntry pieEntry = new PieEntry(insertion.getValue().size(), monthMap[insertion.getKey()]);
+                pieEntryList.add(pieEntry);
+            }
+
+
+        }
+
+
+        return pieEntryList;
     }
 
     public HashMap<Integer, ArrayList<String>> getInformationOnMonthlyBasesCategoryWised(String category){

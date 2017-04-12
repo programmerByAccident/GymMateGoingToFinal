@@ -354,20 +354,17 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
 
 
         ActionBarDrawerToggle mDrawerToggle;
-        Drawer = (DrawerLayout) findViewById(R.id.drawerLayout);        // Drawer object Assigned to the view
+        Drawer = (DrawerLayout) findViewById(R.id.drawerLayout); // Drawer object Assigned to the view
         mDrawerToggle = new ActionBarDrawerToggle(this,Drawer,toolbar,R.string.openDrawer,R.string.closeDrawer){
 
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                // code here will execute once the drawer is opened( As I dont want anything happened whe drawer is
-                // open I am not going to put anything here)
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                // Code here will execute once drawer is closed
             }
         }; // Drawer Toggle Object Made
         Drawer.addDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
@@ -397,37 +394,29 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
         start_background_thread.execute(Constants.PHP_SCRIPT_LOCAL_HOST);
 
     }
-    //@Override
-//    public void sendData(String message_to_send) {
-//
-//        ScreenTwo sc2 = (ScreenTwo)getFragmentManager().findFragmentById(R.id.scrtwo);
-//        sc2.getData(message_to_send);
-//
-//    }
 
     @Override
     public void sendPhoto(Bitmap picture) {
-
     }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.calendarViewItem:
-
                 Intent intentCalendar = new Intent(this, CaldroidCustomImplementation.class);
                 startActivity(intentCalendar);
                 break;
+
             case R.id.newExercise:
-
                 DialogForAddingContent dialogForAddingContent = DialogForAddingContent.newInstance(Constants.GROUPS);
-
                 dialogForAddingContent.show(getSupportFragmentManager(), "tag");
-
 //                Intent intent = new Intent(this, InsertActivity.class);
 //                startActivity(intent);
                 break;
 
+            case R.id.yearPieChart:
+                Intent getPieDataShowing = new Intent(StartActivity.this, OverallSummaryActivity.class);
+                startActivity(getPieDataShowing);
 
         }
 
