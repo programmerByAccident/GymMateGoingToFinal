@@ -15,5 +15,12 @@
         <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
     </style>
 
+
+    <style name="RadioButtonStyle" parent="AppTheme">
+        <item name="colorControlNormal">@color/caldroid_lighter_gray</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textColorSecondary">@color/black</item>
+    </style>
+
 </resources>
 

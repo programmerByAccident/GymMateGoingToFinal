@@ -6,6 +6,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -65,6 +66,11 @@ public class CaldroidCustomImplementation extends AppCompatActivity{
 
                 @Override
                 public void onSelectDate(Date date, View view) {
+
+                    DateFormat dateFormat = new SimpleDateFormat("E - d - MMMM - yyyy");
+                    dateFormat.format(date);
+
+
 
                 }
             });

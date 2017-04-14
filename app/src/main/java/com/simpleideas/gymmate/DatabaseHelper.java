@@ -303,7 +303,7 @@ public class DatabaseHelper {
         return muscleGroups;
     }
 
-    public List<PieEntry> getMonthMapedWithNumbers(){
+    public List<PieEntry> getMonthMappedWithNumbers(String[] monthMap){
         HashMap<Integer, ArrayList<String>> monthBasedDate = new HashMap<>();
         List pieEntryList = new ArrayList();
 
@@ -311,8 +311,7 @@ public class DatabaseHelper {
         sqLiteDatabase = databaseManager.getWritableDatabase();
         String[] columns = {"Difference", "Exercise", "Muscle"};
         String selection = "Difference LIKE ?";
-        String[] monthMap = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-
+        //String[] monthMap = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
         for (int i = 0; i < monthMap.length; i++){
 
@@ -351,7 +350,7 @@ public class DatabaseHelper {
         return pieEntryList;
     }
 
-    public HashMap<Integer, ArrayList<String>> getInformationOnMonthlyBasesCategoryWised(String category){
+    public HashMap<Integer, ArrayList<String>> getInformationOnMonthlyBasesCategoryWised(String[] monthMap){
 
         HashMap<Integer, ArrayList<String>> monthBasedDate = new HashMap<>();
 
@@ -359,12 +358,12 @@ public class DatabaseHelper {
         sqLiteDatabase = databaseManager.getWritableDatabase();
         String[] columns = {"Difference", "Exercise", "Muscle"};
         String selection = "Difference LIKE ? and Muscle = ?";
-        String[] monthMap = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        //String[] monthMap = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
 
         for (int i = 0; i < monthMap.length; i++){
 
-            String[] selectionArgs = {"%"+monthMap[i]+"%", category};
+            String[] selectionArgs = {"%"+monthMap[i]+"%"};
 
             Cursor cursor = sqLiteDatabase.query(Constants.first_table, columns,selection,selectionArgs,null,null,null);
 

@@ -5,17 +5,100 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:orientation="vertical"
     tools:context="com.simpleideas.gymmate.OverallSummaryActivity">
 
-    <com.github.mikephil.charting.charts.PieChart
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:weightSum="4">-->
+
+        <!--<RadioButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:id="@+id/month"/>-->
+        <!--<RadioButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/quarter"-->
+            <!--android:layout_weight="1"/>-->
+        <!--<RadioButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/half"-->
+            <!--android:layout_weight="1"/>-->
+        <!--<RadioButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/year"-->
+            <!--android:layout_weight="1"/>-->
+    <!--</LinearLayout>-->
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/toolbar"
+        ></include>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/overallPieChart"
-        android:layout_gravity="center_horizontal"
-        >
+        android:layout_margin="16dp"
+        android:orientation="vertical">
 
-    </com.github.mikephil.charting.charts.PieChart>
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioSession"
+            android:orientation="horizontal"
+            android:theme="@style/RadioButtonStyle"
+            android:layout_margin="16dp"
+            android:weightSum="4"
+            android:checkedButton="@id/month">
+
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Month"
+                android:id="@+id/month"
+                android:theme="@style/RadioButtonStyle"
+                android:layout_weight="1"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/RadioButtonStyle"
+                android:text="Three Months"
+                android:id="@+id/quarter"
+                android:layout_weight="1"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/RadioButtonStyle"
+                android:id="@+id/half"
+                android:text="Half Year"
+                android:layout_weight="1"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/RadioButtonStyle"
+                android:text="Year"
+                android:id="@+id/year"
+                android:layout_weight="1"/>
+
+        </RadioGroup>
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/overallPieChart"
+            android:layout_gravity="center_horizontal"
+            >
+
+        </com.github.mikephil.charting.charts.PieChart>
+
+    </LinearLayout>
+
 
 
 </LinearLayout>
