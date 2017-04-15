@@ -70,7 +70,8 @@ public class CaldroidCustomImplementation extends AppCompatActivity{
                     DateFormat dateFormat = new SimpleDateFormat("E - d - MMMM - yyyy");
                     dateFormat.format(date);
 
-
+                    CustomDayDialog dialog = new CustomDayDialog();
+                    dialog.show(getSupportFragmentManager(), "TAG");
 
                 }
             });
