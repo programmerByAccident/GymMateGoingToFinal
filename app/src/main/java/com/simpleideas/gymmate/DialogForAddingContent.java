@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -20,6 +21,10 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.jrummyapps.android.colorpicker.ColorPickerDialog;
+import com.jrummyapps.android.colorpicker.ColorPickerDialogListener;
+import com.jrummyapps.android.colorpicker.ColorPickerView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -46,6 +51,8 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
     private ImageButton addNewCategory;
     LinearLayout manipulate, innerLayout;
     private DatabaseHelper databaseHelper;
+
+    private final int DIALOG_ID = 0;
 
     String toShow = "Something";
 
@@ -128,7 +135,7 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
             case R.id.addNewCategory:
 
                 View genericView = getView().findViewById(R.id.categorySpinner);
-
+                manageColorPickerDialog();
                 if(genericView instanceof Spinner){
                     replaceView(innerLayout, chooseCategory);
                     colorPick.setVisibility(View.VISIBLE);
@@ -149,7 +156,12 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
     }
 
 
+    private void manageColorPickerDialog(){
 
+        ColorPickerDialog.newBuilder().setDialogType(ColorPickerDialog.TYPE_PRESETS)
+                .setShowAlphaSlider(true).setDialogId(DIALOG_ID)
+                .show(getActivity());
+        }
     private void addExerciseToCategory(String category, String exercise){
 
         SharedPreferences preferences = getActivity().getApplicationContext().getSharedPreferences(category, getActivity().getApplicationContext().MODE_PRIVATE);
@@ -240,4 +252,6 @@ public class DialogForAddingContent extends DialogFragment implements View.OnCli
         }
         return  arraylist;
     }
+
+
 }

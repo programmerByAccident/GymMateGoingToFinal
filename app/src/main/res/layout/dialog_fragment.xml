@@ -110,6 +110,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/insert_new_category_button"
             android:layout_weight="1" />
+        <com.jrummyapps.android.colorpicker.ColorPickerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/testColorPickerThirdParty"/>
 
     </LinearLayout>
 

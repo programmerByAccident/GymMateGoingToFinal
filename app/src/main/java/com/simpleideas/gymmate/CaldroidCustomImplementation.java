@@ -68,10 +68,16 @@ public class CaldroidCustomImplementation extends AppCompatActivity{
                 public void onSelectDate(Date date, View view) {
 
                     DateFormat dateFormat = new SimpleDateFormat("E - d - MMMM - yyyy");
-                    dateFormat.format(date);
 
-                    CustomDayDialog dialog = new CustomDayDialog();
-                    dialog.show(getSupportFragmentManager(), "TAG");
+                    if (databaseHelper.getAllExercises(dateFormat.format(date)).size() == 0){
+
+                        Toast.makeText(CaldroidCustomImplementation.this, "No record for this day", Toast.LENGTH_SHORT).show();
+
+                    }else{
+                        CustomDayDialog.newInstance(dateFormat.format(date)).show(getSupportFragmentManager(), "TAG");
+                    }
+
+
 
                 }
             });
