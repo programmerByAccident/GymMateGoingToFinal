@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" />
-    <Button
-        android:layout_width="wrap_content"
-        android:id="@+id/viaEmail"
-        android:layout_height="wrap_content"
-        android:text="Register with email and password!"
-        android:textColor="@color/white"
-        android:background="@color/colorPrimary"
-        android:layout_gravity="center_horizontal"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,5 +17,14 @@
         android:text="Already registered? Click here to sign in."
         android:gravity="bottom"
         android:layout_gravity="bottom"/>
+
+    <Button
+        android:id="@+id/viaEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorPrimary"
+        android:text="Register with email and password!"
+        android:textColor="@color/white" />
 
 </LinearLayout>

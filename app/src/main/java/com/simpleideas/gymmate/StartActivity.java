@@ -58,11 +58,15 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+
+
+
         Log.d(TAG, "onCreate: IF not passed");
         createSharedPreferences(getApplicationContext());
         setupActionBar();
         //setupDrawerLayout();
-        setupPagerAdapter();
+        if (getIntent().hasExtra("days_difference_tag"))setupPagerAdapter(getIntent().getExtras().getInt("days_difference_tag"));else {setupPagerAdapter();}
+
         checkColorMapExistanceIntoDatabase();
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
@@ -122,9 +126,9 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
             case R.id.material_calendar_view:
 
 
-//                Intent intent = new Intent(this, CalendarViewCustomized.class);
-//
-//                startActivity(intent);
+                Intent intent = new Intent(this, CaldroidCustomImplementation.class);
+
+                startActivity(intent);
 
                 break;
 
@@ -145,7 +149,6 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
         return muscleGroups;
 
     }
-
 
 
     private void createSharedPreferences(Context context){
@@ -301,6 +304,48 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
         databaseHelper.saveOrUpdate(hexCodes, muscles);
     }
 
+    private void setupPagerAdapter(int difference){
+
+        viewPager = (ViewPager)findViewById(R.id.view_pager_main_activity);
+        EndlessPagerAdapter adapter = new EndlessPagerAdapter(getSupportFragmentManager(), getApplicationContext());
+        viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(50000 + difference,false);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                DynamicFragment.hideFAB();
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                DynamicFragment.hideFAB();
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+                //DynamicFragment.showFAB();
+                switch (state){
+                    case ViewPager.SCROLL_STATE_IDLE:
+                        DynamicFragment.showFAB();
+                        break;
+                    case ViewPager.SCROLL_STATE_DRAGGING:
+                        DynamicFragment.hideFAB();
+                        break;
+                    case ViewPager.SCROLL_STATE_SETTLING:
+                        DynamicFragment.hideFAB();
+                        break;
+
+                }
+            }
+        });
+
+//        RecyclerTabLayout tabLayout = (RecyclerTabLayout) findViewById(R.id.recycler_tab_layout);
+//        tabLayout.setUpWithViewPager(viewPager);
+    }
+
     private void setupPagerAdapter(){
 
         viewPager = (ViewPager)findViewById(R.id.view_pager_main_activity);
@@ -342,8 +387,6 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
 //        RecyclerTabLayout tabLayout = (RecyclerTabLayout) findViewById(R.id.recycler_tab_layout);
 //        tabLayout.setUpWithViewPager(viewPager);
     }
-
-
     private void setupActionBar(){
         Toolbar toolbar;
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
@@ -408,8 +451,9 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
                 break;
 
             case R.id.newExercise:
-                DialogForAddingContent dialogForAddingContent = DialogForAddingContent.newInstance(Constants.GROUPS);
-                dialogForAddingContent.show(getSupportFragmentManager(), "tag");
+//                DialogForAddingContent dialogForAddingContent = DialogForAddingContent.newInstance(Constants.GROUPS);
+//                dialogForAddingContent.show(getSupportFragmentManager(), "tag");
+                startActivity(new Intent(this, DialogForAddingContent.class).putExtra("Groups", Constants.GROUPS));
 //                Intent intent = new Intent(this, InsertActivity.class);
 //                startActivity(intent);
                 break;

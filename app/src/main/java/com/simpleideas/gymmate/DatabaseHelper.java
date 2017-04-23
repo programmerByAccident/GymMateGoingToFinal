@@ -187,11 +187,31 @@ public class DatabaseHelper {
 
         sqLiteDatabase = databaseManager.getWritableDatabase();
         String sql_muscle = "UPDATE " + Constants.color_map + " SET muscle_name = ? WHERE color_hex_code=?;";
-        sqLiteDatabase.execSQL(sql_muscle, new String[]{muscle, String.valueOf(hexcode)});
+        String sql_insert = "INSERT INTO " + Constants.color_map + " (color_hex_code, muscle_name) values(?,?);";
+
+
+        String searchItem = muscle;
+        String[] columns = { "muscle_name"};
+        String selection = "muscle_name = ?";
+        String[] selectionArgs = {searchItem};
+
+        Cursor cursor = sqLiteDatabase.query(Constants.color_map, columns, selection, selectionArgs, null,null,null);
+
+        if (isCursorEmpty(cursor)){
+
+            sqLiteDatabase.execSQL(sql_insert, new String[]{hexcode, muscle});
+
+        }else{
+            sqLiteDatabase.execSQL(sql_muscle, new String[]{hexcode, muscle});
+        }
+
         sqLiteDatabase.close();
 
     }
-
+    public boolean isCursorEmpty(Cursor cursor){
+        if(!cursor.moveToFirst() || cursor.getCount() == 0) return true;
+        return false;
+    }
 
     public ArrayList<String> exerciseNames(String difference){
 

@@ -7,11 +7,15 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -41,8 +45,7 @@ public class ListViewWithMuscleGroups extends AppCompatActivity {
         muscles = (RecyclerView) findViewById(R.id.muscle_groups);
         Intent intent = getIntent();
 
-        dialogForAddingContent = DialogForAddingContent.newInstance(Constants.GROUPS);
-
+        //dialogForAddingContent = DialogForAddingContent.newInstance(Constants.GROUPS);
         int difference = intent.getExtras().getInt("Difference");
         date = intent.getExtras().getString("date");
         ArrayList<String> muscleGroups = getMuscleGroups();
@@ -108,8 +111,8 @@ public class ListViewWithMuscleGroups extends AppCompatActivity {
 
             case R.id.action_addition:
 
-                dialogForAddingContent.show(getSupportFragmentManager(), "tag");
-
+                //dialogForAddingContent.show(getSupportFragmentManager(), "tag");
+                startActivity(new Intent(this, DialogForAddingContent.class).putExtra("Groups", Constants.GROUPS));
         }
 
         return super.onOptionsItemSelected(item);
@@ -133,6 +136,30 @@ public class ListViewWithMuscleGroups extends AppCompatActivity {
 
     }
 
+    private void createBehaviourForSearchBar(MuscleGroupsAdapter adapter){
+
+        EditText searchInterface = (EditText) findViewById(R.id.search_bar);
+
+        searchInterface.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
+
+    }
 
     private void setupActionBar(){
         Toolbar toolbar;
@@ -141,3 +168,46 @@ public class ListViewWithMuscleGroups extends AppCompatActivity {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

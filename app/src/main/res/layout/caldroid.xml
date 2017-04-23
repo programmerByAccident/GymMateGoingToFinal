@@ -9,6 +9,10 @@
         android:layout_height="match_parent"
         android:id="@+id/caldroid_object"
         >
+        <include
+            android:id="@+id/tool_bar"
+            layout="@layout/toolbar"
+            ></include>
     </LinearLayout>
 
 </RelativeLayout>

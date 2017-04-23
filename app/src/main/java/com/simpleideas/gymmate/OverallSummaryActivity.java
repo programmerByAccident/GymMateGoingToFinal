@@ -3,6 +3,7 @@ package com.simpleideas.gymmate;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -37,7 +38,12 @@ public class OverallSummaryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overall_summary);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
 
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_for_whities);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         databaseHelper = new DatabaseHelper(this);
         pieChart = (PieChart) findViewById(R.id.overallPieChart);
         pieChart.setEntryLabelTextSize(10);

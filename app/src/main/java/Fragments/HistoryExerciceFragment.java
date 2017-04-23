@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.simpleideas.gymmate.DatabaseHelper;
 import com.simpleideas.gymmate.InsertActivity;
@@ -30,6 +31,7 @@ public class HistoryExerciceFragment extends Fragment{
 
     private InsertActivity insertActivity;
     private DatabaseHelper databaseHelper;
+    RecyclerView recyclerView;
     HistoryFragmentAdapter historyFragment;
     private static final String TAG = "HistoryFragment";
 
@@ -47,8 +49,39 @@ public class HistoryExerciceFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.history_layout,container, false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.history_recycler_view);
+        Log.d(TAG, "onCreateView: CalledWhileScrolling");
+        insertActivity = (InsertActivity)getActivity();
+        databaseHelper = new DatabaseHelper(insertActivity.getApplicationContext());
+        HashMap<Integer, ArrayList<String>> mapString = databaseHelper.getInformationOnMonthlyBasis(insertActivity.getExercise_name());
+
+        historyFragment = new HistoryFragmentAdapter(insertActivity.getApplicationContext(),mapString,getMap());
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(insertActivity.getApplicationContext()));
+        recyclerView.setAdapter(historyFragment);
+        Log.d(TAG, "onCreateView: reached");
+
+        return view;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if (isVisibleToUser){
+
+            HashMap<Integer, ArrayList<String>> mapString = databaseHelper.getInformationOnMonthlyBasis(insertActivity.getExercise_name());
+            historyFragment.setInformationMap(mapString);
+            historyFragment.notifyDataSetChanged();
+
+        }
+
+    }
+
+    private HashMap<Integer, String> getMap(){
+
         HashMap<Integer, String> monthMap = new HashMap<>();
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.history_recycler_view);
+
         monthMap.put(0, "January");
         monthMap.put(1, "February");
         monthMap.put(2, "March");
@@ -61,16 +94,8 @@ public class HistoryExerciceFragment extends Fragment{
         monthMap.put(9, "October");
         monthMap.put(10, "November");
         monthMap.put(11, "December");
-        insertActivity = (InsertActivity)getActivity();
-        databaseHelper = new DatabaseHelper(insertActivity.getApplicationContext());
-        HashMap<Integer, ArrayList<String>> mapString = databaseHelper.getInformationOnMonthlyBasis(insertActivity.getExercise_name());
 
-        historyFragment = new HistoryFragmentAdapter(insertActivity.getApplicationContext(),mapString,monthMap);
+        return monthMap;
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(insertActivity.getApplicationContext()));
-        recyclerView.setAdapter(historyFragment);
-        Log.d(TAG, "onCreateView: reached");
-
-        return view;
     }
 }

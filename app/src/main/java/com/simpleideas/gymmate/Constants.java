@@ -12,7 +12,7 @@ public class Constants {
     public static final String first_table = "firsttable";
     public static final String color_map = "color_map";
 
-    public static final String PHP_SCRIPT_LOCAL_HOST = "http://echo.jsontest.com/key/value/one/two";
+    public static final String PHP_SCRIPT_LOCAL_HOST = "http://www.programmerbyaccident.com/database_interogations/retest_database.php";
     public static final String DATE = "DATE";
     public static final String EXERCISE_COLUMN = "NAME";
     public static final String EXERCISE_TABLE = "EXERCICES";

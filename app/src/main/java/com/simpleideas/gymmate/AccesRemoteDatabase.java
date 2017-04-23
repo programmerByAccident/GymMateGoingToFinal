@@ -55,18 +55,20 @@ public class AccesRemoteDatabase extends AsyncTask<String, Void, String> {
             buffer.append(line);
             }
 
-//            jsonArray = new JSONArray(buffer.toString());
-//            for (int i = 0; i < jsonArray.length(); i++) {
-//
-//            }
+            jsonArray = new JSONArray(buffer.toString());
+            for (int i = 0; i < jsonArray.length(); i++) {
 
-            //jsonObject = new JSONObject(buffer.toString());
-            //JSONArray parentArray  = jsonObject.getJSONArray("one");
+            }
+
+            jsonObject = new JSONObject(buffer.toString());
+            JSONArray parentArray  = jsonObject.getJSONArray("one");
 
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         } finally {
 

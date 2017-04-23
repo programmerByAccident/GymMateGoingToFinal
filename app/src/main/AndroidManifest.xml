@@ -35,6 +35,9 @@
             android:name=".StartActivity"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".DialogForAddingContent"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".ListViewWithMuscleGroups"
             android:theme="@style/AppTheme" />
         <activity

@@ -30,7 +30,6 @@ import java.util.ArrayList;
             paint.setStyle(Paint.Style.STROKE);
             paint.setStrokeWidth(10);
             float radius = Math.min(cx, cy) - WIDTH/2;
-
             for(int color:colors){
                 paint.setColor(color);
                 canvas.drawCircle(cx,cy,radius,paint);

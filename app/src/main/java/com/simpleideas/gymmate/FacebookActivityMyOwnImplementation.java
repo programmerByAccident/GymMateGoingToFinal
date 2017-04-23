@@ -18,9 +18,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
@@ -139,8 +141,13 @@ public class FacebookActivityMyOwnImplementation extends AppCompatActivity imple
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (mCallBackManager.onActivityResult(requestCode, resultCode, data)){
-            return;
+            Intent tranzitionIntent = new Intent(FacebookActivityMyOwnImplementation.this, StartActivity.class);
+            tranzitionIntent.putExtra("facebookFlag", true);
+            startActivity(tranzitionIntent);
+            finish();
         }
+
+
     }
 
     private void saveFacebookProfilePicture(final Profile profile){

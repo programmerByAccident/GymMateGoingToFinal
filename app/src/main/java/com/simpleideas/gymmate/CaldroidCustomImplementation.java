@@ -10,12 +10,17 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
+
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.ReadableInstant;
 
 import java.lang.reflect.Array;
 import java.text.DateFormat;
@@ -40,6 +45,14 @@ public class CaldroidCustomImplementation extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.caldroid);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_for_whities);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         caldroidFragment = new CaldroidFragment();
         databaseHelper = new DatabaseHelper(CaldroidCustomImplementation.this);
         new BackgroundReadForCaldroid().execute();
@@ -71,10 +84,10 @@ public class CaldroidCustomImplementation extends AppCompatActivity{
 
                     if (databaseHelper.getAllExercises(dateFormat.format(date)).size() == 0){
 
-                        Toast.makeText(CaldroidCustomImplementation.this, "No record for this day", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CaldroidCustomImplementation.this, "No records for this day!", Toast.LENGTH_SHORT).show();
 
                     }else{
-                        CustomDayDialog.newInstance(dateFormat.format(date)).show(getSupportFragmentManager(), "TAG");
+                        CustomDayDialog.newInstance(dateFormat.format(date),getPositionOfSelectedCalendarDay(date)).show(getSupportFragmentManager(), "TAG");
                     }
 
 
@@ -119,6 +132,19 @@ public class CaldroidCustomImplementation extends AppCompatActivity{
 
             return entryToInsert;
         }
+    }
+
+
+
+    private int getPositionOfSelectedCalendarDay(Date targetDay){
+
+        Date currentDate = new Date();
+
+        return daysBetween(currentDate, targetDay);
+    }
+
+    public int daysBetween(Date d1, Date d2){
+        return (int)( (d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
     }
 
 }

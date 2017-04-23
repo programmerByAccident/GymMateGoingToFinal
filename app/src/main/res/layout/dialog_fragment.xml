@@ -7,6 +7,10 @@
     android:layout_height="wrap_content"
     app:layout_collapseParallaxMultiplier="1.0"
     >
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/toolbar"
+        ></include>
 
     <LinearLayout android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -62,13 +66,13 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/innerLayout"
             android:layout_weight="1"
-            android:weightSum="4">
+            android:weightSum="5">
 
             <Spinner
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/categorySpinner"
                 android:backgroundTint="@color/colorPrimary"
@@ -77,31 +81,48 @@
 
             <ImageButton
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_launcher"
+                android:layout_height="match_parent"
                 android:background="@color/caldroid_transparent"
+                app:srcCompat="@drawable/ic_colorize"
+                android:visibility="invisible"
+                android:layout_weight="1"
+                android:id="@+id/color_flicker"/>
+
+            <ImageButton
                 android:id="@+id/addNewCategory"
-                android:layout_weight="1" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/caldroid_transparent"
+                app:srcCompat="@drawable/ic_launcher" />
         </LinearLayout>
-        <TextView
-            android:text="Color:"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/marginTop"
-            android:visibility="invisible"
-            android:id="@+id/colorOption"
-            android:textColor="@color/black"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:layout_weight="1"
-            />
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/colorSpinner"
-            android:backgroundTint="@color/colorPrimary"
-            android:visibility="invisible"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:layout_weight="3" />
+        <!--<TextView-->
+            <!--android:text="Color:"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="@dimen/marginTop"-->
+            <!--android:visibility="invisible"-->
+            <!--android:id="@+id/colorOption"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"-->
+            <!--android:layout_weight="1"-->
+            <!--/>-->
+        <!--<Spinner-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/colorSpinner"-->
+            <!--android:backgroundTint="@color/colorPrimary"-->
+            <!--android:visibility="invisible"-->
+            <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"-->
+            <!--android:layout_weight="3" />-->
+        <!--<ImageButton-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:id="@+id/color_picker"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:visibility="invisible"-->
+            <!--android:background="@color/caldroid_transparent"-->
+            <!--app:srcCompat="@drawable/ic_color_picker"-->
+            <!--/>-->
         <Button
             android:text="Insert"
             android:background="@color/colorPrimary"
@@ -110,10 +131,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/insert_new_category_button"
             android:layout_weight="1" />
-        <com.jrummyapps.android.colorpicker.ColorPickerView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/testColorPickerThirdParty"/>
+
+
 
     </LinearLayout>
 
