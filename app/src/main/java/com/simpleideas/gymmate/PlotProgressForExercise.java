@@ -92,11 +92,13 @@ public class PlotProgressForExercise extends Fragment implements View.OnClickLis
         }
 
         LineDataSet weightDataSet = new LineDataSet(lineChartArrayListforWeight, "weight");
-        weightDataSet.setColor(Color.RED);
+        weightDataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        weightDataSet.setColor(Color.LTGRAY);
         weightDataSet.setLineWidth(3f);
         LineDataSet repDataSet = new LineDataSet(lineChartArrayListForReps, "repetitions");
-        repDataSet.setColor(Color.GREEN);
-        repDataSet.setLineWidth(3f);
+        repDataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        repDataSet.setColor(Color.CYAN);
+        repDataSet.setLineWidth(6f);
         List<ILineDataSet> dataCollection = new ArrayList<>();
         LineData lineData = new LineData(weightDataSet);
         LineData lineDatareps = new LineData(repDataSet);
@@ -107,6 +109,7 @@ public class PlotProgressForExercise extends Fragment implements View.OnClickLis
         lineChart.setDrawGridBackground(true);
 
         lineChart.setData(new LineData(dataCollection));
+        
 
     }
 

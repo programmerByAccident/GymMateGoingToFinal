@@ -1,30 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:background="@drawable/login_activity">
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" />
-
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
+        android:src="@drawable/logo"
         android:layout_height="wrap_content"
-        android:id="@+id/alreadyRegistered"
-        android:text="Already registered? Click here to sign in."
-        android:gravity="bottom"
-        android:layout_gravity="bottom"/>
+        android:id="@+id/logo"
+        android:layout_below="@+id/login"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="85dp" />
 
     <Button
         android:id="@+id/viaEmail"
         android:layout_width="wrap_content"
+        android:text="Sign Up"
+        android:background="@drawable/border_sign_up"
+        android:textColor="@color/white"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/colorPrimary"
-        android:text="Register with email and password!"
-        android:textColor="@color/white" />
+        android:layout_marginTop="14dp"
+        android:layout_below="@+id/sign_up"
+        android:layout_centerHorizontal="true" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/sign_up"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+
+        android:gravity="bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/log_in_via_facebook"
+        android:layout_below="@+id/logo"
+        android:layout_alignLeft="@+id/viaEmail"
+        android:layout_alignStart="@+id/viaEmail"
+        android:layout_marginTop="108dp" />
+
+</RelativeLayout>

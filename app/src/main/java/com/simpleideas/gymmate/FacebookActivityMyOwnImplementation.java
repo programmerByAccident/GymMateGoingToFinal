@@ -38,6 +38,7 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Geprge on 3/27/2017.
@@ -48,14 +49,15 @@ public class FacebookActivityMyOwnImplementation extends AppCompatActivity imple
     CallbackManager mCallBackManager;
     String TAG = "FacebookActivityCustom";
     private ProfileTracker mProfileTracker;
-    private Button singUpViaemail;
+    private Button singUpViaemail, btn_fb_login;
     private TextView alreadyRegistered;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.facebook_activity_layout);
         singUpViaemail = (Button) findViewById(R.id.viaEmail);
-        alreadyRegistered  = (TextView) findViewById(R.id.alreadyRegistered);
+        btn_fb_login  = (Button) findViewById(R.id.sign_up);
+        //alreadyRegistered  = (TextView) findViewById(R.id.alreadyRegistered);
         if (getSharedPreferences("bitmap", MODE_PRIVATE).contains("bitmap") == true){
 
             Intent firstIntent  = new Intent(FacebookActivityMyOwnImplementation.this, StartActivity.class);
@@ -77,17 +79,22 @@ public class FacebookActivityMyOwnImplementation extends AppCompatActivity imple
                 startActivity(new Intent(FacebookActivityMyOwnImplementation.this, SingUpActivity.class));
             }
         });
-
-        alreadyRegistered.setOnClickListener(new View.OnClickListener() {
+        btn_fb_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(FacebookActivityMyOwnImplementation.this, SignInActivity.class));
-                finish();
+                LoginManager.getInstance().logInWithReadPermissions(FacebookActivityMyOwnImplementation.this, Arrays.asList("public_profile", "user_friends"));
             }
         });
 
-        LoginButton loginButton = (LoginButton) findViewById(R.id.login);
-        loginButton.setReadPermissions(new ArrayList<String>());
+//        alreadyRegistered.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(FacebookActivityMyOwnImplementation.this, SignInActivity.class));
+//                finish();
+//            }
+//        });
+
+
         mCallBackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(mCallBackManager, new FacebookCallback<LoginResult>() {
             @Override
