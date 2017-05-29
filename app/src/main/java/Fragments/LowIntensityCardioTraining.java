@@ -1,17 +1,17 @@
-package com.simpleideas.gymmate;
+package Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Created by George Ciopei on 12/29/2016.
+ * Created by George on 05/05/2017.
  */
 
-public class DialogFragmentInterface extends DialogFragment {
+public class LowIntensityCardioTraining extends Fragment {
 
 
     @Nullable
@@ -20,10 +20,9 @@ public class DialogFragmentInterface extends DialogFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onResume() {
+        super.onResume();
     }
-
-
 }

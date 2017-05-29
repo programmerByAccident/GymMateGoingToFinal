@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -55,6 +56,7 @@ public class ListViewWithMuscleGroups extends AppCompatActivity {
 
         muscleGroupsAdapter = new MuscleGroupsAdapter(muscleGroups, this, date);
       //  muscles.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        muscles.addItemDecoration(new DividerItemDecoration(ListViewWithMuscleGroups.this,RecyclerView.VERTICAL));
         muscles.setLayoutManager(new LinearLayoutManager(this));
         muscles.setAdapter(muscleGroupsAdapter);
 

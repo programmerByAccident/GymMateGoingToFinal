@@ -1,11 +1,8 @@
 package com.simpleideas.gymmate;
 
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -16,11 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -31,7 +26,6 @@ import android.widget.Toast;
 
 import com.jrummyapps.android.colorpicker.ColorPickerDialog;
 import com.jrummyapps.android.colorpicker.ColorPickerDialogListener;
-import com.jrummyapps.android.colorpicker.ColorPickerView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,7 +65,7 @@ public class DialogForAddingContent extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_fragment);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.start_activity_toolbar);
 
         setSupportActionBar(toolbar);
 

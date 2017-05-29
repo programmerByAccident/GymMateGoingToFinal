@@ -1,12 +1,9 @@
 package com.simpleideas.gymmate;
 
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -18,11 +15,8 @@ import android.widget.Toast;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
 
-import org.joda.time.DateTime;
-import org.joda.time.Days;
-import org.joda.time.ReadableInstant;
+import org.joda.time.LocalDate;
 
-import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,7 +40,7 @@ public class CaldroidCustomImplementation extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.caldroid);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.start_activity_toolbar);
 
         setSupportActionBar(toolbar);
 
@@ -138,7 +132,10 @@ public class CaldroidCustomImplementation extends AppCompatActivity{
 
     private int getPositionOfSelectedCalendarDay(Date targetDay){
 
-        Date currentDate = new Date();
+
+        LocalDate localDate = new LocalDate();
+
+        Date currentDate =  localDate.toDate();
 
         return daysBetween(currentDate, targetDay);
     }

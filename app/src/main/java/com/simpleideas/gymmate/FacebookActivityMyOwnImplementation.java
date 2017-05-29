@@ -109,10 +109,10 @@ public class FacebookActivityMyOwnImplementation extends AppCompatActivity imple
                             Log.d(TAG, "onCurrentProfileChanged: " + currentProfile.getLastName());
                             Log.d(TAG, "onCurrentProfileChanged: " + currentProfile.getId());
                             saveFacebookProfilePicture(currentProfile);
-                            Intent tranzitionIntent = new Intent(FacebookActivityMyOwnImplementation.this, StartActivity.class);
-                            tranzitionIntent.putExtra("facebookFlag", true);
-                            startActivity(tranzitionIntent);
-                            finish();
+//                            Intent tranzitionIntent = new Intent(FacebookActivityMyOwnImplementation.this, StartActivity.class);
+//                            tranzitionIntent.putExtra("facebookFlag", true);
+//                            startActivity(tranzitionIntent);
+//                            finish();
 
                             mProfileTracker.stopTracking();
                         }

@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,12 +16,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,17 +39,21 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
 
     public DataSenderBetweenFragments senderBetweenFragments;
     TextView textView;
-    private String dateString;
+    private static String dateString;
     private int difference;
     DatabaseHelper databaseManager;
     private long currentDate;
+    private TextView no_data_text_view;
+    RelativeLayout no_data_available;
     private LetsMakeAnAdapter adapter;
     private  RecyclerView recyclerViewOne;
+
     private CustomRecyclerViewAdapter customRecyclerViewAdapter;
     private static FloatingActionButton refreshButton;
     //ArrayList<ExerciseTemplate> arrayList;
     ArrayList<ExerciseTagInformation> arrayList;
     @Override
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -66,14 +73,17 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
 
     }
 
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.i("OnCreate", "OnCreate");
     }
 
+    public static String getDateString(){
+
+        return dateString;
+
+    }
 
     @Override
     public void onResume() {
@@ -87,10 +97,13 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
 
         CustomRecyclerViewAdapter customRecyclerViewAdapter2;
         customRecyclerViewAdapter2= new CustomRecyclerViewAdapter(getActivity(), databaseManager.getAllExercisesMapped(dateString),dateString);
-        recyclerViewOne.setAdapter(customRecyclerViewAdapter2);
-        Log.d("Here", "After transaction");
+        if (customRecyclerViewAdapter2.getItemCount() == 0) {
+            recyclerViewOne.setVisibility(View.INVISIBLE);
+        }
 
+        Log.d("Here", "After transaction");
     }
+
     public static void hideFAB(){
 
         refreshButton.hide();
@@ -111,22 +124,36 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
         view = inflater.inflate(R.layout.dynamic_fragment_with_listview, container, false);
         setTextWithCurrentItem();
         recyclerViewOne = (RecyclerView) view.findViewById(R.id.recyclerViewOne);
-        refreshButton = (FloatingActionButton) view.findViewById(R.id.fab_trigger_of_existance_false);
-        refreshButton.setOnClickListener(new View.OnClickListener() {
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onClick(View view) {
+//        refreshButton = (FloatingActionButton) view.findViewById(R.id.fab_trigger_of_existance_false);
+//        refreshButton.setOnClickListener(new View.OnClickListener() {
+//            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+//            @Override
+//            public void onClick(View view) {
+//
+//                setFabActions(difference);
+//            }
+//        });
 
-                setFabActions(difference);
-            }
-        });
 
-
-
+        no_data_available = (RelativeLayout) view.findViewById(R.id.relative_layout_no_data);
         recyclerViewOne.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerViewOne.setAdapter(customRecyclerViewAdapter);
+        if (customRecyclerViewAdapter.getItemCount() == 0){
+            recyclerViewOne.setVisibility(View.INVISIBLE);
+
+            no_data_available.setVisibility(View.VISIBLE);
+            no_data_text_view = (TextView) view.findViewById(R.id.no_data_text_view);
+            no_data_text_view.setTypeface(null, Typeface.BOLD);
+            no_data_text_view.setText("Records are empty" + "\n" + dateString + "\n" + "Add a record with pen buttom from bottom right.");
+
+        }
         return view;
         //dapter = new LetsMakeAnAdapter(getActivity(), arrayList);
+
+
+    }
+
+    private void setBehaviourWhileDataExists(View view, Date date){
 
 
     }
@@ -158,6 +185,9 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
         }
 
     }
+
+
+
 
     private void populateWithData(View view, LayoutInflater inflater, ViewGroup container, Bundle savedState, int difference  ){
 
@@ -208,7 +238,6 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
                 setFabActions(difference);
             }
         });
-
 
     }
 

@@ -8,4 +8,10 @@
     <string name="fb_login_protocol_scheme">fbAPP_ID</string>
     <string name="facebook_app_id">1924949681068484</string>
     <string name="category_color">Category Color</string>
+    <string name="title_activity_test_navigation_drawer">test_navigation_drawer</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

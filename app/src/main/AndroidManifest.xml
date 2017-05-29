@@ -33,9 +33,19 @@
         </activity>
         <activity
             android:name=".StartActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            >
+        </activity>
         <activity
             android:name=".DialogForAddingContent"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".CardioArea"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ListViewWithMuscleGroups"
@@ -52,18 +62,12 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".FacebookActivityMyOwnImplementation"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme"></activity>
         <activity
             android:name=".SingUpActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".SignInActivity" />
-        <activity android:name=".OverallSummaryActivity"></activity>
+        <activity android:name=".OverallSummaryActivity" />
     </application>
 
 </manifest>

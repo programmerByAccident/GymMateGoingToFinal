@@ -39,6 +39,7 @@ public class Constants {
 
     // SharedPreferences names
 
+    public static String CARDIO = "Cardio";
     public static String CHEST = "Chest";
     public static String BACK = "Back";
     public static String LEGS = "Legs";

@@ -6,8 +6,8 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,26 +21,20 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.view.animation.Animation;
 import android.widget.TextView;
 import android.widget.Toast;
 
 //import com.nshmura.recyclertablayout.RecyclerTabLayout;
 
-import com.facebook.FacebookActivity;
-import com.facebook.login.widget.ProfilePictureView;
 import com.roomorama.caldroid.CaldroidFragment;
 
-import org.w3c.dom.Text;
-
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import Fragments.DialogBoxForMetrics;
 import adapters.EndlessPagerAdapter;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -52,8 +46,10 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
     NavigationView navigationView;
     DrawerLayout Drawer;
     CaldroidFragment globalFragment;
+    public static boolean fabVisible;
     private CircleImageView globalForResume;
     private final String TAG = "StartActivity";
+    private FloatingActionButton fab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +71,9 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
         String encoded = preferences.getString("bitmap","123");
         byte[] imageAsBytes = Base64.decode(encoded,0);
         View headerLayout = navigationView.inflateHeaderView(R.layout.drawer_header);
+
+        Toast.makeText(this, "Width " + headerLayout.getWidth() + "Height " + headerLayout.getHeight(), Toast.LENGTH_SHORT).show();
+
         CircleImageView profilePictureView = (CircleImageView) headerLayout.findViewById(R.id.profile_image);
         TextView userCredentials = (TextView) headerLayout.findViewById(R.id.nameAndLastName);
         userCredentials.setText(preferences.getString("firstname","") + " "+ preferences.getString("lastname",""));
@@ -83,6 +82,13 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
 
 
         navigationView.setNavigationItemSelectedListener(this);
+        fab = (FloatingActionButton) findViewById(R.id.activity_start_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setFabActions();
+            }
+        });
     }
 
     @Override
@@ -144,13 +150,19 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
 
     private String[] getMuscleGroups(){
 
-        String[] muscleGroups = {Constants.ARMS, Constants.BACK, Constants.CHEST, Constants.LEGS, Constants.SHOULDERS};
+        String[] muscleGroups = {Constants.ARMS, Constants.BACK, Constants.CHEST, Constants.LEGS, Constants.SHOULDERS, Constants.CARDIO};
 
         return muscleGroups;
 
     }
 
+    private void setFabActions(){
 
+        Intent intent = new Intent(this, ListViewWithMuscleGroups.class);
+        intent.putExtra("date", DynamicFragment.getDateString());
+        startActivity(intent);
+
+    }
     private void createSharedPreferences(Context context){
 
 
@@ -304,47 +316,62 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
         databaseHelper.saveOrUpdate(hexCodes, muscles);
     }
 
+
+
     private void setupPagerAdapter(int difference){
 
         viewPager = (ViewPager)findViewById(R.id.view_pager_main_activity);
         EndlessPagerAdapter adapter = new EndlessPagerAdapter(getSupportFragmentManager(), getApplicationContext());
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(50000 + difference,false);
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                DynamicFragment.hideFAB();
+                //DynamicFragment.hideFAB();
+                fab.hide();
             }
 
             @Override
             public void onPageSelected(int position) {
 
-                DynamicFragment.hideFAB();
-
+                //DynamicFragment.hideFAB();
+                switch (position) {
+                    case 0:
+                        fabVisible = true;
+                        fab.show();
+                        break;
+                    default:
+                        fabVisible = false;
+                        //fab.hide();
+                        break;
+                }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
 
-                //DynamicFragment.showFAB();
-                switch (state){
-                    case ViewPager.SCROLL_STATE_IDLE:
-                        DynamicFragment.showFAB();
-                        break;
-                    case ViewPager.SCROLL_STATE_DRAGGING:
-                        DynamicFragment.hideFAB();
-                        break;
-                    case ViewPager.SCROLL_STATE_SETTLING:
-                        DynamicFragment.hideFAB();
-                        break;
+                fab.hide();
 
-                }
+                //DynamicFragment.showFAB();
+//                switch (state){
+//                    case ViewPager.SCROLL_STATE_IDLE:
+//                        DynamicFragment.showFAB();
+//                        break;
+//                    case ViewPager.SCROLL_STATE_DRAGGING:
+//                        DynamicFragment.hideFAB();
+//                        break;
+//                    case ViewPager.SCROLL_STATE_SETTLING:
+//                        DynamicFragment.hideFAB();
+//                        break;
+//
+//                }
             }
         });
 
-//        RecyclerTabLayout tabLayout = (RecyclerTabLayout) findViewById(R.id.recycler_tab_layout);
-//        tabLayout.setUpWithViewPager(viewPager);
-    }
+////        RecyclerTabLayout tabLayout = (RecyclerTabLayout) findViewById(R.id.recycler_tab_layout);
+////        tabLayout.setUpWithViewPager(viewPager);
+   }
 
     private void setupPagerAdapter(){
 
@@ -355,13 +382,13 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                DynamicFragment.hideFAB();
+                fab.hide();
             }
 
             @Override
             public void onPageSelected(int position) {
 
-                DynamicFragment.hideFAB();
+                fab.hide();
 
             }
 
@@ -371,13 +398,13 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
                 //DynamicFragment.showFAB();
                 switch (state){
                     case ViewPager.SCROLL_STATE_IDLE:
-                        DynamicFragment.showFAB();
+                        fab.show();
                         break;
                     case ViewPager.SCROLL_STATE_DRAGGING:
-                        DynamicFragment.hideFAB();
+                        fab.show();
                         break;
                     case ViewPager.SCROLL_STATE_SETTLING:
-                        DynamicFragment.hideFAB();
+                        fab.show();
                         break;
 
                 }
@@ -389,7 +416,7 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
     }
     private void setupActionBar(){
         Toolbar toolbar;
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar = (Toolbar) findViewById(R.id.start_activity_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -403,11 +430,20 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+                fab.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+
+                //fab.setAlpha(slideOffset);
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
+                fab.setVisibility(View.VISIBLE);
             }
         }; // Drawer Toggle Object Made
         Drawer.addDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
@@ -461,6 +497,11 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
             case R.id.yearPieChart:
                 Intent getPieDataShowing = new Intent(StartActivity.this, OverallSummaryActivity.class);
                 startActivity(getPieDataShowing);
+                break;
+
+            case R.id.cardioArea:
+
+                startActivity(new Intent(StartActivity.this, CardioArea.class));
 
         }
 

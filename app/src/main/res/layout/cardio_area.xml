@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:layout_height="match_parent">
+
+
+        <!--<com.simpleideas.gymmate.Circle-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:id="@+id/circle"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--/>-->
+
+        <ImageView
+            android:id="@+id/clock_sketc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/clock"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true">
+
+        </ImageView>
+
+
+        <!--<com.package.Circle-->
+            <!--android:id="@+id/circle"-->
+            <!--android:layout_width="300dp"-->
+            <!--android:layout_height="300dp" />-->
+
+        <com.hookedonplay.decoviewlib.DecoView
+            android:layout_width="wrap_content"
+            android:id="@+id/time_elapsed"
+            android:layout_margin="15dp"
+            android:layout_alignTop="@id/clock_sketc"
+            android:layout_alignBottom="@id/clock_sketc"
+            android:layout_alignLeft="@id/clock_sketc"
+            android:layout_alignRight="@id/clock_sketc"
+            android:scaleType="fitXY"
+            android:layout_height="wrap_content" />
+
+        <!--<ImageButton-->
+            <!--android:id="@+id/start_timer"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="24dp"-->
+            <!--app:srcCompat="@drawable/start_timer"-->
+            <!--android:layout_below="@+id/circle"-->
+            <!--android:layout_alignLeft="@+id/stop_timer"-->
+            <!--android:layout_alignStart="@+id/stop_timer" />-->
+
+        <!--<ImageButton-->
+            <!--android:id="@+id/stop_timer"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/start_timer"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="17dp"-->
+            <!--app:srcCompat="@drawable/stop_timer" />-->
+
+</RelativeLayout>

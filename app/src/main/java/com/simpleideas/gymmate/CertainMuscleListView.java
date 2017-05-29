@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -35,11 +36,8 @@ public class CertainMuscleListView extends AppCompatActivity {
         ExerciseRecyclerViewAdapter exerciseRecyclerViewAdapter = new ExerciseRecyclerViewAdapter(this, exercisesForAdapter,muscle_name, date);
 
         exercisesListView.setLayoutManager(new LinearLayoutManager(this));
+        exercisesListView.addItemDecoration(new DividerItemDecoration(CertainMuscleListView.this,RecyclerView.VERTICAL));
         exercisesListView.setAdapter(exerciseRecyclerViewAdapter);
-
-//        MuscleGroupsAdapter muscleGroupsAdapter = new MuscleGroupsAdapter(exercisesForAdapter, getApplicationContext(), date);
-//        exercisesListView.setAdapter(muscleGroupsAdapter);
-        //setOnItemClickListenerMuscleGroupsListView(exercisesListView, muscleGroupsAdapter, muscle_name, date);
     }
 
 
@@ -51,29 +49,4 @@ public class CertainMuscleListView extends AppCompatActivity {
 
     }
 
-//    private void setOnItemClickListenerMuscleGroupsListView(ListView listView, final MuscleGroupsAdapter adapter,final String muscleName, final String date){
-//
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//                ArrayList<String> muscleNames = new ArrayList<>();
-//
-//                String date = (String) adapter.getItem(i);
-//
-//                Intent intent = new Intent(getApplicationContext(), InsertActivity.class);
-//
-//                intent.putExtra(Constants.EXERCISE_NAME, date);
-//
-//                intent.putExtra(Constants.MUSCLE_NAME, muscleName);
-//
-//                intent.putExtra("date", date);
-//
-//                startActivity(intent);
-//
-//            }
-//        });
-//
-//    }
 }

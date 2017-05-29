@@ -91,6 +91,7 @@ public class CustomDayDialog extends DialogFragment implements View.OnClickListe
     private void setBehaviourGoToButton(){
 
         startActivity(new Intent(getActivity(), StartActivity.class).putExtra(DIFFERENCE_TAG, difference));
+        getActivity().finishAffinity();
 //        Log.d("DynamicFragment","floating button actions");
 //        AccesRemoteDatabase start_background_thread = new AccesRemoteDatabase();
 //        start_background_thread.execute(Constants.PHP_SCRIPT_LOCAL_HOST);
