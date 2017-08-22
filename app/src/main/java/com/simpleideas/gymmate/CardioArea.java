@@ -75,6 +75,11 @@ public class CardioArea extends AppCompatActivity {
                 .setDelay(8000)
                 .setIndex(series1Index)
                 .build());
+        time_elapsed.addEvent(new DecoEvent.Builder(99)
+                .setDuration(3600)
+                .setDelay(11600)
+                .setIndex(series1Index)
+                .build());
 //        time_elapsed.addEvent(new DecoEvent.Builder(3)
 //                .setDuration(3600)
 //                .setIndex(series1Index)

@@ -1,11 +1,13 @@
 package com.simpleideas.gymmate;
 
 import android.support.annotation.IdRes;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
@@ -24,6 +26,7 @@ public class OverallSummaryActivity extends AppCompatActivity {
     private DatabaseHelper databaseHelper;
     private DatabaseHelper databaseOperator;
     private RadioButton month, quarter, half, year;
+    private TabLayout tabLayout;
 
     private final int monthLimit = 1;
     private final int quarterLimit = 3;
@@ -35,6 +38,9 @@ public class OverallSummaryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overall_summary);
         Toolbar toolbar = (Toolbar) findViewById(R.id.start_activity_toolbar);
+        TextView textView = (TextView) findViewById(R.id.titleTextView);
+        textView.setText("Overall Tracking");
+        tabLayout = (TabLayout) findViewById(R.id.overall_tabs);
 
         setSupportActionBar(toolbar);
 
@@ -117,6 +123,8 @@ public class OverallSummaryActivity extends AppCompatActivity {
 
 }
 
+
+//
 
 
 

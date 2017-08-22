@@ -28,6 +28,7 @@ public class AccesRemoteDatabase extends AsyncTask<String, Void, String> {
     private StringBuffer buffer;
     private JSONArray jsonArray;
     private JSONObject jsonObject;
+
     @Override
     protected String doInBackground(String[] parameters) {
 
@@ -41,7 +42,7 @@ public class AccesRemoteDatabase extends AsyncTask<String, Void, String> {
             URL url = new URL(parameters[0]);
             httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.connect();
-            
+
             int code = httpURLConnection.getResponseCode();
 
             Log.d("error code", Integer.toString(code));

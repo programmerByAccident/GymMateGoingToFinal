@@ -142,6 +142,7 @@ public class DatabaseHelper {
 
     }
 
+
     public void insertExerciseIntoDatabase(String date,String muscle_name, String exercise_name, int repetitions, float weight){
 
         sqLiteDatabase = databaseManager.getWritableDatabase();
@@ -149,7 +150,7 @@ public class DatabaseHelper {
         ContentValues values = new ContentValues();
         values.put("Difference", date);
         values.put("Exercise", exercise_name);
-        values.put("Repetitions", repetitions);
+//        values.put("Repetitions", repetitions);
         values.put("Weight", weight);
         values.put("Muscle", muscle_name);
 
@@ -159,6 +160,7 @@ public class DatabaseHelper {
         sqLiteDatabase.close();
     }
 
+
     public void deleteRecord(String date, String exercise_name, String repetitions, String weight){
 
 
@@ -167,6 +169,7 @@ public class DatabaseHelper {
         sqLiteDatabase.execSQL(deletestatement);
         sqLiteDatabase.close();
     }
+
 
     public boolean checkIfExerciseExists(int difference){
 
@@ -246,6 +249,26 @@ public class DatabaseHelper {
         Cursor cursor = sqLiteDatabase.query(Constants.first_table, columns, selection, selectionArgs, null,null,null);
 
         return "";
+    }
+
+    public String getMuscleName(String exerciseName){
+
+        String searchItem = String.valueOf(exerciseName);
+        String[] columns = {"Muscle"};
+        String selection = "Difference=?";
+        String[] selectionArgs = {exerciseName};
+
+        Cursor cursor = sqLiteDatabase.query(Constants.first_table, columns, selection, selectionArgs, null,null,null);
+
+        String valueToReturn = null;
+        while(cursor.moveToNext()){
+            String muscle = cursor.getString(cursor.getColumnIndex("Muscle"));
+
+            valueToReturn = muscle;
+        }
+
+        return valueToReturn;
+
     }
 
     public ArrayList<String> getMuscleNames(String difference){
@@ -409,6 +432,8 @@ public class DatabaseHelper {
         return monthBasedDate;
 
     }
+
+
 
     public HashMap<Integer, ArrayList<String>> getInformationOnMonthlyBasis(String exerciseName){
 

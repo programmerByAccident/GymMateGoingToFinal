@@ -73,6 +73,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
 
     }
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -109,6 +110,8 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
         refreshButton.hide();
 
     }
+
+
 
     public static void showFAB(){
 
@@ -153,10 +156,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
 
     }
 
-    private void setBehaviourWhileDataExists(View view, Date date){
 
-
-    }
 
     public void setTextWithCurrentItem(){
 
@@ -173,16 +173,6 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
         str = fmt.print(current_date);
 
         ((StartActivity)getActivity()).setTitle(str);
-
-    }
-
-    public void parseExerciseTemplateArrayListAndAdapt(ArrayList<ExerciseTemplate> exercises){
-
-        String[] keys = null;
-        for (ExerciseTemplate exercise:
-             exercises) {
-
-        }
 
     }
 
@@ -228,18 +218,7 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
 
 
 
-    public void createBehaviourForTriggerOfExistanceFalse(View view, final int difference){
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_trigger_of_existance_false);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setFabActions(difference);
-            }
-        });
-
-    }
 
     private void setFabActions(int difference){
 
@@ -249,13 +228,6 @@ public class DynamicFragment extends android.support.v4.app.Fragment{
 
     }
 
-
-    private ArrayList<ExerciseTemplate> getExerciseFromDatabase(){
-
-        ArrayList<ExerciseTemplate> exercises = new ArrayList<>();
-
-        return exercises;
-    }
 
 
     public static DynamicFragment createInstanceBasedOnDifferenceBetweenCurrentDateAndPosition(int difference){

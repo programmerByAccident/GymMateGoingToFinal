@@ -118,10 +118,7 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
         super.onDestroy();
     }
 
-    private void populateTheView(){
 
-
-    }
         @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -185,6 +182,8 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
 
             editor.apply();
         }
+
+
 
         String[] groups = getMuscleGroups();
         muscleMap = new HashMap<>();
@@ -329,7 +328,7 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 //DynamicFragment.hideFAB();
-                fab.hide();
+                //fab.hide();
             }
 
             @Override
@@ -351,7 +350,7 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
             @Override
             public void onPageScrollStateChanged(int state) {
 
-                fab.hide();
+                //fab.hide();
 
                 //DynamicFragment.showFAB();
 //                switch (state){
@@ -375,20 +374,29 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
 
     private void setupPagerAdapter(){
 
+
+
         viewPager = (ViewPager)findViewById(R.id.view_pager_main_activity);
         EndlessPagerAdapter adapter = new EndlessPagerAdapter(getSupportFragmentManager(), getApplicationContext());
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(50000,false);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            int anchor = 0;
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                fab.hide();
+
+                if (viewPager.getCurrentItem() != 50000 || anchor != 0)
+                    fab.hide();
+
+                anchor++;
             }
 
             @Override
             public void onPageSelected(int position) {
 
-                fab.hide();
+                //fab.hide();
 
             }
 
@@ -414,6 +422,7 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
 //        RecyclerTabLayout tabLayout = (RecyclerTabLayout) findViewById(R.id.recycler_tab_layout);
 //        tabLayout.setUpWithViewPager(viewPager);
     }
+
     private void setupActionBar(){
         Toolbar toolbar;
         toolbar = (Toolbar) findViewById(R.id.start_activity_toolbar);
@@ -430,20 +439,18 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                fab.setVisibility(View.INVISIBLE);
+                fab.hide();
             }
 
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, slideOffset);
-
-                //fab.setAlpha(slideOffset);
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                fab.setVisibility(View.VISIBLE);
+                fab.show();
             }
         }; // Drawer Toggle Object Made
         Drawer.addDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
@@ -455,15 +462,15 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
 
         SharedPreferences.Editor editor = preferences.edit();
 
-        ArrayList<String> arralist = new ArrayList<>();
+        ArrayList<String> arrayList = new ArrayList<>();
 
         if(preferences.contains(Constants.GROUPS)){
 
-            arralist.addAll(preferences.getStringSet(Constants.GROUPS, new HashSet<String>()));
+            arrayList.addAll(preferences.getStringSet(Constants.GROUPS, new HashSet<String>()));
 
         }
 
-        return  arralist;
+        return  arrayList;
 
     }
 
@@ -477,6 +484,8 @@ public class StartActivity extends AppCompatActivity implements DynamicFragment.
     @Override
     public void sendPhoto(Bitmap picture) {
     }
+
+
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {

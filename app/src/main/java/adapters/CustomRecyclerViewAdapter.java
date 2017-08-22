@@ -60,6 +60,9 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
         holder.exercicseName.setText(exercises.get(position).getTAG());
 
+        String something = databaseHelper.getColorBaseOnMuscleName(databaseHelper.getMuscleName(exercises.get(position).getTAG()));
+
+       // holder.exercicseName.setBackgroundColor(databaseHelper.getColorBaseOnMuscleName(databaseHelper.getMuscleName(exercises.get(position).getTAG())));
         ArrayList<String> reps = exercises.get(position).getRepetition();
         ArrayList<String> weight = exercises.get(position).getWeight();
         StringBuilder stringBuilderReps = new StringBuilder();

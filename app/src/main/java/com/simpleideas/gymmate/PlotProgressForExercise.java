@@ -32,13 +32,7 @@ import java.util.List;
 
 public class PlotProgressForExercise extends Fragment implements View.OnClickListener{
 
-
-//    private exercise_name;
-//    private muscle_name;
-//    private date;
-//    private difference;
     private DatabaseHelper databaseHelper;
-//    private XYPlot plot;
     private InsertActivity insertActivity;
 
     @Override
@@ -53,7 +47,7 @@ public class PlotProgressForExercise extends Fragment implements View.OnClickLis
         View view = inflater.inflate(R.layout.plot_progress_for_exercise, container, false);
         insertActivity = (InsertActivity)getActivity();
         databaseHelper = new DatabaseHelper(insertActivity.getApplicationContext());
-        LineChart lineChart = (LineChart) view.findViewById(R.id.chart);
+        LineChart lineChart = (LineChart) view.findViewById(R.id.muscle_plt);
         manipulateChart(lineChart);
 
         //esignPlot(plot);
@@ -71,7 +65,7 @@ public class PlotProgressForExercise extends Fragment implements View.OnClickLis
 
     private void manipulateChart(LineChart lineChart){
 
-        List<Entry> lineChartArrayListforWeight = new ArrayList<>();
+        List<Entry> lineChartArrayListForWeight = new ArrayList<>();
         List<Entry> lineChartArrayListForReps = new ArrayList<>();
 
         if (databaseHelper.getLast10WeightRecords(insertActivity.getExercise_name()).size() == 0){
@@ -82,16 +76,17 @@ public class PlotProgressForExercise extends Fragment implements View.OnClickLis
         Collections.reverse(weight);
         ArrayList<Integer> reps = databaseHelper.getLast10RepsRecords(insertActivity.getExercise_name());
         Collections.reverse(reps);
+
         for (int index = 0; index<weight.size(); index++){
 
             Entry element = new Entry(index, weight.get(index));
             Entry repElement = new Entry(index, reps.get(index));
-            lineChartArrayListforWeight.add(index, element);
+            lineChartArrayListForWeight.add(index, element);
             lineChartArrayListForReps.add(index, repElement);
 
         }
 
-        LineDataSet weightDataSet = new LineDataSet(lineChartArrayListforWeight, "weight");
+        LineDataSet weightDataSet = new LineDataSet(lineChartArrayListForWeight, "weight");
         weightDataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         weightDataSet.setColor(Color.LTGRAY);
         weightDataSet.setLineWidth(3f);
@@ -113,20 +108,21 @@ public class PlotProgressForExercise extends Fragment implements View.OnClickLis
 
     }
 
-//    private void designPlot(XYPlot plot){
-//
-//        Number[] domainLabels = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-//        ArrayList<Float> weightLabels = databaseHelper.getLast10WeightRecords(insertActivity.getExercise_name());
-//        Number[] test1 = {2,3,5,1,2,5,6,7,8,1};
-//        Number[] test2 = {5,7,8,10,2,3,4,5,6,7};
-//        ArrayList<Integer> repsLabels = databaseHelper.getLast10RepsRecords(insertActivity.getExercise_name());
-//        LineAndPointFormatter series1Format = new LineAndPointFormatter(Color.RED, Color.GREEN, Color.BLUE, null);
-//        XYSeries series1 = new SimpleXYSeries(weightLabels, repsLabels, "progress");
-//
-//        XYSeries series2 = new SimpleXYSeries(Arrays.asList(test1), Arrays.asList(test2), "wtf");
-//
-//        plot.addSeries(series1, series1Format);
-//    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public void onClick(View view) {
